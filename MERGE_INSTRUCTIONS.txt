@@ -1,0 +1,60 @@
+HUMANOID-LOCO — CHANGES-ONLY PACKAGE (v1.2 -> v1.3: all 3 remaining SCOPE.md gaps)
+====================================================================================
+
+Same convention as before: extract and copy into your existing
+`humanoid-loco` project root (the one with kinematics/, trajectory/,
+actuators/, dynamics/leg_dynamics.py, etc. already merged in from the
+previous two CHANGES zips), same relative paths, safe to overwrite.
+
+This ONE package closes all three gaps you asked for, one at a time:
+disturbance rejection, full rigid-body dynamics, and terrain.
+
+NEW folders/files:
+  control/capture_point.py                  (Instantaneous Capture Point push recovery)
+  simulation/push_recovery_simulator.py     (push disturbance + recovery simulation)
+  dynamics/rigid_body_leg.py                (full 2-link mass/Coriolis/gravity dynamics)
+  terrain/                                   (terrain_profile.py: flat/step/ramp)
+  tests/test_push_recovery.py
+  tests/test_rigid_body_leg.py
+  tests/test_terrain.py
+
+MODIFIED (safe to overwrite - only additions, nothing removed):
+  planning/footstep_planner.py  <- added Footstep.z field (default 0.0,
+                                    fully backward compatible) and
+                                    apply_terrain()
+  simulation/torque_analysis.py <- swing leg now uses the real rigid-body
+                                    dynamics instead of the earlier crude
+                                    lumped-mass proxy
+  demo/run_walk_demo.py, README.md, docs/BUGS_FOUND.md, docs/SCOPE.md
+                                 <- updated with all three new findings
+
+After merging (repo root):
+  export PYTHONPATH=.
+  python3 -m pytest tests/ -v      # 53/53 should pass (was 36/36 before)
+  python3 -m demo.run_walk_demo
+
+WHAT EACH GAP ADDS (the honest finding from each, not just "implemented"):
+
+1. DISTURBANCE REJECTION (control/capture_point.py) - real Instantaneous
+   Capture Point recovery (Pratt et al. 2006, same basis used on Atlas).
+   Finding: recovery cannot undo the INSTANTANEOUS ZMP transient at the
+   moment of a push (the support polygon hasn't moved yet), but DOES
+   measurably reduce cascading violations in later steps compared to
+   ignoring the push - a real, modest, not-magical benefit.
+
+2. FULL RIGID-BODY DYNAMICS (dynamics/rigid_body_leg.py) - real mass
+   matrix + Coriolis/centrifugal (Christoffel-symbol) + gravity terms
+   for the swing leg's hip_pitch/knee_pitch, verified against EXACT
+   analytic checks (parallel-axis theorem, physical-pendulum gravity
+   torque) - not just "it runs." Replaces the earlier crude lumped-mass
+   proxy in the torque feasibility analysis.
+
+3. TERRAIN (terrain/terrain_profile.py) - footsteps can now be placed on
+   real, non-flat ground (steps, ramps). Finding: stepping UP a 10cm
+   curb works fine (within the existing leg-reach margin); stepping
+   DOWN the same 10cm EXCEEDS that margin and IK fails, because the
+   LIPM's CoM-height model still doesn't adapt to terrain - a real,
+   documented, not-yet-solved limitation, not silently patched over.
+
+Full docs/SCOPE.md and docs/BUGS_FOUND.md have the complete writeup of
+all three, including exactly which test locks each finding in.
