@@ -50,6 +50,11 @@ GRAVITY_VEC = np.array([0.0, 0.0, -9.81])
 # de Leva (1996) male segment mass fraction regression parameters
 THIGH_MASS_FRACTION = 0.1416
 SHANK_MASS_FRACTION = 0.0433
+FOOT_MASS_FRACTION = 0.0137     # used by dynamics/foot_inertia.py's foot rigid-body model;
+                                 # NOTE swing_leg_inertial_torque() below still folds foot
+                                 # mass into its "shank+foot" lumped proxy rather than using
+                                 # this separately - that function's own docstring already
+                                 # states it's a cruder, lumped-mass approximation
 
 
 @dataclass

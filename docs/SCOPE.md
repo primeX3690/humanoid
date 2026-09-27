@@ -39,38 +39,78 @@ verified numerically, not just asserted:
    `docs/BUGS_FOUND.md` Bug 4).
 3. ~~Flat, known, rigid ground.~~ **Partially added** — see item 9,
    below (kept numbered here for continuity with the original list).
-4. **Constant CoM height.** The LIPM's core simplifying assumption. Real
-   walking (especially over rough terrain, or fast/dynamic gaits) needs
-   variable CoM height, which breaks the linear model this preview
-   controller relies on (that's the whole "nonlinear MPC on centroidal
-   dynamics" research area many current humanoid controllers use
-   instead/in addition - a legitimate, much harder next step, not
-   pretended-away here).
-5. ~~No disturbance rejection / push recovery.~~ **Added**:
-   `control/capture_point.py` + `simulation/push_recovery_simulator.py`
-   implement real Instantaneous Capture Point recovery (Pratt et al.
-   2006 - the same theoretical basis used on real robots like Atlas).
-   **Real, honest finding**: recovery cannot undo the INSTANTANEOUS ZMP
+4. ~~Constant CoM height.~~ **Partially added**:
+   `dynamics/terrain_adaptive_com_height.py` makes the hip-height
+   REFERENCE consumed by leg IK adapt to terrain (`hip(t) =
+   min(left_foot_z(t), right_foot_z(t)) + default_zc`), which fixes the
+   concrete, previously-failing case this gap caused (a 10cm step down
+   now converges IK for the whole walk - see docs/BUGS_FOUND.md bug #7;
+   two attempts, the first one broke a previously-working case before
+   the working formula was found). Still NOT done: the LIPM/ZMP-preview-
+   control horizontal (x, y) tracking loop itself
+   (`dynamics/lipm.py`, `control/zmp_preview_controller.py`) still uses
+   ONE fixed nominal zc for its own internal dynamics and gain design -
+   this fix does not couple the varying height INTO that loop. That
+   remains the real, much harder "nonlinear MPC on centroidal dynamics"
+   research area many current humanoid controllers use instead/in
+   addition - a legitimate next step, not pretended-away here. Also,
+   the new leg-reach boundary this fix reaches is real but finite (12cm
+   converges, 14cm doesn't - measured, not claimed to be solved for
+   arbitrary drop depth).
+5. ~~No disturbance rejection / push recovery.~~ **Added**, including
+   multi-step: `control/capture_point.py` +
+   `simulation/push_recovery_simulator.py` implement real Instantaneous
+   Capture Point recovery (Pratt et al. 2006 - the same theoretical
+   basis used on real robots like Atlas), with an `n_recovery_steps`
+   option that keeps replanning footsteps beyond just the next one and
+   rigidly shifts whatever's left afterward to stay consistent with the
+   recovered position. **Real, honest findings** (see
+   `docs/BUGS_FOUND.md`): (1) recovery cannot undo the INSTANTANEOUS ZMP
    transient at the moment of a push (the support polygon hasn't moved
-   yet), but DOES measurably reduce cascading violations in the steps
-   AFTER the recovered footstep, compared to ignoring the push - a real,
-   modest, not-magical benefit. See `docs/BUGS_FOUND.md`.
+   yet), but single-step recovery DOES measurably reduce cascading
+   violations in the steps after the recovered footstep, compared to
+   ignoring the push - a real, modest, not-magical benefit; (2) naively
+   REPEATING that same single-step formula across several future
+   footsteps (rather than solving for the sequence jointly, a much
+   harder problem) does NOT improve on single-step recovery, and is
+   measurably slightly worse for large pushes - traced to consecutive
+   independently-computed capture points crowding toward the same
+   lateral side instead of alternating properly, a real geometric
+   near-crossover this simplified model doesn't flag as infeasible.
 6. ~~No full-body dynamics, no joint torques, no actuator limits.~~
    **Answered** (quasi-static stance-leg torque via Jacobian-transpose,
    real actuator-datasheet comparison) AND **the swing leg's inertial
-   torque now uses full 2-link rigid-body dynamics**
-   (`dynamics/rigid_body_leg.py`: real mass matrix, Coriolis/centrifugal
-   terms via the Christoffel-symbol formula, gravity terms - verified
-   against the exact analytic parallel-axis-theorem and physical-
-   pendulum results, not just "it runs"), not the earlier crude
-   lumped-point-mass proxy. Still NOT full 3D/6-DOF rigid-body dynamics
-   (only the 2 dominant sagittal joints, hip_pitch/knee_pitch) and still
-   no actuator dynamics (motor inductance, gearbox backlash/friction).
-7. **Sagittal/lateral axes are decoupled** (two independent 1D LIPM
-   instances) and **hip yaw is fixed at zero** (straight-line walking
-   only - see `kinematics/leg_ik.py`). Real 3D coupling effects (e.g.
-   angular momentum about the vertical axis) and turning gaits are not
-   modeled.
+   torque now uses full rigid-body dynamics across ALL 6 joints, PLUS a
+   third rigid body for the foot itself**
+   (`dynamics/rigid_body_leg_6dof.py` for thigh+shank,
+   `dynamics/foot_inertia.py` adding the foot: real 6x6 mass matrix
+   built from the standard geometric-Jacobian formula, Coriolis/
+   centrifugal terms via the Christoffel-symbol formula, gravity terms -
+   verified to match the earlier, analytically-checked 2-link sagittal
+   model EXACTLY under reduction, not just "it runs"; see
+   `docs/BUGS_FOUND.md` bugs 5, 6, and 8 for three real issues found and
+   fixed while extending to 3D and then to a full 3-body treatment). The
+   ankle joints' mass-matrix rows/columns, which were correctly and
+   honestly left at exactly zero when no foot link existed, are now
+   genuinely nonzero. Still NOT modeled: actuator dynamics (motor
+   inductance, gearbox backlash/friction - a separate, remaining gap),
+   ground-contact/sole pressure distribution, and the foot's COM
+   location/box dimensions are stated, explicitly-approximate
+   assumptions (its MASS fraction is real de Leva 1996 data; its shape
+   and COM placement are not measured anthropometric data the way the
+   thigh/shank lengths are).
+7. ~~Sagittal/lateral axes are decoupled... hip yaw fixed at zero...
+   real 3D coupling effects... not modeled.~~ **Partially added**: the
+   LEG'S OWN inertial dynamics now genuinely couple hip_yaw/hip_roll
+   into hip_pitch/knee_pitch torques (real off-diagonal mass-matrix
+   terms, verified nonzero once yawed/rolled -
+   `dynamics/rigid_body_leg_6dof.py`). Still NOT added: the LIPM/footstep
+   planner itself is still two independent 1D instances (this new module
+   computes joint torques for a GIVEN trajectory; it doesn't yet feed
+   back into how that trajectory or the footstep plan is generated), hip
+   yaw is still commanded at zero by `kinematics/leg_ik.py` (no turning
+   gaits), and there's still no whole-body angular-momentum-about-the-
+   vertical-axis model tying the two legs together.
 8. **Foot orientation is always commanded flat/level**
    (`IDENTITY_R` in `simulation/joint_trajectory_generator.py`) - no
    heel-strike/toe-off rolling contact, which real human-like gaits use.
@@ -87,24 +127,32 @@ verified numerically, not just asserted:
 
 ## Honest read on distance to a real bipedal robot
 
-This now closes FIVE real gaps that were completely absent from the
+This now closes EIGHT real gaps that were completely absent from the
 portfolio before this work started: balance/locomotion planning, leg
 kinematics/swing trajectories, actuator torque feasibility, disturbance
-rejection, and terrain-aware footstep placement. What's left is
-real and substantial, not hidden: full 3D/6-DOF rigid-body dynamics
-(only the 2 dominant sagittal joints have real dynamics; hip yaw/roll
-and ankle roll/pitch still don't), a terrain-adaptive CoM-height model
-(the LIPM still assumes flat ground under it, which is EXACTLY why
-stepping down a curb currently fails - see docs/BUGS_FOUND.md),
-multi-step (not just single-step) push-recovery replanning, actuator
-dynamics (motor inductance, gearbox friction/backlash), and - the
-biggest remaining one - the physical hardware itself (motors,
-structure, power, real sensors). Each of those is a substantial project
-in its own right, not a quick follow-on. This module's honest job now
-is: prove the planning, kinematics, dynamics-feasibility, recovery, and
-terrain-placement layers are each real, correct, and consistent with
-each other (verified by full-pipeline integration tests, not just each
-layer in isolation) - so there is a real, physically-grounded joint-angle
-command stream with known, tested limits, ready for whichever hardware
-or higher-fidelity dynamics layer comes next.
+rejection (single- and, with real caveats, multi-step), terrain-aware
+footstep placement AND terrain-adaptive CoM height for leg reach, and
+full 6-joint rigid-body dynamics for the leg's own inertia INCLUDING the
+foot as a third rigid body, including real hip-yaw/roll <-> hip-pitch/
+knee coupling that the earlier 2-link model structurally could not
+represent. What's left is real and substantial, not hidden: coupling
+the now-terrain-adaptive CoM height INTO the LIPM/ZMP-tracking
+horizontal dynamics itself (still uses one fixed nominal zc for its own
+gain design - the "nonlinear MPC on centroidal dynamics" research
+area), a genuine JOINT multi-step push-recovery solve (the naive,
+independently-repeated version implemented here measurably doesn't help
+for large pushes - see docs/BUGS_FOUND.md), actuator dynamics (motor
+inductance, gearbox friction/backlash), and - the biggest remaining
+one - the physical hardware itself (motors, structure, power, real
+sensors). Each of those is a substantial project in its own right, not
+a quick follow-on. This module's honest job now is: prove the planning,
+kinematics, dynamics-feasibility, recovery, terrain-placement/height,
+and full-body-inertia (now including the foot) layers are each real,
+correct, and consistent with each other (verified by full-pipeline
+integration tests AND, for the dynamics layer, an exact-reduction
+check against the already-analytically-verified 2-link model) - so
+there is a real, physically-grounded joint-angle command stream with
+known, tested limits, ready for whichever hardware or higher-fidelity
+layer comes next.
+
 

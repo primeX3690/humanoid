@@ -181,3 +181,192 @@ catches and a single-layer test cannot
 (`tests/test_terrain.py::test_stepping_down_exceeds_current_leg_reach_margin`
 locks this in as a known, not-yet-solved limitation).
 
+## Bug 5: zero-radius "thin rod" idealization made the 6-DOF mass matrix exactly singular at one specific, common pose
+
+Extending `dynamics/rigid_body_leg.py`'s verified 2-link SAGITTAL model to
+the full 6-DOF chain (`dynamics/rigid_body_leg_6dof.py`) reused the same
+uniform-rod inertia idealization the 2-link model used - but that model
+only ever needed TRANSVERSE inertia (rotation perpendicular to the rod's
+own axis, e.g. hip/knee pitch), since it had no way to rotate a link
+about its own long axis. The 6-DOF model DOES have that motion
+(hip_yaw), and a true zero-radius rod has EXACTLY ZERO moment of inertia
+about its own axis. At the legs-hanging-straight-down pose
+(`q = [0,0,0,0,0,0]`), hip_yaw's rotation axis lines up exactly with the
+thigh's own long axis, so `M[hip_yaw, hip_yaw]` came out to exactly
+`0.0` - a genuinely singular mass matrix at a completely ordinary,
+frequently-visited pose (standing still), not an exotic edge case.
+Caught by `tests/test_rigid_body_leg_6dof.py::test_mass_matrix_is_symmetric_and_positive_semidefinite`
+(`eigvalsh` returned a `0.0` eigenvalue for the "active" 4-DOF block at
+that exact pose). Fixed by giving each link a stated, non-cited
+anthropometric cross-sectional radius (thigh 8cm, shank 5cm - rough
+approximations, unlike the cited de Leva mass fractions) and computing a
+real solid-cylinder axial inertia `I_axial = 0.5 * m * r^2` instead of
+`0`; `test_axial_inertia_removes_the_straight_down_singularity` locks in
+that the fix makes the matrix strictly positive definite at that pose.
+
+## Finding: hip_yaw/hip_roll do NOT change the hip_pitch/knee_pitch diagonal block - the real 3D coupling is off-diagonal
+
+First draft of `test_rigid_body_leg_6dof.py` assumed hip_yaw/hip_roll
+motion should change the hip_pitch/knee_pitch DIAGONAL block of `M(q)` -
+it doesn't, and the test's assumption (not the dynamics code) was wrong.
+Because hip_yaw, hip_roll and hip_pitch are three sequential revolutes
+sharing one point (a spherical-joint decomposition), rotating the
+upstream two just re-orients the whole downstream chain's reference
+frame - and body-relative inertia doesn't depend on the orientation of
+its own reference frame. Verified this is exact equality (not
+"approximately similar"), not just a hunch: `M[2:4,2:4]` at
+`q=[0,0,0.3,0.5,0,0]` matches `q=[0.4,0.2,0.3,0.5,0,0]` to float
+precision. The real, genuine 3D coupling this 6-DOF model adds over the
+2-link one lives in the OFF-diagonal hip_yaw/roll <-> hip_pitch/knee
+terms instead: exactly zero when the leg hangs straight down (no
+possible cross-coupling when all axes are aligned) and measurably
+nonzero once yawed/rolled (`test_hip_yaw_and_roll_couple_into_the_mass_matrix`).
+
+## Bug 7: terrain-adaptive CoM height, first attempt broke a previously-working case; the working fix, and its real remaining boundary
+
+Closing docs/SCOPE.md item 4's stepping-down-a-curb finding
+(`dynamics/terrain_adaptive_com_height.py`) took two attempts.
+
+**First attempt (kept here as a documented failure, not silently
+discarded):** compute one target CoM height per footstep phase
+(`default_zc - max(drop, 0)`, `drop` = how much lower the landing is
+than the current stance) and linearly RAMP between phase targets across
+each double-support window - mirroring the ZMP reference's own ramp in
+`planning/footstep_planner.py`. This fixed the 10cm-step-DOWN case, but
+broke the previously-passing 10cm-step-UP case
+(`tests/test_terrain.py::test_stepping_up_within_leg_reach_margin_still_converges`
+would have started failing). Cause: this project's hip-position model
+uses ONE SHARED world-frame hip height for BOTH legs at once
+(`simulation/joint_trajectory_generator.py`). Ramping that shared height
+UP in preparation for a higher upcoming stance, DURING the double-support
+window where the OTHER foot (about to swing next) hadn't moved yet and
+was still at the OLD, lower height, pushed that other foot's
+INSTANTANEOUS reach demand to the leg's exact maximum (0.9m) - a case
+that had comfortable slack before this "fix" and lost it entirely.
+
+**Working fix:** stop planning per-phase targets and ramping between
+them; instead compute the hip height CONTINUOUSLY from both feet's
+own already-computed z-trajectories: `hip(t) = min(left_foot_z(t),
+right_foot_z(t)) + default_zc`. This is provably safe by construction -
+it can never demand more than `default_zc` of reach from whichever foot
+is currently HIGHER, so it cannot reproduce the first attempt's failure
+mode (`tests/test_terrain_adaptive_com_height.py::test_stepping_up_10cm_still_converges_with_adaptive_height`
+locks this in). On flat ground it reduces to exactly `default_zc`,
+reproducing the original model's output bit-for-bit
+(`test_flat_ground_reproduces_the_original_constant_height_exactly`).
+
+**Honest remaining boundary, measured not assumed:** this genuinely
+extends the safe step-down depth (10cm now converges, where it failed
+completely before), but not to arbitrary depth - a 12cm step down still
+converges, a 14cm one does not
+(`test_new_failure_boundary_is_real_and_measured_not_claimed_solved`).
+The new failure isn't purely a vertical-reach problem either (a quick
+check at the failing configuration showed a comfortable vertical margin
+but an IK non-convergence on the SWINGING foot specifically, suggesting
+the binding constraint past ~12-14cm is the COMBINED horizontal+vertical
+reach, or a solver/warm-start sensitivity near the workspace boundary,
+not pinned down further here) - reported honestly as a real, smaller,
+still-present limit rather than claimed away.
+
+## Finding: naive multi-step push recovery does NOT beat single-step, for a real, measured mechanistic reason
+
+Extending `simulation/push_recovery_simulator.py` to keep replanning
+footsteps after the first one (`n_recovery_steps` > 1 - closing
+docs/SCOPE.md's "multi-step (not just single-step) push-recovery
+replanning" gap) was implemented and works mechanically (each
+subsequent recovered footstep's capture point is computed from the
+ACTUALLY-SIMULATED CoM state at that moment, not a hand-rolled
+prediction; the un-touched remainder of the gait is rigidly shifted to
+stay consistent with the recovered position afterward - see the module
+docstring). But the measured result for THIS system is a genuine,
+useful negative one, not the hoped-for improvement:
+
+For a 1.0 m/s lateral push, `n_recovery_steps=1` and `=3` give
+IDENTICAL results (4 later violations either way) - the second and
+third "corrections" end up choosing targets indistinguishable from
+nominal, because the first correction already arrested most of the
+disturbance. For LARGER pushes (1.5 m/s, 2.0 m/s), where the earlier
+single-step finding already noted the benefit "can even disappear",
+multi-step makes it measurably WORSE (14 -> 16 later violations at
+1.5 m/s; 19 -> 21 at 2.0 m/s -
+`tests/test_multi_step_recovery.py::test_naive_multistep_recovery_does_not_beat_single_step_for_large_pushes`
+locks in these exact counts).
+
+**Root cause, verified directly, not guessed:** consecutive
+independently-computed capture points land close TO EACH OTHER
+laterally instead of alternating properly to opposite sides. For the
+1.5 m/s case, footsteps 3, 4, 5's recovered y-positions come out to
+0.380, 0.350, 0.343 - only 2.9cm and 0.7cm apart
+(`test_naive_multistep_recovery_crowds_consecutive_footsteps_laterally`),
+versus the gait's own nominal 12cm stance width. This happens because
+each footstep's capture point is computed from whatever CoM LATERAL
+VELOCITY exists at that moment - and a single step's worth of tracking
+isn't enough to reverse the push-induced velocity, so the "correction"
+for the NEXT footstep, computed independently, gets pulled toward the
+same side again instead of returning to the gait's normal alternating
+pattern - a real geometric near-crossover a physical robot's legs
+couldn't actually execute, which this simplified 2D-footprint model
+doesn't itself flag as infeasible.
+
+This is not a bug in the implementation (the mechanism does exactly
+what it was built to do); it's a real limitation of the NAIVE strategy
+of repeating a single-step formula independently at each future
+footstep. It's also not evidence multi-step recovery is a bad idea in
+general - real N-step-capturability methods (Pratt & Koolen and
+successors) solve for a whole sequence of future footsteps JOINTLY,
+which would let a later step's placement account for what an earlier
+one already committed to (including, presumably, alternating sides
+properly) - that joint solve is a substantially harder optimization
+problem than what's implemented here, and remains open.
+
+## Bug 8: ankle joint origins were dead placeholder values (and mislabeled in a comment) - harmless until the foot link needed them
+
+`dynamics/rigid_body_leg_6dof.py`'s internal `_joint_frames()` set the
+ankle_pitch/ankle_roll joint origins to `knee_pos`, with a comment
+claiming they were "co-located with the hip" - neither the value nor
+the comment was correct (ankle joints are physically located at the
+ankle, the bottom of the shank). This was completely harmless for that
+module's own thigh/shank-only mass matrix: `_THIGH_JOINTS = (0,1,2)`
+and `_SHANK_JOINTS = (0,1,2,3)` never reference index 4 or 5's origin
+at all, so the wrong value was simply never read - a genuine dead-code
+bug, not a live one, and none of `test_rigid_body_leg_6dof.py`'s 9
+tests could have caught it (correctly - it had no observable effect on
+anything that module computed).
+
+It became a REAL, live bug the moment `dynamics/foot_inertia.py`
+needed a correct foot-COM Jacobian: the foot is distal to ALL 6 joints,
+so its Jacobian's ankle_pitch/ankle_roll columns actually use those
+origins. Fixed directly in `rigid_body_leg_6dof.py` (ankle origins now
+computed as the real ankle position via the same rotation chain the
+knee position already uses) - verified this fix changes NOTHING in
+that module's own test suite (all 9 still pass unchanged), confirming
+it really was dead code before and is now correct where it matters.
+
+## Foot inertia model: closes the last stated gap in the leg's own rigid-body dynamics
+
+`dynamics/foot_inertia.py` adds the foot as a third rigid body to
+`rigid_body_leg_6dof.py`'s mass matrix/gravity/Coriolis, using the SAME
+geometric-Jacobian technique, added onto (not replacing) the
+already-verified thigh+shank result: `M_total = M_thigh_shank + M_foot`,
+same for `G` and (since the Christoffel-symbol formula is linear in the
+mass matrix) `C`. That additivity claim for `C` isn't just asserted -
+`test_coriolis_additive_shortcut_matches_independent_full_christoffel_derivation`
+checks it against a totally separate, from-scratch Christoffel
+computation run on the FULL 3-body mass matrix, not merely internal
+self-consistency.
+
+**Result**: the ankle rows/columns of `M`, which
+`rigid_body_leg_6dof.py` correctly and honestly left at exactly zero
+(no foot link existed), are now genuinely nonzero
+(`test_ankle_rows_are_no_longer_structurally_zero`), and the full
+6-joint mass matrix is strictly positive definite everywhere tested,
+including the legs-hanging-straight pose that was bug #5's original
+singularity (adding the foot's off-axis mass removes the last
+degenerate direction). The foot's mass fraction (1.37% of total body
+mass) is the real de Leva (1996) male regression value, same source as
+the thigh/shank fractions; its COM location and box dimensions are
+STATED, explicitly-approximate placement assumptions (see the module
+docstring), not measured anthropometric data - honestly labeled as
+such rather than presented with false precision.
+
+

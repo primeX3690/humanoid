@@ -49,13 +49,28 @@ class JointTrajectoryResult:
 
 def generate_joint_trajectory(walk: WalkResult, gait: GaitParams,
                                leg: LegParams | None = None,
-                               hip_lateral_offset_m: float | None = None) -> JointTrajectoryResult:
+                               hip_lateral_offset_m: float | None = None,
+                               hip_height_profile_m: np.ndarray | None = None) -> JointTrajectoryResult:
+    """hip_height_profile_m: optional per-timestep world-frame hip height
+    (shape (n,), matching walk.t) - e.g. from
+    dynamics/terrain_adaptive_com_height.hip_height_profile(). Purely
+    additive: omitted (the default), this reproduces the exact original
+    behavior (one constant height for the whole walk) unchanged - see
+    dynamics/terrain_adaptive_com_height.py for why that constant is
+    actually the wrong thing to use once terrain has nonzero height."""
     leg = leg or LegParams()
     hip_offset = hip_lateral_offset_m if hip_lateral_offset_m is not None else gait.step_width_m / 2.0
 
     t, left_target, right_target = foot_target_trajectories(gait, walk.footsteps)
     n = len(t)
-    com_z = _lipm_height_from_walk(walk)
+    if hip_height_profile_m is not None:
+        assert len(hip_height_profile_m) == n, (
+            f"hip_height_profile_m length {len(hip_height_profile_m)} must match "
+            f"the walk's own timebase length {n}"
+        )
+        com_z = hip_height_profile_m
+    else:
+        com_z = np.full(n, _lipm_height_from_walk(walk))
 
     left_q = np.zeros((n, 6))
     right_q = np.zeros((n, 6))
@@ -68,8 +83,8 @@ def generate_joint_trajectory(walk: WalkResult, gait: GaitParams,
     right_guess = None
 
     for k in range(n):
-        hip_pos_left = np.array([walk.com_x[k], walk.com_y[k] + hip_offset, com_z])
-        hip_pos_right = np.array([walk.com_x[k], walk.com_y[k] - hip_offset, com_z])
+        hip_pos_left = np.array([walk.com_x[k], walk.com_y[k] + hip_offset, com_z[k]])
+        hip_pos_right = np.array([walk.com_x[k], walk.com_y[k] - hip_offset, com_z[k]])
 
         res_l: IKResult = inverse_kinematics(left_target[k], IDENTITY_R, hip_pos_left, leg,
                                               initial_guess=left_guess)

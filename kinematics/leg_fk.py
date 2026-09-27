@@ -40,6 +40,9 @@ class LegParams:
                                     # swing foot mid-stride - a real, physical constraint,
                                     # not just a numeric edge case)
     foot_height_m: float = 0.05    # ankle joint to sole (for ground-contact bookkeeping elsewhere)
+    foot_length_m: float = 0.20    # heel to toe, typical adult scale - used only by
+                                    # dynamics/foot_inertia.py's foot rigid-body model
+    foot_width_m: float = 0.08     # typical adult scale - same use as above
 
 
 def _rot_x(a):

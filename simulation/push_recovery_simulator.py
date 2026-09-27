@@ -23,6 +23,30 @@ for a specific real push magnitude, whether it stays stable, and
 showing that a real, standard recovery mechanism (capture point) can
 recover ZMP-in-support-polygon stability that the unrecovered case
 loses.
+
+MULTI-STEP RECOVERY (`n_recovery_steps` > 1, closing docs/SCOPE.md's
+"multi-step (not just single-step) push-recovery replanning" gap):
+after the first recovered footstep, the loop below KEEPS GOING -
+each time the simulation reaches the start of another upcoming
+footstep's swing (up to `n_recovery_steps` of them total), it
+recomputes a FRESH capture point from the ACTUALLY-SIMULATED CoM state
+at that moment (not a hand-rolled prediction of where the CoM "should"
+be - the real closed-loop preview-controller dynamics, already running
+against the previously-modified reference, have already carried the
+state forward correctly by the time we get there) and replaces that
+footstep too. This directly addresses the single-step version's
+documented weakness (see docs/BUGS_FOUND.md): with only one footstep
+corrected, every subsequent PRE-PLANNED footstep stays at its original
+ABSOLUTE position, so for a large enough push the walk becomes
+"consistent with a robot that was never pushed" one step too early,
+reintroducing tracking error the single correction didn't buy back.
+Once the recovery window closes, every STILL-NOMINAL footstep after it
+is RIGIDLY SHIFTED (same x/y offset applied to all of them) by however
+far the last recovered footstep ended up from where it was originally
+planned - preserving the ORIGINAL gait's relative step pattern (length,
+width, alternation) while making the rest of the walk consistent with
+where the robot actually now is, instead of asking it to snap back to
+the old absolute path.
 """
 from __future__ import annotations
 
@@ -49,15 +73,21 @@ class PushRecoveryResult:
     push_time_s: float
     push_velocity_xy: np.ndarray
     recovery_used: bool
-    modified_footstep_index: int | None
-    capture_point_xy: np.ndarray | None
+    modified_footstep_index: int | None       # kept for backward compatibility: the FIRST recovered footstep
+    capture_point_xy: np.ndarray | None        # kept for backward compatibility: the FIRST capture point
+    modified_footstep_indices: list[int]       # every footstep the recovery loop replaced, in order
+    capture_points_xy: list[np.ndarray]        # the capture point computed for each of those, same order
+    n_recovery_steps_requested: int
+    remaining_footsteps_shifted: bool          # whether the post-recovery-window rigid shift was applied
 
 
 def _simulate(gait: GaitParams, footsteps_initial: list[Footstep],
               push_time_s: float, push_velocity_xy: np.ndarray,
-              use_recovery: bool, lipm_params: LIPMParams, preview_cfg: PreviewControllerConfig
+              use_recovery: bool, lipm_params: LIPMParams, preview_cfg: PreviewControllerConfig,
+              n_recovery_steps: int = 1,
               ) -> PushRecoveryResult:
     footsteps = copy.deepcopy(footsteps_initial)
+    original_footsteps = copy.deepcopy(footsteps_initial)  # nominal positions, for the closing rigid shift
     t, zx_ref, zy_ref = zmp_reference_trajectory(gait, footsteps)
     n = len(t)
 
@@ -77,8 +107,50 @@ def _simulate(gait: GaitParams, footsteps_initial: list[Footstep],
 
     push_idx = int(round(push_time_s / gait.dt))
     pushed = False
-    modified_idx = None
-    cp_xy = None
+    modified_indices: list[int] = []
+    cp_list: list[np.ndarray] = []
+    shifted = False
+
+    def re_derive_reference(k: int) -> None:
+        nonlocal zx_ref, zy_ref, zx_pad, zy_pad
+        t2, zx_ref2, zy_ref2 = zmp_reference_trajectory(gait, footsteps)
+        zx_pad2 = np.concatenate([zx_ref2, np.full(N + 1, zx_ref2[-1])])
+        zy_pad2 = np.concatenate([zy_ref2, np.full(N + 1, zy_ref2[-1])])
+        zx_pad[k:] = zx_pad2[k:len(zx_pad)]
+        zy_pad[k:] = zy_pad2[k:len(zy_pad)]
+        zx_ref[k:] = zx_ref2[k:len(zx_ref)]
+        zy_ref[k:] = zy_ref2[k:len(zy_ref)]
+
+    def recover_footstep(i: int, k: int) -> None:
+        omega = lipm_x.natural_frequency()
+        cp_xy = capture_point_2d(np.array([x_state[0], y_state[0]]),
+                                  np.array([x_state[1], y_state[1]]), omega)
+        stance_now = _support_foot_positions(gait, footsteps)[i]
+        clipped = clip_to_reachable_step(cp_xy, np.array(stance_now), MAX_STEP_LENGTH_M)
+        step = footsteps[i]
+        footsteps[i] = Footstep(x=float(clipped[0]), y=float(clipped[1]), side=step.side,
+                                 start_time=step.start_time, end_time=step.end_time, z=step.z)
+        modified_indices.append(i)
+        cp_list.append(cp_xy)
+        re_derive_reference(k)
+
+    def shift_remaining_footsteps(last_recovered_idx: int, k: int) -> None:
+        """Preserve the ORIGINAL gait's relative pattern (step length,
+        width, alternation) for everything after the recovery window,
+        while making it consistent with where the recovered footstep
+        actually ended up, instead of snapping back to the absolute
+        pre-push path - see module docstring."""
+        nonlocal shifted
+        offset_x = footsteps[last_recovered_idx].x - original_footsteps[last_recovered_idx].x
+        offset_y = footsteps[last_recovered_idx].y - original_footsteps[last_recovered_idx].y
+        if abs(offset_x) < 1e-12 and abs(offset_y) < 1e-12:
+            return  # nothing to shift (e.g. capture point coincided with the nominal target)
+        for j in range(last_recovered_idx + 1, len(footsteps)):
+            nominal = original_footsteps[j]
+            footsteps[j] = Footstep(x=nominal.x + offset_x, y=nominal.y + offset_y, side=nominal.side,
+                                     start_time=nominal.start_time, end_time=nominal.end_time, z=nominal.z)
+        shifted = True
+        re_derive_reference(k)
 
     for k in range(n):
         com_x[k], com_y[k] = x_state[0], y_state[0]
@@ -91,27 +163,29 @@ def _simulate(gait: GaitParams, footsteps_initial: list[Footstep],
             pushed = True
 
             if use_recovery:
-                omega = lipm_x.natural_frequency()
-                cp_xy = capture_point_2d(np.array([x_state[0], y_state[0]]),
-                                          np.array([x_state[1], y_state[1]]), omega)
                 # find the next footstep whose swing hasn't started yet
+                # single-step mode (n_recovery_steps=1, the default) stops after
+                # ONE recovered footstep and never shifts the rest - byte-for-byte
+                # the original behavior. The elif branch below (multi-step) is
+                # what keeps going and eventually shifts - new, additive, never
+                # reached when n_recovery_steps=1.
                 for i, step in enumerate(footsteps):
                     if step.start_time > t[k]:
-                        stance_now = _support_foot_positions(gait, footsteps)[i]
-                        clipped = clip_to_reachable_step(cp_xy, np.array(stance_now), MAX_STEP_LENGTH_M)
-                        footsteps[i] = Footstep(x=float(clipped[0]), y=float(clipped[1]),
-                                                 side=step.side, start_time=step.start_time,
-                                                 end_time=step.end_time)
-                        modified_idx = i
+                        recover_footstep(i, k)
                         break
-                # re-derive the reference from here on using the modified footsteps
-                t2, zx_ref2, zy_ref2 = zmp_reference_trajectory(gait, footsteps)
-                zx_pad2 = np.concatenate([zx_ref2, np.full(N + 1, zx_ref2[-1])])
-                zy_pad2 = np.concatenate([zy_ref2, np.full(N + 1, zy_ref2[-1])])
-                zx_pad[k:] = zx_pad2[k:len(zx_pad)]
-                zy_pad[k:] = zy_pad2[k:len(zy_pad)]
-                zx_ref[k:] = zx_ref2[k:len(zx_ref)]
-                zy_ref[k:] = zy_ref2[k:len(zy_ref)]
+
+        elif pushed and use_recovery and modified_indices and len(modified_indices) < n_recovery_steps:
+            last_idx = modified_indices[-1]
+            next_idx = last_idx + 1
+            if next_idx < len(footsteps):
+                next_step = footsteps[next_idx]
+                # trigger exactly once, on the sample where we cross into this
+                # footstep's swing start - using the ACTUALLY-SIMULATED state
+                # at that moment (see module docstring), not a hand-predicted one
+                if t[k] >= next_step.start_time and (k == 0 or t[k - 1] < next_step.start_time):
+                    recover_footstep(next_idx, k)
+                    if len(modified_indices) == n_recovery_steps and next_idx + 1 < len(footsteps):
+                        shift_remaining_footsteps(next_idx, k)
 
         jerk_x = ctrl_x.compute_jerk(x_state, zx_pad[k:k + N + 1])
         jerk_y = ctrl_y.compute_jerk(y_state, zy_pad[k:k + N + 1])
@@ -132,16 +206,28 @@ def _simulate(gait: GaitParams, footsteps_initial: list[Footstep],
     walk = WalkResult(t=t, com_x=com_x, com_y=com_y, zmp_x=zmp_x, zmp_y=zmp_y,
                        zmp_ref_x=zx_ref, zmp_ref_y=zy_ref, zmp_in_support=zmp_in_support,
                        max_zmp_margin_violation_m=max_violation, footsteps=footsteps)
-    return PushRecoveryResult(walk=walk, push_time_s=push_time_s, push_velocity_xy=push_velocity_xy,
-                               recovery_used=use_recovery, modified_footstep_index=modified_idx,
-                               capture_point_xy=cp_xy)
+    return PushRecoveryResult(
+        walk=walk, push_time_s=push_time_s, push_velocity_xy=push_velocity_xy,
+        recovery_used=use_recovery,
+        modified_footstep_index=(modified_indices[0] if modified_indices else None),
+        capture_point_xy=(cp_list[0] if cp_list else None),
+        modified_footstep_indices=modified_indices,
+        capture_points_xy=cp_list,
+        n_recovery_steps_requested=n_recovery_steps,
+        remaining_footsteps_shifted=shifted,
+    )
 
 
 def simulate_push_recovery(gait: GaitParams, push_time_s: float, push_velocity_xy: np.ndarray,
                             use_recovery: bool, lipm_params: LIPMParams | None = None,
-                            preview_cfg: PreviewControllerConfig | None = None) -> PushRecoveryResult:
+                            preview_cfg: PreviewControllerConfig | None = None,
+                            n_recovery_steps: int = 1) -> PushRecoveryResult:
+    """n_recovery_steps=1 (the default, matching the original single-step
+    behavior bit-for-bit) replans only the very next footstep. >1 keeps
+    replanning subsequent footsteps too, then rigidly shifts whatever's
+    left - see module docstring for why."""
     lipm_params = lipm_params or LIPMParams(dt=gait.dt)
     preview_cfg = preview_cfg or PreviewControllerConfig()
     footsteps = plan_footsteps(gait)
     return _simulate(gait, footsteps, push_time_s, push_velocity_xy, use_recovery,
-                      lipm_params, preview_cfg)
+                      lipm_params, preview_cfg, n_recovery_steps=n_recovery_steps)
