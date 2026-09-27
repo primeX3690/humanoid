@@ -92,13 +92,26 @@ verified numerically, not just asserted:
    fixed while extending to 3D and then to a full 3-body treatment). The
    ankle joints' mass-matrix rows/columns, which were correctly and
    honestly left at exactly zero when no foot link existed, are now
-   genuinely nonzero. Still NOT modeled: actuator dynamics (motor
-   inductance, gearbox backlash/friction - a separate, remaining gap),
-   ground-contact/sole pressure distribution, and the foot's COM
-   location/box dimensions are stated, explicitly-approximate
-   assumptions (its MASS fraction is real de Leva 1996 data; its shape
-   and COM placement are not measured anthropometric data the way the
-   thigh/shank lengths are).
+   genuinely nonzero. ~~Actuator dynamics (motor inductance, gearbox
+   friction).~~ **Partially added**:
+   `actuators/actuator_dynamics.py` builds a real, sourced electrical
+   model (resistance, torque/back-EMF constants from real MX-106
+   datasheet numbers; a cited literature approximation for the
+   unpublished inductance) and Coulomb friction (sourced from the real
+   no-load current). Applied to a real gait's knee-swing torque: tracking
+   error stays under 0.2 N*m away from velocity-reversal instants, but
+   spikes to ~0.4-0.5 N*m exactly AT them (a real, physical consequence
+   of finite electrical bandwidth meeting a genuinely-discontinuous
+   required-current signal, not a bug) - see `docs/BUGS_FOUND.md` for
+   the full derivation and an honest tension found along the way
+   (calibrating from stall data over-predicts the real no-load speed by
+   47%). Gearbox BACKLASH (a hysteretic, position-dependent dead-zone
+   effect, not a continuous current/torque one) is explicitly NOT
+   modeled - a separate, remaining gap. Ground-contact/sole pressure
+   distribution, and the foot's COM location/box dimensions are stated,
+   explicitly-approximate assumptions (its MASS fraction is real de Leva
+   1996 data; its shape and COM placement are not measured
+   anthropometric data the way the thigh/shank lengths are).
 7. ~~Sagittal/lateral axes are decoupled... hip yaw fixed at zero...
    real 3D coupling effects... not modeled.~~ **Partially added**: the
    LEG'S OWN inertial dynamics now genuinely couple hip_yaw/hip_roll
@@ -127,32 +140,34 @@ verified numerically, not just asserted:
 
 ## Honest read on distance to a real bipedal robot
 
-This now closes EIGHT real gaps that were completely absent from the
+This now closes NINE real gaps that were completely absent from the
 portfolio before this work started: balance/locomotion planning, leg
-kinematics/swing trajectories, actuator torque feasibility, disturbance
-rejection (single- and, with real caveats, multi-step), terrain-aware
-footstep placement AND terrain-adaptive CoM height for leg reach, and
-full 6-joint rigid-body dynamics for the leg's own inertia INCLUDING the
-foot as a third rigid body, including real hip-yaw/roll <-> hip-pitch/
-knee coupling that the earlier 2-link model structurally could not
-represent. What's left is real and substantial, not hidden: coupling
-the now-terrain-adaptive CoM height INTO the LIPM/ZMP-tracking
+kinematics/swing trajectories, actuator torque feasibility AND (with
+real, characterized limits) actuator electrical dynamics/friction,
+disturbance rejection (single- and, with real caveats, multi-step),
+terrain-aware footstep placement AND terrain-adaptive CoM height for leg
+reach, and full 6-joint rigid-body dynamics for the leg's own inertia
+INCLUDING the foot as a third rigid body, including real hip-yaw/roll
+<-> hip-pitch/knee coupling that the earlier 2-link model structurally
+could not represent. What's left is real and substantial, not hidden:
+coupling the now-terrain-adaptive CoM height INTO the LIPM/ZMP-tracking
 horizontal dynamics itself (still uses one fixed nominal zc for its own
 gain design - the "nonlinear MPC on centroidal dynamics" research
 area), a genuine JOINT multi-step push-recovery solve (the naive,
 independently-repeated version implemented here measurably doesn't help
-for large pushes - see docs/BUGS_FOUND.md), actuator dynamics (motor
-inductance, gearbox friction/backlash), and - the biggest remaining
-one - the physical hardware itself (motors, structure, power, real
-sensors). Each of those is a substantial project in its own right, not
-a quick follow-on. This module's honest job now is: prove the planning,
-kinematics, dynamics-feasibility, recovery, terrain-placement/height,
-and full-body-inertia (now including the foot) layers are each real,
-correct, and consistent with each other (verified by full-pipeline
-integration tests AND, for the dynamics layer, an exact-reduction
-check against the already-analytically-verified 2-link model) - so
-there is a real, physically-grounded joint-angle command stream with
-known, tested limits, ready for whichever hardware or higher-fidelity
-layer comes next.
+for large pushes - see docs/BUGS_FOUND.md), gearbox BACKLASH (a
+hysteretic, position-dependent effect the electrical/friction model
+doesn't cover), and - the biggest remaining one - the physical hardware
+itself (motors, structure, power, real sensors). Each of those is a
+substantial project in its own right, not a quick follow-on. This
+module's honest job now is: prove the planning, kinematics, dynamics-
+feasibility (both magnitude AND, now, electrical response), recovery,
+terrain-placement/height, and full-body-inertia (now including the
+foot) layers are each real, correct, and consistent with each other
+(verified by full-pipeline integration tests AND, for the dynamics
+layer, an exact-reduction check against the already-analytically-
+verified 2-link model) - so there is a real, physically-grounded
+joint-angle command stream with known, tested limits, ready for
+whichever hardware or higher-fidelity layer comes next.
 
 

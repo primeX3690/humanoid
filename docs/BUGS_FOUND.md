@@ -369,4 +369,78 @@ STATED, explicitly-approximate placement assumptions (see the module
 docstring), not measured anthropometric data - honestly labeled as
 such rather than presented with false precision.
 
+## Actuator electrical dynamics: closes the last item on SCOPE.md's original open-questions list
+
+`actuators/actuator_dynamics.py` builds a real, sourced electrical
+model of the Dynamixel MX-106 (the same actuator `actuators/motor_specs.py`
+already uses): resistance and torque/back-EMF constants derived from
+real, published datasheet numbers (V=12V, stall current 5.2A, stall
+torque 8.40 N*m, no-load current 0.17A, no-load speed 45 RPM - Robotis/
+CrustCrawler MX-106 spec sheet), using the standard manufacturer formula
+`Kt = stall_torque / (stall_current - no_load_current)` (the same
+convention Bodine Electric's own "Motor Constants for Gearmotors"
+technical note uses). Inductance is NOT published for this integrated
+smart-servo, so a cited, stated approximation is used instead (11.5 ms
+electrical time constant, measured for a comparable small PMDC motor -
+University of Utah ECE 3510 lab data) rather than an invented number.
+
+**Real, honest tension found while deriving this**: calibrating Kt/Kb
+from the stall-torque data point this way and using it to PREDICT the
+no-load speed (`omega = (V - I_noload*R) / Kb`) gives 66.4 RPM - a 47%
+OVER-prediction of the datasheet's real 45 RPM. A single linear
+Kt=Kb-with-one-Coulomb-friction-term model cannot fit both the real
+stall-torque and no-load-speed operating points of this actual,
+low-cost integrated servo simultaneously (real efficiency and friction
+are speed-dependent in ways this simple model doesn't capture). This
+module deliberately calibrates to the stall/high-torque regime, since
+that's what `dynamics/leg_dynamics.py`'s feasibility checks care about
+most, and states the resulting speed-prediction inaccuracy plainly
+rather than hiding it (`predicted_no_load_speed_rad_s` is exposed on
+the params object specifically so this can't be silently forgotten).
+
+**Applying the model to a REAL gait's required torque - two separate,
+honest findings, not conflated:**
+
+1. The hip_pitch swing torque for this gait (already computed by
+   `dynamics/foot_inertia.py`) peaks at 9.30 N*m - which ALREADY EXCEEDS
+   the MX-106's 8.40 N*m STALL rating on pure magnitude alone, before
+   electrical dynamics even enter the picture. This is a torque-
+   MAGNITUDE finding (consistent with the much larger, already-
+   documented stance-leg finding earlier in this file - 32.2 Nm needed
+   vs 1.68 Nm continuous / 8.4 Nm stall), not an electrical-dynamics
+   one - testing electrical bandwidth on a torque profile the motor
+   can't physically produce anyway would conflate two different failure
+   modes. The knee joint's swing torque for the SAME gait (0.49-2.06
+   N*m) stays comfortably within the MX-106's real limits, making it the
+   fair test case for what follows.
+
+2. Tracking that real knee-torque profile through the full electrical
+   model (current never exceeds ~1.1A of the 5.2A stall rating, voltage
+   command never saturates the 12V supply) still shows a real, physical
+   tracking error - but a precisely characterized one, not a vague "some
+   lag exists": away from velocity-reversal instants, tracking error
+   stays under 0.2 N*m (a modest fraction of the 0.5-2.1 N*m torque
+   range) - confirming the ~11.5ms electrical time constant is indeed
+   fast relative to this ~0.4s swing phase's smooth torque changes, as
+   expected. But AT each velocity-reversal instant (where the required
+   Coulomb-friction compensation direction flips discontinuously - this
+   swing phase crosses zero velocity multiple times), tracking error
+   spikes to 0.40-0.50 N*m for a single sample before decaying back
+   within a few electrical time constants - a real, physical consequence
+   of trying to drive an ACTUALLY-discontinuous required-current signal
+   through a finite-inductance winding, not a modeling artifact (an
+   earlier version of this analysis conflated this real spike with an
+   unrelated, spurious cold-start transient from initializing simulated
+   current at 0A at the start of an already-in-progress swing phase -
+   fixed by starting from the steady-state current the required torque
+   already implies, which is what a real, already-operating controller
+   would be doing).
+
+**Honest, stated scope limit**: gearbox BACKLASH (the other half of
+SCOPE.md's phrase "motor inductance/friction") is explicitly NOT
+modeled - it's a position-dependent, hysteretic dead-zone effect,
+fundamentally different from the continuous current/torque dynamics
+modeled here, and would need its own separate treatment in the position
+control loop, not this one.
+
 
