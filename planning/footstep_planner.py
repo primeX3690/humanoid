@@ -45,6 +45,10 @@ class Footstep:
     end_time: float     # this foot lands (touches down) at end_time
     z: float = 0.0      # terrain height at this footstep (0.0 = flat ground, the default/original
                          # behavior everywhere this field isn't explicitly set - see terrain/terrain_profile.py)
+    heading: float = 0.0  # body heading (rad, about world z) commanded AT this footstep - 0.0 everywhere
+                          # reproduces the original straight-ahead-only behavior exactly; see
+                          # plan_turning_footsteps() below and docs/SCOPE.md item 7 ("hip yaw fixed at
+                          # zero, no turning gaits") for why this was worth closing
 
 
 def plan_footsteps(gait: GaitParams) -> list[Footstep]:
@@ -62,6 +66,43 @@ def plan_footsteps(gait: GaitParams) -> list[Footstep]:
         y = -gait.step_width_m / 2.0 if side == "right" else gait.step_width_m / 2.0
         steps.append(Footstep(x=x, y=y, side=side,
                                start_time=t, end_time=t + gait.step_duration_s))
+        t += gait.step_duration_s + gait.double_support_s
+    return steps
+
+
+def plan_turning_footsteps(gait: GaitParams, turn_rate_rad_per_step: float,
+                            initial_heading_rad: float = 0.0) -> list[Footstep]:
+    """Same alternating-gait pattern as plan_footsteps(), but the body
+    heading advances by `turn_rate_rad_per_step` at each step, and every
+    step's local (forward, lateral) offset is rotated by the CURRENT
+    heading before being added to the running position - so the feet
+    trace an arc (or a straight line, for turn_rate_rad_per_step=0.0,
+    which reproduces plan_footsteps() exactly - verified in
+    tests/test_turning_gait.py) instead of always marching along world
+    +x. Each Footstep's new `heading` field records the commanded body
+    heading at that footstep, consumed by
+    simulation/joint_trajectory_generator.py to command the matching
+    hip_yaw / foot orientation via kinematics/leg_ik.py's existing
+    (previously always-identity) target_R argument - see
+    docs/SCOPE.md item 7, which explicitly flagged "hip yaw fixed at
+    zero, no turning gaits" as unaddressed until this function."""
+    steps = []
+    t = gait.double_support_s
+    cx, cy = 0.0, 0.0   # running CENTERLINE position (lateral offset is relative to this, not cumulative -
+                        # matching plan_footsteps()'s own convention where y is set directly, not accumulated)
+    heading = initial_heading_rad
+    for i in range(gait.n_steps):
+        side = "right" if i % 2 == 0 else "left"
+        heading += turn_rate_rad_per_step
+        forward = gait.step_length_m if i > 0 else gait.step_length_m / 2.0
+        lateral = -gait.step_width_m / 2.0 if side == "right" else gait.step_width_m / 2.0
+        c, s = np.cos(heading), np.sin(heading)
+        cx += c * forward
+        cy += s * forward
+        x = cx - s * lateral
+        y = cy + c * lateral
+        steps.append(Footstep(x=x, y=y, side=side, start_time=t, end_time=t + gait.step_duration_s,
+                               heading=heading))
         t += gait.step_duration_s + gait.double_support_s
     return steps
 
@@ -242,6 +283,24 @@ def foot_target_trajectories(gait: GaitParams, footsteps: list[Footstep]
             right_xyz[k] = last_pos["right"]
 
     return t, left_xyz, right_xyz
+
+
+def heading_profile(gait: GaitParams, footsteps: list[Footstep]) -> tuple[np.ndarray, np.ndarray]:
+    """(t, heading) at the same timebase as foot_target_trajectories() -
+    piecewise-constant, switching to a footstep's `heading` value the
+    moment its swing phase begins (same convention as
+    dynamics/terrain_adaptive_com_height.py's phase boundaries). All-zero
+    headings (plan_footsteps()'s default) give an all-zero profile."""
+    t, _, _ = foot_target_trajectories(gait, footsteps)
+    heading = np.zeros_like(t)
+    current = footsteps[0].heading if footsteps else 0.0
+    idx = 0
+    for k in range(len(t)):
+        while idx < len(footsteps) and t[k] >= footsteps[idx].start_time:
+            current = footsteps[idx].heading
+            idx += 1
+        heading[k] = current
+    return t, heading
 
 
 def apply_terrain(footsteps: list[Footstep], terrain) -> list[Footstep]:

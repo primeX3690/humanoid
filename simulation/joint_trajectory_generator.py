@@ -30,7 +30,7 @@ import numpy as np
 
 from kinematics.leg_fk import LegParams, forward_kinematics
 from kinematics.leg_ik import inverse_kinematics, IKResult
-from planning.footstep_planner import GaitParams, foot_target_trajectories
+from planning.footstep_planner import GaitParams, foot_target_trajectories, heading_profile
 from simulation.walk_simulator import WalkResult
 
 IDENTITY_R = np.eye(3)  # target foot orientation: always flat/level (see docs/SCOPE.md)
@@ -81,14 +81,22 @@ def generate_joint_trajectory(walk: WalkResult, gait: GaitParams,
 
     left_guess = None
     right_guess = None
+    t_head, heading = heading_profile(gait, walk.footsteps)
 
     for k in range(n):
-        hip_pos_left = np.array([walk.com_x[k], walk.com_y[k] + hip_offset, com_z[k]])
-        hip_pos_right = np.array([walk.com_x[k], walk.com_y[k] - hip_offset, com_z[k]])
+        c, s = np.cos(heading[k]), np.sin(heading[k])
+        Rz = np.array([[c, -s, 0.0], [s, c, 0.0], [0.0, 0.0, 1.0]])
+        # hip lateral offset rotates WITH the body heading (feet stay side-by-side relative to
+        # the direction of travel, not fixed to world +y) - at heading=0 this is exactly the
+        # original hip_pos_left/right below, unchanged
+        offset_l = Rz @ np.array([0.0, hip_offset, 0.0])
+        offset_r = Rz @ np.array([0.0, -hip_offset, 0.0])
+        hip_pos_left = np.array([walk.com_x[k], walk.com_y[k], 0.0]) + offset_l + np.array([0, 0, com_z[k]])
+        hip_pos_right = np.array([walk.com_x[k], walk.com_y[k], 0.0]) + offset_r + np.array([0, 0, com_z[k]])
 
-        res_l: IKResult = inverse_kinematics(left_target[k], IDENTITY_R, hip_pos_left, leg,
+        res_l: IKResult = inverse_kinematics(left_target[k], Rz, hip_pos_left, leg,
                                               initial_guess=left_guess)
-        res_r: IKResult = inverse_kinematics(right_target[k], IDENTITY_R, hip_pos_right, leg,
+        res_r: IKResult = inverse_kinematics(right_target[k], Rz, hip_pos_right, leg,
                                               initial_guess=right_guess)
         left_q[k] = res_l.joint_angles
         right_q[k] = res_r.joint_angles

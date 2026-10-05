@@ -58,6 +58,7 @@ import numpy as np
 from dynamics.lipm import LIPM, LIPMParams
 from control.zmp_preview_controller import ZMPPreviewController, PreviewControllerConfig
 from control.capture_point import capture_point_2d, clip_to_reachable_step
+from control.n_step_capture_planner import blended_recovery_target, alpha_schedule
 from planning.footstep_planner import (
     GaitParams, Footstep, plan_footsteps, zmp_reference_trajectory,
     foot_target_trajectories, support_polygon_at, _support_foot_positions,
@@ -84,7 +85,7 @@ class PushRecoveryResult:
 def _simulate(gait: GaitParams, footsteps_initial: list[Footstep],
               push_time_s: float, push_velocity_xy: np.ndarray,
               use_recovery: bool, lipm_params: LIPMParams, preview_cfg: PreviewControllerConfig,
-              n_recovery_steps: int = 1,
+              n_recovery_steps: int = 1, use_blended_targets: bool = False, decay_ratio: float = 0.5,
               ) -> PushRecoveryResult:
     footsteps = copy.deepcopy(footsteps_initial)
     original_footsteps = copy.deepcopy(footsteps_initial)  # nominal positions, for the closing rigid shift
@@ -110,6 +111,7 @@ def _simulate(gait: GaitParams, footsteps_initial: list[Footstep],
     modified_indices: list[int] = []
     cp_list: list[np.ndarray] = []
     shifted = False
+    alphas = alpha_schedule(n_recovery_steps, decay_ratio) if use_blended_targets else None
 
     def re_derive_reference(k: int) -> None:
         nonlocal zx_ref, zy_ref, zx_pad, zy_pad
@@ -123,12 +125,27 @@ def _simulate(gait: GaitParams, footsteps_initial: list[Footstep],
 
     def recover_footstep(i: int, k: int) -> None:
         omega = lipm_x.natural_frequency()
-        cp_xy = capture_point_2d(np.array([x_state[0], y_state[0]]),
-                                  np.array([x_state[1], y_state[1]]), omega)
-        stance_now = _support_foot_positions(gait, footsteps)[i]
-        clipped = clip_to_reachable_step(cp_xy, np.array(stance_now), MAX_STEP_LENGTH_M)
+        com_xy = np.array([x_state[0], y_state[0]])
+        com_vel_xy = np.array([x_state[1], y_state[1]])
+        cp_xy = capture_point_2d(com_xy, com_vel_xy, omega)
+        stance_now = np.array(_support_foot_positions(gait, footsteps)[i])
         step = footsteps[i]
-        footsteps[i] = Footstep(x=float(clipped[0]), y=float(clipped[1]), side=step.side,
+
+        if use_blended_targets:
+            # JOINT N-step target: blend the immediate capture point with
+            # this footstep's own NOMINAL (properly-alternating, correctly-
+            # spaced) position, decaying back toward nominal over the
+            # recovery window - see control/n_step_capture_planner.py for
+            # why this structurally avoids the naive version's same-side
+            # crowding failure mode.
+            alpha = float(alphas[len(modified_indices)])
+            nominal_xy = np.array([original_footsteps[i].x, original_footsteps[i].y])
+            target = blended_recovery_target(com_xy, com_vel_xy, omega, nominal_xy,
+                                              stance_now, alpha, MAX_STEP_LENGTH_M)
+        else:
+            target = clip_to_reachable_step(cp_xy, stance_now, MAX_STEP_LENGTH_M)
+
+        footsteps[i] = Footstep(x=float(target[0]), y=float(target[1]), side=step.side,
                                  start_time=step.start_time, end_time=step.end_time, z=step.z)
         modified_indices.append(i)
         cp_list.append(cp_xy)
@@ -221,13 +238,24 @@ def _simulate(gait: GaitParams, footsteps_initial: list[Footstep],
 def simulate_push_recovery(gait: GaitParams, push_time_s: float, push_velocity_xy: np.ndarray,
                             use_recovery: bool, lipm_params: LIPMParams | None = None,
                             preview_cfg: PreviewControllerConfig | None = None,
-                            n_recovery_steps: int = 1) -> PushRecoveryResult:
+                            n_recovery_steps: int = 1, use_blended_targets: bool = False,
+                            decay_ratio: float = 0.5) -> PushRecoveryResult:
     """n_recovery_steps=1 (the default, matching the original single-step
     behavior bit-for-bit) replans only the very next footstep. >1 keeps
     replanning subsequent footsteps too, then rigidly shifts whatever's
-    left - see module docstring for why."""
+    left - see module docstring for why.
+
+    use_blended_targets=True switches from the naive "independently
+    repeat the capture-point formula" multi-step strategy (measured to
+    crowd consecutive footsteps toward the same side - see
+    docs/BUGS_FOUND.md) to the joint, blended N-step scheme in
+    control/n_step_capture_planner.py, which explicitly decays each
+    footstep's target back toward its own nominal (alternating,
+    correctly-spaced) position over the recovery window. Has no effect
+    when n_recovery_steps=1 (nothing to decay across)."""
     lipm_params = lipm_params or LIPMParams(dt=gait.dt)
     preview_cfg = preview_cfg or PreviewControllerConfig()
     footsteps = plan_footsteps(gait)
     return _simulate(gait, footsteps, push_time_s, push_velocity_xy, use_recovery,
-                      lipm_params, preview_cfg, n_recovery_steps=n_recovery_steps)
+                      lipm_params, preview_cfg, n_recovery_steps=n_recovery_steps,
+                      use_blended_targets=use_blended_targets, decay_ratio=decay_ratio)

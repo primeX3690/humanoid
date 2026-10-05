@@ -1,4 +1,14 @@
+
+
+
+
 numpy>=1.24
 scipy>=1.10
 matplotlib>=3.7
 pytest>=7.0
+
+# --- reinforcement-learning stack (rl/) - optional; the model-based stack above does not need it ---
+mujoco>=3.1
+gymnasium>=0.29
+stable-baselines3>=2.3
+torch>=2.2        # CPU build is enough: pip install torch --index-url https://download.pytorch.org/whl/cpu

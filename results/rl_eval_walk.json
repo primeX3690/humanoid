@@ -1,0 +1,134 @@
+[
+  {
+    "label": "PD-hold baseline",
+    "push_velocity": 0.0,
+    "cmd_vx": 0.0,
+    "episodes": 8,
+    "survival_rate": 1.0,
+    "mean_survival_s": 20.0,
+    "mean_vx_error": 0.0022691575924154326,
+    "mean_forward_speed": 0.00025076423389693773,
+    "cost_of_transport": null
+  },
+  {
+    "label": "PPO policy",
+    "push_velocity": 0.0,
+    "cmd_vx": 0.0,
+    "episodes": 8,
+    "survival_rate": 1.0,
+    "mean_survival_s": 20.0,
+    "mean_vx_error": 0.144465761431711,
+    "mean_forward_speed": 0.1417281417763441,
+    "cost_of_transport": 4.1276572111763175
+  },
+  {
+    "label": "PD-hold baseline",
+    "push_velocity": 0.5,
+    "cmd_vx": 0.0,
+    "episodes": 8,
+    "survival_rate": 0.0,
+    "mean_survival_s": 4.0675,
+    "mean_vx_error": 0.05465325633362649,
+    "mean_forward_speed": -0.02776200081650993,
+    "cost_of_transport": null
+  },
+  {
+    "label": "PPO policy",
+    "push_velocity": 0.5,
+    "cmd_vx": 0.0,
+    "episodes": 8,
+    "survival_rate": 0.375,
+    "mean_survival_s": 12.1425,
+    "mean_vx_error": 0.1811117930307553,
+    "mean_forward_speed": 0.11001263054274489,
+    "cost_of_transport": 5.072916510772275
+  },
+  {
+    "label": "PD-hold baseline",
+    "push_velocity": 1.0,
+    "cmd_vx": 0.0,
+    "episodes": 8,
+    "survival_rate": 0.0,
+    "mean_survival_s": 3.21,
+    "mean_vx_error": 0.12008147963613239,
+    "mean_forward_speed": -0.026042191002857117,
+    "cost_of_transport": null
+  },
+  {
+    "label": "PPO policy",
+    "push_velocity": 1.0,
+    "cmd_vx": 0.0,
+    "episodes": 8,
+    "survival_rate": 0.0,
+    "mean_survival_s": 3.925,
+    "mean_vx_error": 0.25213431712932416,
+    "mean_forward_speed": 0.08867753167622813,
+    "cost_of_transport": 5.928918208842646
+  },
+  {
+    "label": "PD-hold baseline",
+    "push_velocity": 0.0,
+    "cmd_vx": 0.3,
+    "episodes": 8,
+    "survival_rate": 1.0,
+    "mean_survival_s": 20.0,
+    "mean_vx_error": 0.2997492357661031,
+    "mean_forward_speed": 0.00025076423389693773,
+    "cost_of_transport": null
+  },
+  {
+    "label": "PPO policy",
+    "push_velocity": 0.0,
+    "cmd_vx": 0.3,
+    "episodes": 8,
+    "survival_rate": 1.0,
+    "mean_survival_s": 20.0,
+    "mean_vx_error": 0.11902785681841109,
+    "mean_forward_speed": 0.19075974333171558,
+    "cost_of_transport": 3.327449597601714
+  },
+  {
+    "label": "PD-hold baseline",
+    "push_velocity": 0.5,
+    "cmd_vx": 0.3,
+    "episodes": 8,
+    "survival_rate": 0.0,
+    "mean_survival_s": 4.0675,
+    "mean_vx_error": 0.32776200081650997,
+    "mean_forward_speed": -0.02776200081650993,
+    "cost_of_transport": null
+  },
+  {
+    "label": "PPO policy",
+    "push_velocity": 0.5,
+    "cmd_vx": 0.3,
+    "episodes": 8,
+    "survival_rate": 0.625,
+    "mean_survival_s": 14.692499999999999,
+    "mean_vx_error": 0.14424672025629975,
+    "mean_forward_speed": 0.19468352633045957,
+    "cost_of_transport": 3.2380439465306474
+  },
+  {
+    "label": "PD-hold baseline",
+    "push_velocity": 1.0,
+    "cmd_vx": 0.3,
+    "episodes": 8,
+    "survival_rate": 0.0,
+    "mean_survival_s": 3.21,
+    "mean_vx_error": 0.3558232179941923,
+    "mean_forward_speed": -0.026042191002857117,
+    "cost_of_transport": null
+  },
+  {
+    "label": "PPO policy",
+    "push_velocity": 1.0,
+    "cmd_vx": 0.3,
+    "episodes": 8,
+    "survival_rate": 0.0,
+    "mean_survival_s": 4.0225,
+    "mean_vx_error": 0.23747125979716507,
+    "mean_forward_speed": 0.18158572165461945,
+    "cost_of_transport": 3.2110326712376303
+  }
+]
