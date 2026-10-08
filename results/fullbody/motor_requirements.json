@@ -1,0 +1,50 @@
+[
+ {
+  "com_height_m": 0.85,
+  "fell": false,
+  "knee_Nm": 52.16166207086141,
+  "hip_pitch_Nm": 15.535711851200615,
+  "hip_roll_Nm": 22.580064592903355,
+  "hip_yaw_Nm": 2.448477357693271,
+  "ankle_pitch_Nm": 22.654958963520208,
+  "ankle_roll_Nm": 9.48729075881989,
+  "waist_Nm": 4.799095884404129,
+  "leg_speed_rad_s": 2.0909257660079366
+ },
+ {
+  "com_height_m": 0.87,
+  "fell": false,
+  "knee_Nm": 47.38841969198617,
+  "hip_pitch_Nm": 15.324806157615454,
+  "hip_roll_Nm": 25.521287304567146,
+  "hip_yaw_Nm": 5.021748367667442,
+  "ankle_pitch_Nm": 21.77458343308217,
+  "ankle_roll_Nm": 9.579023102647447,
+  "waist_Nm": 4.710824702953353,
+  "leg_speed_rad_s": 2.0962081799696444
+ },
+ {
+  "com_height_m": 0.89,
+  "fell": false,
+  "knee_Nm": 42.41640423409786,
+  "hip_pitch_Nm": 15.27268397148453,
+  "hip_roll_Nm": 26.39399954429299,
+  "hip_yaw_Nm": 6.5649018921153015,
+  "ankle_pitch_Nm": 20.79153786350166,
+  "ankle_roll_Nm": 10.45790025899354,
+  "waist_Nm": 4.674382272266808,
+  "leg_speed_rad_s": 2.3956367692153786
+ },
+ {
+  "com_height_m": 0.92,
+  "fell": false,
+  "knee_Nm": 35.96049333218177,
+  "hip_pitch_Nm": 32.05544503070402,
+  "hip_roll_Nm": 23.731442493937728,
+  "hip_yaw_Nm": 8.93196635926883,
+  "ankle_pitch_Nm": 23.059773724535724,
+  "ankle_roll_Nm": 9.58842976109539,
+  "waist_Nm": 12.494941539525,
+  "leg_speed_rad_s": 3.7021326076673318
+ }
+]

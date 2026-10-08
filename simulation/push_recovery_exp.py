@@ -8,7 +8,7 @@ from model.humanoid_model import repo_actuator_params, ModelParams
 from control.push_recovery import PushRecoveryStepper, StepperConfig
 
 
-def run(F, direction=(1.0, 0.0), dur=0.15, stepping=True, actuators="strong", T=5.0, t_push=0.8, verbose=False):
+def run(F, direction=(1.0, 0.0), dur=0.15, stepping=True, actuators="strong", T=5.0, t_push=0.8, verbose=False, recorder=None):
     params = repo_actuator_params() if actuators == "repo" else ModelParams()
     S = WBCSim(table=False, params=params)
     st = PushRecoveryStepper(S)
@@ -29,6 +29,8 @@ def run(F, direction=(1.0, 0.0), dur=0.15, stepping=True, actuators="strong", T=
             S.cur_contacts = contacts
         S.step(lambda w: (st.tasks(w, t) if stepping else [w.task_com(st.com_des), w.task_torso_orient(), w.task_posture(level=4)]),
                contacts=S.cur_contacts)
+        if recorder:
+            recorder.maybe(S.d, t)
         if i % 20 == 0:
             S.wbc.set_state(*S.robot_state())
             peak = max(peak, float(np.linalg.norm(S.wbc.com()[:2] - home[:2])))

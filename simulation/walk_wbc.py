@@ -41,7 +41,7 @@ def swing_side(plan, tk):
     return None
 
 
-def run(actuators="repo", n_steps=8, zc=0.85, verbose=True, max_time=None, estimated=False):
+def run(actuators="repo", n_steps=8, zc=0.85, verbose=True, max_time=None, estimated=False, recorder=None):
     p = repo_actuator_params() if actuators == "repo" else ModelParams()
     # leg flexion that gives CoM height ~= zc (linear fit of the model: bend 0.3 -> 0.906 m, 0.5 -> 0.848 m)
     bend = float(np.clip(0.3 + (0.906 - zc) / (0.906 - 0.848) * 0.2, 0.1, 0.7))
@@ -92,6 +92,8 @@ def run(actuators="repo", n_steps=8, zc=0.85, verbose=True, max_time=None, estim
         if est:
             est.step({k: (k in contacts) for k in "LR"})
         S.step(tasks, contacts=contacts, state_fn=state_fn)
+        if recorder:
+            recorder.maybe(S.d, tk)
         if i % 10 == 0:
             S.record(tk)
             w.set_state(*S.robot_state())
@@ -117,7 +119,9 @@ def run(actuators="repo", n_steps=8, zc=0.85, verbose=True, max_time=None, estim
                min_support_margin_mm=1000 * min(S.log["support_margin"]) if S.log["support_margin"] else None,
                torque_peak_vs_limit={names[j]: float(peak_tau[j] / w.tau_max[j]) for j in np.argsort(-peak_tau / w.tau_max)[:5]},
                joints_over_speed_limit=over_speed, speed_limit_rad_s=float(speed_lim[0]),
-               peak_leg_speed_rad_s=float(peak_v[:12].max()))
+               peak_leg_speed_rad_s=float(peak_v[:12].max()),
+               peak_torque_Nm={names[j]: float(peak_tau[j]) for j in range(30)},
+               peak_speed_rad_s={names[j]: float(peak_v[j]) for j in range(30)})
     return res, S
 
 

@@ -1,9 +1,9 @@
 FULL-BODY LAYER (v2.0) — already merged into this tree.
 New folders : model/ estimation/ perception/ tasks/
 New files   : control/whole_body_qp.py, control/push_recovery.py, kinematics/{arm,head_neck}_kinematics.py, planning/centroidal_jump_to.py,
-              simulation/{push_recovery_exp,wbc_sim,walk_wbc,pick_demo,estimated_state,estimation_sim,slam_sim,wbc_experiments,jump_sweep,jump_sweep_repo_actuators}.py,
+              simulation/{recorder,make_videos,motor_requirements,push_recovery_exp,wbc_sim,walk_wbc,pick_demo,estimated_state,estimation_sim,slam_sim,wbc_experiments,jump_sweep,jump_sweep_repo_actuators}.py,
               tests/{conftest,test_standing_push_stepping,test_wbc,test_walk_wbc,test_actuator_reality,test_arm_head_kinematics,test_estimation,test_jump,test_perception,test_slam_and_tasks}.py,
-              docs/FULL_BODY.md, results/fullbody/*.json
+              docs/FULL_BODY.md, results/fullbody/*.json, results/videos/*.mp4
 Note        : tests/test_push_recovery.py is YOUR original file (untouched); my stepping test is tests/test_standing_push_stepping.py.
 Edited      : requirements.txt (+osqp, casadi), README.md (section appended). No other existing file was modified.
 Windows     : EGL is selected only on Linux (sys.platform check), so no edits are needed (not tested on Windows).

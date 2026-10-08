@@ -16,7 +16,7 @@ from tasks.pick_skills import Ctx, build_tree
 from tasks.behavior_tree import Status
 
 
-def run(command="pick the red block", estimated=False, max_t=40.0, verbose=True, seed=0):
+def run(command="pick the red block", estimated=False, max_t=40.0, verbose=True, seed=0, recorder=None):
     S = WBCSim()
     R = HeadCameraRenderer(S.m)
     goal = KeywordCommandParser().parse(command)
@@ -49,6 +49,8 @@ def run(command="pick the red block", estimated=False, max_t=40.0, verbose=True,
                 break
         S.step(ctx.wbc_tasks, state_fn=state_fn)
         n += 1; ctx.t = n * dt
+        if recorder:
+            recorder.maybe(S.d, ctx.t)
         if n % 50 == 0:
             S.record(ctx.t)
             true_com = S.wbc.d.subtree_com[S.wbc.root_body]  # controller model; use truth below

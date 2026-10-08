@@ -43,10 +43,23 @@ legs bent for a 0.85 m CoM and only walks when the legs are straightened to 0.89
 |---|---|---|
 | forward | 60 N ok (peak 67 mm), 90 N falls | 90 N ok (3 steps), 120 N ok (2 steps), 150 N and 180 N fall |
 | backward | 60 N ok (10 mm), 90 N falls | 90 / 120 / 150 N ok (2-3 steps), 180 N falls |
-| lateral | 45 N ok (10 mm), **60 N falls** | **no push level was saved — lateral stepping does not work yet** (90-180 N all fall) |
+| lateral | 45 N ok (10 mm), 60 N falls | 60 N ok (1 step), 90 N ok (2 steps, cross-over), 120 N and 150 N fall |
 Stepping roughly doubles the survivable push in the sagittal plane. Swing-phase detail: with a strict CoM-first hierarchy the swing leg froze (CoM target is
 unreachable while the capture point is outside the stance foot); CoM, torso and swing foot are therefore solved together (weights 1:1:25) during the swing, with
-dynamics/friction/CoP constraints still hard. Lateral standing capacity is ~45-60 N (0.2 m wide support); the lateral stepper (foot placement, hip-roll authority) is not solved.
+dynamics/friction/CoP constraints still hard. Lateral recovery needs a CROSS-OVER step (the unloaded foot steps to the far side of the loaded one); leg-to-leg collision is NOT modelled, so on hardware that path needs a collision-aware swing trajectory. Beyond ~90-100 N the leg reach runs out.
+
+### Actuator requirement measured in simulation (`python -m simulation.motor_requirements`)
+Peak joint demand of your 8-step gait with non-saturating joints (worst of left/right leg, Nm; speed in rad/s):
+| CoM height | Knee | Hip pitch | Hip roll | Ankle pitch | Waist | Peak speed |
+|---|---|---|---|---|---|---|
+| 0.85 m | 52.2 | 15.5 | 22.6 | 22.7 | 4.8 | 2.09 |
+| 0.87 m | 47.4 | 15.3 | 25.5 | 21.8 | 4.7 | 2.10 |
+| 0.89 m | 42.4 | 15.3 | 26.4 | 20.8 | 4.7 | 2.40 |
+| 0.92 m | 36.0 | 32.1 | 23.7 | 23.1 | 12.5 | **3.70** |
+The knee exceeds 44.7 Nm below ~0.88 m; straightening the legs lowers knee torque but at 0.92 m the speed (3.7 rad/s) exceeds the PH54-200 no-load speed (3.47). Usable window ~0.89-0.91 m with ~0-5 % margin. A knee actuator with ~60-70 Nm continuous and >= 4-5 rad/s removes the constraint.
+
+### Videos (`python -m simulation.make_videos`, written to `results/videos/`)
+walk (8 steps, repo actuators, estimated state), pick-up of the red block, push forward 120 N with stepping, push forward 90 N standing (falls), push lateral 90 N cross-over step.
 
 ### Dynamic motion (centroidal trajectory optimisation, 27.4 kg, 2 legs, PH54-200 limits)
 * Torque alone would allow a jump with 0.4 s flight (0.23 m apex gain) — **but** that needs 10–17 rad/s joint speed vs 3.47 rad/s available.

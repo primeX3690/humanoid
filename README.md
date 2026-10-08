@@ -128,6 +128,8 @@ See `docs/FULL_BODY.md`. Quick start:
 pip install -r requirements.txt && export PYTHONPATH=.
 python -m simulation.walk_wbc --actuators repo --zc 0.89 --estimated   # your LIPM walk on the 32-dof body, real actuator limits, estimated state
 python -m simulation.pick_demo --estimated                              # perceive -> plan -> grasp -> lift
+python -m simulation.make_videos                                       # MP4s of walk / pick / push recovery -> results/videos/
+python -m simulation.motor_requirements                                 # peak torque/speed each joint needs for your gait
 python -m simulation.push_recovery_exp                                  # standing push recovery: ankle strategy vs capture-point stepping
 python -m simulation.jump_sweep_repo_actuators                          # what your actuators can/can't jump
 python -m pytest tests -q

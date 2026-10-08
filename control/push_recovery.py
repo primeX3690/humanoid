@@ -89,21 +89,35 @@ class PushRecoveryStepper:
         com = w.com()[:2]; v = w.com_vel()[:2]
         push_dir = v / (np.linalg.norm(v) + 1e-9)
         pL = S.d.site_xpos[w.sole["L"]][:2].copy(); pR = S.d.site_xpos[w.sole["R"]][:2].copy()
-        # swing foot: the one on the side xi is moving toward (lateral), else the trailing foot along the push
         mid_y = 0.5 * (pL[1] + pR[1])
-        if abs(xi[1] - mid_y) > 0.04:
-            side = "L" if xi[1] > mid_y else "R"
+        lateral = abs(xi[1] - mid_y) > 0.04 and abs(xi[1] - mid_y) > 0.5 * abs(xi[0] - 0.5 * (pL[0] + pR[0]))
+        if lateral:
+            # the CoM is falling onto the "loaded" foot (side of xi); that foot cannot leave the ground.
+            # The UNLOADED foot steps to the far (outer) side of the loaded foot: a cross-over step, landing slightly behind.
+            # loaded foot = the one nearest to xi on the push side (feet may already be crossed over after a first step)
+            loaded = "L" if ((pL[1] > pR[1]) == (xi[1] > mid_y)) else "R"
+            side, stance = ("R", "L") if loaded == "L" else ("L", "R")
+            sp = S.d.site_xpos[w.sole[stance]][:2]
+            push_sgn = 1.0 if xi[1] > mid_y else -1.0
+            xi_T = sp + (xi - sp) * np.exp(self.omega * c.t_swing)
+            ty = max(push_sgn * (xi_T[1] + push_sgn * c.overshoot - sp[1]), c.sep_y_min)
+            ty = min(ty, c.sep_y_max)
+            target = np.array([np.clip(sp[0] + (xi_T[0] - sp[0]) * 0.5 - 0.06, sp[0] - c.reach_x, sp[0] + c.reach_x),
+                               sp[1] + push_sgn * ty])
         else:
-            side = "L" if (pL - pR) @ push_dir < 0 else "R"      # trailing foot steps forward
-        stance = "R" if side == "L" else "L"
-        sp = S.d.site_xpos[w.sole[stance]][:2]
-        # capture point at touchdown if the CoP stays at the stance-foot centre:  xi_T = p + (xi - p) e^{omega T}
-        xi_T = sp + (xi - sp) * np.exp(self.omega * c.t_swing)
-        target = xi_T + c.overshoot * push_dir
-        target = np.array([np.clip(target[0], sp[0] - c.reach_x, sp[0] + c.reach_x), target[1]])
-        sgn = 1.0 if side == "L" else -1.0
-        dy = np.clip(sgn * (target[1] - sp[1]), c.sep_y_min, c.sep_y_max)
-        target[1] = sp[1] + sgn * dy
+            if abs(xi[1] - mid_y) > 0.04:
+                side = "L" if xi[1] > mid_y else "R"
+            else:
+                side = "L" if (pL - pR) @ push_dir < 0 else "R"      # trailing foot steps forward
+            stance = "R" if side == "L" else "L"
+            sp = S.d.site_xpos[w.sole[stance]][:2]
+            # capture point at touchdown if the CoP stays at the stance-foot centre:  xi_T = p + (xi - p) e^{omega T}
+            xi_T = sp + (xi - sp) * np.exp(self.omega * c.t_swing)
+            target = xi_T + c.overshoot * push_dir
+            target = np.array([np.clip(target[0], sp[0] - c.reach_x, sp[0] + c.reach_x), target[1]])
+            sgn = 1.0 if side == "L" else -1.0
+            dy = np.clip(sgn * (target[1] - sp[1]), c.sep_y_min, c.sep_y_max)
+            target[1] = sp[1] + sgn * dy
         self.side, self.stance, self.target = side, stance, target
         self.p0 = S.d.site_xpos[w.sole[side]].copy()
         self.t_start = t; self.state = "STEP"
