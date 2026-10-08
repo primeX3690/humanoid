@@ -12,3 +12,7 @@ mujoco>=3.1
 gymnasium>=0.29
 stable-baselines3>=2.3
 torch>=2.2        # CPU build is enough: pip install torch --index-url https://download.pytorch.org/whl/cpu
+
+# --- full-body layer (whole-body control, perception, estimation, planning) ---
+osqp>=0.6.5
+casadi>=3.6

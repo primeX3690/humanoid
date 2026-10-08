@@ -1,0 +1,174 @@
+[
+ {
+  "tag": "torque-only",
+  "dx": 0.0,
+  "Tf_min": 0.15,
+  "ok": true,
+  "status": "Solve_Succeeded",
+  "final_err_x": 5.197051990493695e-08,
+  "apex_gain_m": 0.05158243280933916,
+  "peak_GRF_over_mg_takeoff": 1.2529450186842417,
+  "peak_knee_torque_Nm_both_legs": 83.36797482664029,
+  "peak_stance_joint_speed_rad_s": 9.745911381117732
+ },
+ {
+  "tag": "torque+speed",
+  "dx": 0.0,
+  "Tf_min": 0.15,
+  "ok": true,
+  "status": "Solve_Succeeded",
+  "final_err_x": -1.6275175651614404e-14,
+  "apex_gain_m": 0.0,
+  "peak_GRF_over_mg_takeoff": 1.375143460579784,
+  "peak_knee_torque_Nm_both_legs": 89.37854869376193,
+  "peak_stance_joint_speed_rad_s": 3.466216743148971
+ },
+ {
+  "tag": "torque-only",
+  "dx": 0.0,
+  "Tf_min": 0.2,
+  "ok": true,
+  "status": "Solve_Succeeded",
+  "final_err_x": 2.4432084827497036e-10,
+  "apex_gain_m": 0.07708186905330794,
+  "peak_GRF_over_mg_takeoff": 1.3560975109117859,
+  "peak_knee_torque_Nm_both_legs": 89.39846680396808,
+  "peak_stance_joint_speed_rad_s": 12.671676853488963
+ },
+ {
+  "tag": "torque+speed",
+  "dx": 0.0,
+  "Tf_min": 0.2,
+  "ok": false,
+  "status": "Infeasible_Problem_Detected"
+ },
+ {
+  "tag": "torque-only",
+  "dx": 0.0,
+  "Tf_min": 0.25,
+  "ok": true,
+  "status": "Solve_Succeeded",
+  "final_err_x": 1.9273471707492718e-13,
+  "apex_gain_m": 0.1082384932384689,
+  "peak_GRF_over_mg_takeoff": 1.4598621739056208,
+  "peak_knee_torque_Nm_both_legs": 89.39931996299798,
+  "peak_stance_joint_speed_rad_s": 12.671576762526081
+ },
+ {
+  "tag": "torque+speed",
+  "dx": 0.0,
+  "Tf_min": 0.25,
+  "ok": false,
+  "status": "Infeasible_Problem_Detected"
+ },
+ {
+  "tag": "torque-only",
+  "dx": 0.0,
+  "Tf_min": 0.3,
+  "ok": true,
+  "status": "Solve_Succeeded",
+  "final_err_x": 1.6562931581809437e-12,
+  "apex_gain_m": 0.14117816697826935,
+  "peak_GRF_over_mg_takeoff": 1.5972699041880916,
+  "peak_knee_torque_Nm_both_legs": 89.39987070128898,
+  "peak_stance_joint_speed_rad_s": 15.026892931115123
+ },
+ {
+  "tag": "torque+speed",
+  "dx": 0.0,
+  "Tf_min": 0.3,
+  "ok": false,
+  "status": "Infeasible_Problem_Detected"
+ },
+ {
+  "tag": "torque-only",
+  "dx": 0.0,
+  "Tf_min": 0.4,
+  "ok": true,
+  "status": "Solve_Succeeded",
+  "final_err_x": 2.940599153067325e-13,
+  "apex_gain_m": 0.22859825381164145,
+  "peak_GRF_over_mg_takeoff": 2.160209468872095,
+  "peak_knee_torque_Nm_both_legs": 89.39998969971063,
+  "peak_stance_joint_speed_rad_s": 17.055091196320532
+ },
+ {
+  "tag": "torque+speed",
+  "dx": 0.0,
+  "Tf_min": 0.4,
+  "ok": false,
+  "status": "Infeasible_Problem_Detected"
+ },
+ {
+  "tag": "torque-only",
+  "dx": 0.2,
+  "Tf_min": 0.15,
+  "ok": true,
+  "status": "Solve_Succeeded",
+  "final_err_x": -2.5083935206726693e-08,
+  "apex_gain_m": 0.04759218343839122,
+  "peak_GRF_over_mg_takeoff": 1.2672030440332487,
+  "peak_knee_torque_Nm_both_legs": 77.36436749464528,
+  "peak_stance_joint_speed_rad_s": 12.671786229409953
+ },
+ {
+  "tag": "torque+speed",
+  "dx": 0.2,
+  "Tf_min": 0.15,
+  "ok": true,
+  "status": "Solve_Succeeded",
+  "final_err_x": 1.1776662978135732e-10,
+  "apex_gain_m": 0.0,
+  "peak_GRF_over_mg_takeoff": 1.3941640900431027,
+  "peak_knee_torque_Nm_both_legs": 89.3992087667799,
+  "peak_stance_joint_speed_rad_s": 3.4662196910329723
+ },
+ {
+  "tag": "torque-only",
+  "dx": 0.4,
+  "Tf_min": 0.15,
+  "ok": true,
+  "status": "Solve_Succeeded",
+  "final_err_x": 2.598372073059352e-09,
+  "apex_gain_m": 0.036577815388220136,
+  "peak_GRF_over_mg_takeoff": 1.2881145331238462,
+  "peak_knee_torque_Nm_both_legs": 79.42901582665978,
+  "peak_stance_joint_speed_rad_s": 12.67159766811931
+ },
+ {
+  "tag": "torque+speed",
+  "dx": 0.4,
+  "Tf_min": 0.15,
+  "ok": true,
+  "status": "Solve_Succeeded",
+  "final_err_x": 1.5060253044651972e-10,
+  "apex_gain_m": 0.0,
+  "peak_GRF_over_mg_takeoff": 1.4232590915594894,
+  "peak_knee_torque_Nm_both_legs": 89.39973403435775,
+  "peak_stance_joint_speed_rad_s": 3.4662225831915796
+ },
+ {
+  "tag": "torque-only",
+  "dx": 0.6,
+  "Tf_min": 0.15,
+  "ok": true,
+  "status": "Solve_Succeeded",
+  "final_err_x": 6.58438858991417e-11,
+  "apex_gain_m": 0.019523294280997083,
+  "peak_GRF_over_mg_takeoff": 1.3119081444322642,
+  "peak_knee_torque_Nm_both_legs": 85.9868560426561,
+  "peak_stance_joint_speed_rad_s": 12.671516464123066
+ },
+ {
+  "tag": "torque+speed",
+  "dx": 0.6,
+  "Tf_min": 0.15,
+  "ok": true,
+  "status": "Solve_Succeeded",
+  "final_err_x": 2.55351295663786e-15,
+  "apex_gain_m": 0.0010353055343742534,
+  "peak_GRF_over_mg_takeoff": 3.4564158021333493,
+  "peak_knee_torque_Nm_both_legs": 89.39999998863135,
+  "peak_stance_joint_speed_rad_s": 3.466224163258193
+ }
+]

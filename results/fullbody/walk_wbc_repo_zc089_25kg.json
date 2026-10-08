@@ -1,0 +1,28 @@
+{
+ "estimated_state_in_loop": false,
+ "actuators": "repo",
+ "com_height_m": 0.89,
+ "leg_bend_rad": 0.35517241379310344,
+ "steps_planned": 8,
+ "fell": false,
+ "sim_time_s": 9.999,
+ "wall_s": 486.0429654121399,
+ "distance_m": 2.1753125291621678,
+ "plan_distance_m": 2.1613213358031707,
+ "com_track_rms_mm": 0.3108321237600656,
+ "com_track_max_mm": 0.4714668185151344,
+ "touchdown_err_mm_mean": 0.23594829180272076,
+ "touchdown_err_mm_max": 0.26785167697307194,
+ "touchdowns": 8,
+ "min_support_margin_mm": 37.85452536785121,
+ "torque_peak_vs_limit": {
+  "L_knee": 0.9527925934575874,
+  "R_knee": 0.950226774653116,
+  "L_hip_roll": 0.5834363707038717,
+  "R_ankle_pitch": 0.46589305371773343,
+  "L_ankle_pitch": 0.46568251726550647
+ },
+ "joints_over_speed_limit": {},
+ "speed_limit_rad_s": 3.4662238944607386,
+ "peak_leg_speed_rad_s": 2.3983337811871706
+}

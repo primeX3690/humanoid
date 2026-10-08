@@ -1,0 +1,98 @@
+[
+ {
+  "label": "WBC push 60N x 150ms",
+  "fell": false,
+  "min_support_margin_mm": 64.62534942649778,
+  "max_tau_ratio": 1.000005980407764,
+  "max_fric_ratio": 0.7071067958862818,
+  "solves_ok": 300,
+  "solves": 300,
+  "com_final_xy": [
+   0.02998053083235917,
+   1.0371431429560294e-05
+  ],
+  "extra": "",
+  "com_peak_dev_mm": 38.93777632593667,
+  "com_final_dev_mm": 0.02205935353825836
+ },
+ {
+  "label": "PD baseline push 60N x 150ms",
+  "fell": false,
+  "min_support_margin_mm": 35.06604088208857,
+  "max_tau_ratio": 1.0,
+  "max_fric_ratio": null,
+  "solves_ok": 0,
+  "solves": 300,
+  "com_final_xy": [
+   -0.03327000102440509,
+   2.2957021568681358e-05
+  ],
+  "extra": "",
+  "com_peak_dev_mm": 63.4840261005539,
+  "com_final_dev_mm": 63.27000518929221
+ },
+ {
+  "label": "WBC push 70N x 150ms",
+  "fell": false,
+  "min_support_margin_mm": -7.957999801783494,
+  "max_tau_ratio": 1.000029030143533,
+  "max_fric_ratio": 0.7071179140934907,
+  "solves_ok": 300,
+  "solves": 300,
+  "com_final_xy": [
+   0.143743622788512,
+   2.3530173905150724e-05
+  ],
+  "extra": "",
+  "com_peak_dev_mm": 113.74362522235865,
+  "com_final_dev_mm": 113.74362522235865
+ },
+ {
+  "label": "PD baseline push 70N x 150ms",
+  "fell": false,
+  "min_support_margin_mm": -405.2397595528814,
+  "max_tau_ratio": 1.0,
+  "max_fric_ratio": null,
+  "solves_ok": 0,
+  "solves": 300,
+  "com_final_xy": [
+   0.5343098315700724,
+   -0.05935437334185108
+  ],
+  "extra": "",
+  "com_peak_dev_mm": 507.790653569991,
+  "com_final_dev_mm": 507.790653569991
+ },
+ {
+  "label": "WBC push 80N x 150ms",
+  "fell": true,
+  "min_support_margin_mm": -570.2332594266819,
+  "max_tau_ratio": 1.0001997770797773,
+  "max_fric_ratio": 0.7071106332767086,
+  "solves_ok": 252,
+  "solves": 252,
+  "com_final_xy": [
+   0.6873144262522523,
+   0.010828094086133546
+  ],
+  "extra": "",
+  "com_peak_dev_mm": 657.4036070640818,
+  "com_final_dev_mm": 657.4036070640818
+ },
+ {
+  "label": "PD baseline push 80N x 150ms",
+  "fell": true,
+  "min_support_margin_mm": -528.6892842348911,
+  "max_tau_ratio": 1.0,
+  "max_fric_ratio": null,
+  "solves_ok": 0,
+  "solves": 275,
+  "com_final_xy": [
+   0.7454452101029522,
+   -0.16241993411787176
+  ],
+  "extra": "",
+  "com_peak_dev_mm": 733.6498372235294,
+  "com_final_dev_mm": 733.6498372235294
+ }
+]

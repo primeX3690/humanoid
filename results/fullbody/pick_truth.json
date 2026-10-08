@@ -1,0 +1,29 @@
+{
+ "command": "pick the red block",
+ "estimated_state_in_loop": false,
+ "plan": [
+  "LookAtTable",
+  "DetectObject",
+  "OpenGripper",
+  "MoveToPregrasp",
+  "MoveToGrasp",
+  "CloseGripper",
+  "LiftObject"
+ ],
+ "success": true,
+ "sim_time_s": 9.49,
+ "wall_s": 166.6297585964203,
+ "fell": false,
+ "object_rise_cm": 10.161636875958758,
+ "object_to_tcp_cm": 2.895208997851679,
+ "min_support_margin_mm": 96.65023850796834,
+ "max_tau_ratio": 0.3294301318178691,
+ "com_final_xy_dev_mm": 0.024404122577185147,
+ "detected_object": [
+  0.42016008774057895,
+  -0.10038240453679462,
+  0.8483511610005235
+ ],
+ "true_object_initial": null,
+ "detection_err_mm": null
+}

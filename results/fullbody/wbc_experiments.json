@@ -1,0 +1,117 @@
+[
+ {
+  "label": "WBC reach+gaze",
+  "fell": false,
+  "min_support_margin_mm": 96.21578210862667,
+  "max_tau_ratio": 0.23577623625379462,
+  "max_fric_ratio": 0.27174485077388016,
+  "solves_ok": 200,
+  "solves": 200,
+  "com_final_xy": [
+   0.02996015164334423,
+   1.328170527688409e-05
+  ],
+  "extra": "",
+  "hand_err_final_mm": 1.1840718861524167,
+  "com_xy_dev_max_mm": 3.78421789137692,
+  "tracking_err_rms_mm": 16.5442489838194,
+  "wall_s": 71.07728147506714
+ },
+ {
+  "label": "PD baseline (no WBC)",
+  "fell": false,
+  "min_support_margin_mm": 59.745356980016176,
+  "max_tau_ratio": 1.0,
+  "max_fric_ratio": null,
+  "solves_ok": 0,
+  "solves": 200,
+  "com_final_xy": [
+   0.04519010724085772,
+   0.0019755940023503888
+  ],
+  "extra": "IK converged=False",
+  "hand_err_final_mm": 31.732379104097216,
+  "com_xy_dev_max_mm": null
+ },
+ {
+  "label": "infeasible reach (1.1 m)",
+  "fell": false,
+  "min_support_margin_mm": 4.406636993016067,
+  "max_tau_ratio": 0.7112696225043564,
+  "max_fric_ratio": 0.7072547613330475,
+  "solves_ok": 225,
+  "solves": 225,
+  "com_final_xy": [
+   0.030169548582715682,
+   -0.00031463489919551416
+  ],
+  "extra": "",
+  "hand_err_final_mm": 562.4602990581426,
+  "com_xy_dev_max_mm": 6.335413675350298,
+  "tracking_err_rms_mm": 421.88408552780527
+ },
+ {
+  "label": "WBC push 45N x 150ms",
+  "fell": false,
+  "min_support_margin_mm": 93.04932799498414,
+  "max_tau_ratio": 1.0000005716636302,
+  "max_fric_ratio": 0.707106781186549,
+  "solves_ok": 300,
+  "solves": 300,
+  "com_final_xy": [
+   0.029981569378341708,
+   1.6369952438542292e-05
+  ],
+  "extra": "",
+  "com_peak_dev_mm": 9.235362908432238,
+  "com_final_dev_mm": 0.024650824683004266
+ },
+ {
+  "label": "PD baseline push 45N x 150ms",
+  "fell": false,
+  "min_support_margin_mm": 46.30447977449374,
+  "max_tau_ratio": 1.0,
+  "max_fric_ratio": null,
+  "solves_ok": 0,
+  "solves": 300,
+  "com_final_xy": [
+   -0.02021353705145986,
+   2.3051761725965852e-05
+  ],
+  "extra": "",
+  "com_peak_dev_mm": 53.02963424672728,
+  "com_final_dev_mm": 50.213542342699284
+ },
+ {
+  "label": "WBC push 90N x 150ms",
+  "fell": true,
+  "min_support_margin_mm": -589.3887465198715,
+  "max_tau_ratio": 1.0000300740082446,
+  "max_fric_ratio": 0.7071239123221941,
+  "solves_ok": 232,
+  "solves": 232,
+  "com_final_xy": [
+   0.7072070650571688,
+   0.008469548249209525
+  ],
+  "extra": "",
+  "com_peak_dev_mm": 677.2600255521435,
+  "com_final_dev_mm": 677.2600255521435
+ },
+ {
+  "label": "PD baseline push 90N x 150ms",
+  "fell": true,
+  "min_support_margin_mm": -533.407090963455,
+  "max_tau_ratio": 1.0,
+  "max_fric_ratio": null,
+  "solves_ok": 0,
+  "solves": 252,
+  "com_final_xy": [
+   0.7495646422542194,
+   -0.15474452432216748
+  ],
+  "extra": "",
+  "com_peak_dev_mm": 736.0157214286503,
+  "com_final_dev_mm": 736.0157214286503
+ }
+]
