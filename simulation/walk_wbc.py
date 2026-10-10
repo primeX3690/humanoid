@@ -26,10 +26,6 @@ def _Rz(a):
 
 
 def build_plan(n_steps=8, zc=0.85, step_length=0.3, turn_rate=0.0, terrain=None):
-    from terrain.terrain_profile import StairTerrain
-    if isinstance(terrain, StairTerrain):             # v3: stair climbing (planning/stairs_reference.py: step-to gait, stair-safe swing, preview-NMPC CoM)
-        from planning.stairs_reference import build_stairs_reference
-        return build_stairs_reference(terrain, zc=zc)
     if turn_rate != 0.0 or terrain is not None:      # v3: turning and/or uneven terrain (planning/wbc_walk_reference.py)
         from planning.wbc_walk_reference import build_walk_reference
         return build_walk_reference(n_steps, zc, step_length, turn_rate=turn_rate, terrain=terrain)
@@ -154,13 +150,13 @@ if __name__ == "__main__":
     ap.add_argument("--zc", type=float, default=0.85)
     ap.add_argument("--estimated", action="store_true")
     ap.add_argument("--turn", type=float, default=0.0, help="heading change per step (rad)")
-    ap.add_argument("--terrain", default=None, choices=[None, "step", "ramp", "stairs"])
+    ap.add_argument("--terrain", default=None, choices=[None, "step", "ramp"])
     ap.add_argument("--qp", default=None, choices=[None, "osqp", "fast"])
     ap.add_argument("--out", default=None)
     ap.add_argument("--max-time", type=float, default=None)
     a = ap.parse_args()
-    from terrain.terrain_profile import StepTerrain, RampTerrain, StairTerrain
-    terr = {None: None, "step": StepTerrain(0.9, 0.04), "ramp": RampTerrain(0.6, 1.8, 0.06), "stairs": StairTerrain(0.55, 0.28, 0.10, 3)}[a.terrain]
+    from terrain.terrain_profile import StepTerrain, RampTerrain
+    terr = {None: None, "step": StepTerrain(0.9, 0.04), "ramp": RampTerrain(0.6, 1.8, 0.06)}[a.terrain]
     r, S = run(a.actuators, a.steps, zc=a.zc, max_time=a.max_time, estimated=a.estimated, turn_rate=a.turn, terrain=terr, qp_backend=a.qp)
     print(json.dumps(r, indent=1))
     if a.out:

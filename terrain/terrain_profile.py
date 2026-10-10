@@ -62,18 +62,3 @@ class RampTerrain(TerrainProfile):
             return self.rise_m
         frac = (x - self.ramp_start_x) / (self.ramp_end_x - self.ramp_start_x)
         return frac * self.rise_m
-
-
-@dataclass
-class StairTerrain(TerrainProfile):
-    """n identical stairs: tread `tread_m` deep, riser `riser_m` high, first riser at x = first_x. Flat (z=0) before, plateau after the last."""
-    first_x: float
-    tread_m: float = 0.28
-    riser_m: float = 0.12
-    n: int = 4
-
-    def height_at(self, x: float, y: float) -> float:
-        if x < self.first_x:
-            return 0.0
-        k = int((x - self.first_x) // self.tread_m) + 1
-        return min(k, self.n) * self.riser_m

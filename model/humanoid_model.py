@@ -105,7 +105,7 @@ Q_ARM_REST = {"sh_pitch": 0.0, "sh_roll": 0.12, "sh_yaw": 0.0, "elbow": -0.35,
 
 
 def build_xml(p: ModelParams = ModelParams(), table: bool = True, object_xyz=(0.42, -0.10, 0.0),
-              object_size=(0.025, 0.025, 0.03), object_mass=0.20, terrain_xml: str = "", hand: str = "gripper") -> str:
+              object_size=(0.025, 0.025, 0.03), object_mass=0.20, terrain_xml: str = "") -> str:
     def lim(t):
         return f'ctrlrange="-{t} {t}" forcerange="-{t} {t}"'
 
@@ -143,11 +143,6 @@ def build_xml(p: ModelParams = ModelParams(), table: bool = True, object_xyz=(0.
         </body>
       </body>'''
 
-    def fingers(s: str) -> str:
-        if hand != "dexterous": return ""
-        from model.hand_model import hand_bodies_xml
-        return hand_bodies_xml(s)
-
     def arm(s: str, sgn: float) -> str:
         roll_rng = "-0.3 2.0" if sgn > 0 else "-2.0 0.3"
         return f'''
@@ -181,7 +176,6 @@ def build_xml(p: ModelParams = ModelParams(), table: bool = True, object_xyz=(0.
                         <geom name="{s}_jaw_mov_g" type="box" size="0.018 0.006 {p.finger/2}" pos="0 0 -{0.035+p.finger/2}"
                               mass="0.05" rgba="0.2 0.2 0.25 1" friction="1.2 0.01 0.001" condim="4" contype="1" conaffinity="1"/>
                       </body>
-                      {fingers(s)}
                     </body>
                   </body>
                 </body>
@@ -208,14 +202,6 @@ def build_xml(p: ModelParams = ModelParams(), table: bool = True, object_xyz=(0.
     for s in ("L", "R"):
         acts.append(f'<position name="{s}_grip" joint="{s}_grip" kp="900" ctrlrange="-0.040 0.004" '
                     f'forcerange="-{p.gripper_force} {p.gripper_force}"/>')
-
-    if hand == "dexterous":
-        from model.hand_model import hand_actuators_xml
-        for s_ in ("L", "R"): acts += hand_actuators_xml(s_)                 # appended LAST: the first 32 actuator indices are unchanged
-    contact_xml = ""
-    if hand == "dexterous":
-        from model.hand_model import hand_contact_xml
-        contact_xml = hand_contact_xml("L") + hand_contact_xml("R")
 
     ox, oy, _ = object_xyz
     hx, hy, hz = object_size
@@ -276,7 +262,6 @@ def build_xml(p: ModelParams = ModelParams(), table: bool = True, object_xyz=(0.
     {table_xml}
     {terrain_xml}
   </worldbody>
-  {contact_xml}
   <actuator>
     {chr(10).join(acts)}
   </actuator>
