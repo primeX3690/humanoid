@@ -1,3 +1,4 @@
+import pytest
 import numpy as np
 from estimation.so3 import exp_so3, log_so3, R_to_quat, quat_to_R
 from estimation.lipm_disturbance_kf import LIPMDisturbanceKF
@@ -12,6 +13,8 @@ def test_so3_roundtrips():
         assert np.allclose(quat_to_R(R_to_quat(R)), R, atol=1e-9)
 
 
+@pytest.mark.mujoco
+@pytest.mark.slow
 def test_eskf_beats_dead_reckoning_by_orders_of_magnitude():
     from simulation.estimation_sim import run_estimation_experiment
     rec, est, sens = run_estimation_experiment(T=5.0, seed=1)

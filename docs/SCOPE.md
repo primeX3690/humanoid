@@ -169,11 +169,10 @@ verified numerically, not just asserted:
     the full table and a real infra bug (a background training job's
     final checkpoint never saved) found and fixed along the way.
 12d. Full nonlinear MPC coupling CoM height into horizontal ZMP
-    tracking: **attempted, not completed**. `control/nonlinear_mpc.py`'s
-    single-step optimization is correct and tested; the closed-loop
-    simulation over a full walk diverges, and the root cause was not
-    fully resolved - reported as an open, documented bug
-    (`tests/test_nonlinear_mpc.py`'s `xfail`), not claimed as solved.
+    tracking: **solved in v3.1** by control/preview_nmpc.py (preview horizon +
+    height-coupled condensed QPs; lateral error 0.037 m). The legacy
+    control/nonlinear_mpc.py keeps its documented xfail (root cause: 0.2 s
+    horizon with a constant ZMP reference - see docs/V3_CHANGES.md).
 12e. ~~The physical hardware itself.~~ Cannot be "solved" in code -
     `actuators/hardware_requirements.py` + `docs/HARDWARE_REQUIREMENTS.md`
     instead derive concrete requirements from everything this project

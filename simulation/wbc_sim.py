@@ -17,7 +17,7 @@ def min_jerk(t, T):
 
 
 class WBCSim:
-    def __init__(self, table=True, wbc_hz=200, seed=0, params=None, leg_bend=None, **model_kw):
+    def __init__(self, table=True, wbc_hz=200, seed=0, params=None, leg_bend=None, realism=None, **model_kw):
         params = params or ModelParams()
         self.m, self.d = make_model(params, table=table, **model_kw)
         stand_pose(self.m, self.d, leg_bend)
@@ -29,6 +29,7 @@ class WBCSim:
         self.grip_cmd = np.array([0.004, 0.004])
         self.log = {k: [] for k in ["t", "com", "support_margin", "tau_max_ratio", "fric_ratio", "resid1", "status"]}
         self.ext_force = None   # (body_id, force3) applied each step
+        self.realism = realism  # optional sim_realism.RealismLayer: actuator lag/limits/thermal + encoder model (default: ideal, as before)
         mujoco.mj_forward(self.m, self.d)
         self.qadr = joint_qadr(self.m, ACTUATED)
         self.dadr = joint_dadr(self.m, ACTUATED)
@@ -47,6 +48,9 @@ class WBCSim:
         """One 1 kHz sim step; re-solves WBC every `sub` steps. state_fn() -> (qpos, qvel) estimate (default: truth)."""
         if self.ctrl_sub % self.sub == 0:
             qpos, qvel = state_fn() if state_fn else self.robot_state()
+            if self.realism is not None and self.realism.q_meas is not None:   # controller sees encoders, not truth
+                qpos = qpos.copy(); qvel = qvel.copy()
+                qpos[self.qadr] = self.realism.q_meas; qvel[self.dadr] = self.realism.qd_meas
             self.wbc.set_state(qpos, qvel)
             tasks = tasks_fn(self.wbc)
             out = self.wbc.solve(qpos, qvel, tasks, contacts)
@@ -54,7 +58,11 @@ class WBCSim:
                 self.tau = out["tau"]
             self.last_out = out
         self.ctrl_sub += 1
-        self.d.ctrl[:30] = self.tau
+        if self.realism is not None:
+            self.realism.tick(self.d.qpos[self.qadr])
+            self.d.ctrl[:30] = self.realism.apply(self.tau, self.d.qvel[self.dadr])
+        else:
+            self.d.ctrl[:30] = self.tau
         self.d.ctrl[30:32] = self.grip_cmd
         if self.ext_force is not None:
             self.d.xfrc_applied[self.ext_force[0], :3] = self.ext_force[1]

@@ -8,10 +8,14 @@ from model.humanoid_model import repo_actuator_params, ModelParams
 from control.push_recovery import PushRecoveryStepper, StepperConfig
 
 
-def run(F, direction=(1.0, 0.0), dur=0.15, stepping=True, actuators="strong", T=5.0, t_push=0.8, verbose=False, recorder=None):
+def run(F, direction=(1.0, 0.0), dur=0.15, stepping=True, actuators="strong", T=5.0, t_push=0.8, verbose=False, recorder=None, planned=False):
     params = repo_actuator_params() if actuators == "repo" else ModelParams()
     S = WBCSim(table=False, params=params)
-    st = PushRecoveryStepper(S)
+    if planned:                                   # v3: DCM-optimised step time/target, cross-over, collision-free swing
+        from control.push_recovery_v3 import PlannedPushRecoveryStepper
+        st = PlannedPushRecoveryStepper(S)
+    else:
+        st = PushRecoveryStepper(S)
     tid = mujoco.mj_name2id(S.m, mujoco.mjtObj.mjOBJ_BODY, "torso")
     d = np.array(direction) / np.linalg.norm(direction)
     S.wbc.set_state(*S.robot_state()); home = S.wbc.com().copy()
@@ -44,7 +48,8 @@ def run(F, direction=(1.0, 0.0), dur=0.15, stepping=True, actuators="strong", T=
 
 
 if __name__ == "__main__":
-    out = "results/fullbody/push_recovery_stepping.json"
+    planned = "--planned" in sys.argv
+    out = "results/fullbody/push_recovery_stepping_planned.json" if planned else "results/fullbody/push_recovery_stepping.json"
     rows = json.load(open(out)) if os.path.exists(out) else []          # resume after an interruption
     done = {(r["name"], r["F"], r["stepping"]) for r in rows}
     plan = []
@@ -54,6 +59,6 @@ if __name__ == "__main__":
     for direction, name, F, stepping in plan:
         if (name, F, stepping) in done:
             continue
-        r = run(F, direction, stepping=stepping, T=3.5); r["name"] = name; rows.append(r)
+        r = run(F, direction, stepping=stepping, T=3.5, planned=planned); r["name"] = name; rows.append(r)
         print(name, F, "step " if stepping else "stand", "FELL" if r["fell"] else "ok  ", "steps", r["steps"], "peak %.0f mm" % r["peak_com_dev_mm"], flush=True)
         json.dump(rows, open(out, "w"), indent=1)

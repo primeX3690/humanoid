@@ -43,6 +43,9 @@ class PushRecoveryStepper:
         self.swing = None
         self.n_steps = 0
         self.t_land = -1.0
+        self.t_swing_cur = cfg.t_swing      # duration of the CURRENT swing (planners may choose it per step)
+        self.t_lift_cur = 0.0
+        self.swing_traj = None              # optional planning.collision_aware_swing.SwingPlan overriding the min-jerk line
         self.com_des = None
         self.steps_log = []
         S.wbc.set_state(*S.robot_state())
@@ -73,7 +76,7 @@ class PushRecoveryStepper:
                 sc = w.support_center(("L", "R"))
                 self.com_des = np.array([sc[0], sc[1], self.home[2]])
         elif self.state == "STEP":
-            if t >= self.t_start + c.t_swing:
+            if t >= self.t_start + self.t_swing_cur:
                 self.state = "STAND"; self.contacts = ("L", "R"); self.swing = None; self.t_land = t
                 self.steps_log.append(dict(t=float(t), side=self.side, target=self.target.tolist(),
                                            landed=S.d.site_xpos[w.sole[self.side]][:2].tolist()))
@@ -131,15 +134,21 @@ class PushRecoveryStepper:
         if self.state != "STEP":
             return [wc.task_com(self.com_des), wc.task_torso_orient(), wc.task_posture(level=3)]
         ts = [wc.task_com(self.com_des, kp=c.kp_com_swing, weight=1.0), wc.task_torso_orient(weight=1.0)]
-        s = (t - self.t_start) / c.t_swing
+        if self.swing_traj is not None:                                  # collision-aware planned swing (planning/collision_aware_swing.py)
+            tr = self.swing_traj; tl = min(max(t - self.t_start - self.t_lift_cur, 0.0), tr.t[-1])
+            col = lambda A: np.array([np.interp(tl, tr.t, A[:, k]) for k in range(3)])
+            ts.append(wc.task_foot(self.swing, col(tr.pos), vel_des=col(tr.vel), acc_ff=col(tr.acc), level=1, weight=25.0))
+            ts.append(wc.task_posture(level=2))
+            return ts
+        s = (t - self.t_start) / self.t_swing_cur
         p, v, a = min_jerk01(s)
         sc_ = min(max(s, 0), 1)
         xy = self.p0[:2] + (self.target - self.p0[:2]) * p
         z = c.clearance * np.sin(np.pi * sc_)
-        vxy = (self.target - self.p0[:2]) * v / c.t_swing
-        vz = c.clearance * np.pi * np.cos(np.pi * sc_) / c.t_swing
-        axy = (self.target - self.p0[:2]) * a / c.t_swing ** 2
-        az = -c.clearance * (np.pi / c.t_swing) ** 2 * np.sin(np.pi * sc_)
+        vxy = (self.target - self.p0[:2]) * v / self.t_swing_cur
+        vz = c.clearance * np.pi * np.cos(np.pi * sc_) / self.t_swing_cur
+        axy = (self.target - self.p0[:2]) * a / self.t_swing_cur ** 2
+        az = -c.clearance * (np.pi / self.t_swing_cur) ** 2 * np.sin(np.pi * sc_)
         ts.append(wc.task_foot(self.swing, np.array([xy[0], xy[1], z]), vel_des=np.array([vxy[0], vxy[1], vz]),
                                acc_ff=np.array([axy[0], axy[1], az]), level=1, weight=25.0))
         ts.append(wc.task_posture(level=2))

@@ -20,7 +20,19 @@ from dynamics.lipm import LIPMParams
 from simulation.walk_simulator import simulate_walk
 
 
-def build_plan(n_steps=8, zc=0.85, step_length=0.3):
+def _Rz(a):
+    c, s_ = np.cos(a), np.sin(a)
+    return np.array([[c, -s_, 0.0], [s_, c, 0.0], [0.0, 0.0, 1.0]])
+
+
+def build_plan(n_steps=8, zc=0.85, step_length=0.3, turn_rate=0.0, terrain=None):
+    from terrain.terrain_profile import StairTerrain
+    if isinstance(terrain, StairTerrain):             # v3: stair climbing (planning/stairs_reference.py: step-to gait, stair-safe swing, preview-NMPC CoM)
+        from planning.stairs_reference import build_stairs_reference
+        return build_stairs_reference(terrain, zc=zc)
+    if turn_rate != 0.0 or terrain is not None:      # v3: turning and/or uneven terrain (planning/wbc_walk_reference.py)
+        from planning.wbc_walk_reference import build_walk_reference
+        return build_walk_reference(n_steps, zc, step_length, turn_rate=turn_rate, terrain=terrain)
     g = GaitParams(n_steps=n_steps, step_length_m=step_length)
     w = simulate_walk(g, LIPMParams(com_height_m=zc, dt=g.dt))
     t, L, R = foot_target_trajectories(g, w.footsteps)
@@ -41,18 +53,24 @@ def swing_side(plan, tk):
     return None
 
 
-def run(actuators="repo", n_steps=8, zc=0.85, verbose=True, max_time=None, estimated=False, recorder=None):
+def run(actuators="repo", n_steps=8, zc=0.85, verbose=True, max_time=None, estimated=False, recorder=None,
+        turn_rate=0.0, terrain=None, realism=None, qp_backend=None):
     p = repo_actuator_params() if actuators == "repo" else ModelParams()
     # leg flexion that gives CoM height ~= zc (linear fit of the model: bend 0.3 -> 0.906 m, 0.5 -> 0.848 m)
     bend = float(np.clip(0.3 + (0.906 - zc) / (0.906 - 0.848) * 0.2, 0.1, 0.7))
-    S = WBCSim(table=False, params=p, leg_bend=bend)
+    terrain_xml = ""
+    if terrain is not None:
+        from terrain.terrain_xml import terrain_to_xml
+        terrain_xml = terrain_to_xml(terrain)
+    S = WBCSim(table=False, params=p, leg_bend=bend, realism=realism, terrain_xml=terrain_xml)
     w = S.wbc
+    if qp_backend: w.qp_backend = qp_backend
     est = None
     if estimated:
         from simulation.estimated_state import EstimatedState
         est = EstimatedState(S, seed=0, grav_sig=8.0)
     state_fn = (lambda: est.state()) if est else None
-    plan = build_plan(n_steps, zc)
+    plan = build_plan(n_steps, zc, turn_rate=turn_rate, terrain=terrain)
     S.wbc.set_state(*S.robot_state())
     com0 = w.com().copy()
     sole0 = {k: S.d.site_xpos[w.sole[k]].copy() for k in "LR"}
@@ -80,13 +98,17 @@ def run(actuators="repo", n_steps=8, zc=0.85, verbose=True, max_time=None, estim
         idx = lambda arr: np.array([np.interp(tk, plan["t"], arr[:, j]) for j in range(arr.shape[1])])
         c_ref = idx(plan["com"]); cv = idx(plan["com_v"]); ca = idx(plan["com_a"])
         com_des = np.array([com0[0] + c_ref[0], com0[1] + c_ref[1], com0[2]])
+        hd = float(np.interp(tk, plan["t"], plan["heading"])) if "heading" in plan else 0.0
+        if "zc_ref" in plan:                                  # terrain-adaptive CoM height
+            com_des[2] = com0[2] + float(np.interp(tk, plan["t"], plan["zc_ref"])) - zc
+        Rd = _Rz(hd)
         def tasks(wc):
             ts = [wc.task_com(com_des, vcom_des=np.array([cv[0], cv[1], 0.0]), acc_ff=np.array([ca[0], ca[1], 0.0])),
-                  wc.task_torso_orient()]
+                  wc.task_torso_orient(Rd=Rd)]
             if sw is not None:
                 fp = idx(plan["foot"][sw]) + off_foot
                 fp[2] = max(fp[2], 0.0)
-                ts.append(wc.task_foot(sw, fp, vel_des=idx(plan["foot_v"][sw]), acc_ff=idx(plan["foot_a"][sw]), level=2))
+                ts.append(wc.task_foot(sw, fp, vel_des=idx(plan["foot_v"][sw]), acc_ff=idx(plan["foot_a"][sw]), R_des=Rd, level=2))
             ts.append(wc.task_posture(level=3))
             return ts
         if est:
@@ -131,10 +153,15 @@ if __name__ == "__main__":
     ap.add_argument("--steps", type=int, default=8)
     ap.add_argument("--zc", type=float, default=0.85)
     ap.add_argument("--estimated", action="store_true")
+    ap.add_argument("--turn", type=float, default=0.0, help="heading change per step (rad)")
+    ap.add_argument("--terrain", default=None, choices=[None, "step", "ramp", "stairs"])
+    ap.add_argument("--qp", default=None, choices=[None, "osqp", "fast"])
     ap.add_argument("--out", default=None)
     ap.add_argument("--max-time", type=float, default=None)
     a = ap.parse_args()
-    r, S = run(a.actuators, a.steps, zc=a.zc, max_time=a.max_time, estimated=a.estimated)
+    from terrain.terrain_profile import StepTerrain, RampTerrain, StairTerrain
+    terr = {None: None, "step": StepTerrain(0.9, 0.04), "ramp": RampTerrain(0.6, 1.8, 0.06), "stairs": StairTerrain(0.55, 0.28, 0.10, 3)}[a.terrain]
+    r, S = run(a.actuators, a.steps, zc=a.zc, max_time=a.max_time, estimated=a.estimated, turn_rate=a.turn, terrain=terr, qp_backend=a.qp)
     print(json.dumps(r, indent=1))
     if a.out:
         json.dump(r, open(a.out, "w"), indent=1)

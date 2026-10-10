@@ -22,9 +22,14 @@ The model (M, h, Jacobians) comes from MuJoCo (the same engine as the simulator)
 """
 from dataclasses import dataclass, field
 import numpy as np
+import os
 import scipy.sparse as sp
-import osqp
+try:
+    import osqp
+except ImportError:          # the pure-NumPy FastQP backend (control/fast_qp.py) works without it
+    osqp = None
 import mujoco
+from control.fast_qp import FastQP
 
 from model.humanoid_model import (ACTUATED, GRIPPERS, make_model, joint_dadr, joint_qadr, ModelParams,
                                    nominal_q_act)
@@ -46,7 +51,12 @@ class Task:
 
 
 class WholeBodyController:
-    def __init__(self, params: ModelParams = ModelParams(), mu_cmd: float = 0.5, hold_tol: float = 2e-3, leg_bend=None):
+    def __init__(self, params: ModelParams = ModelParams(), mu_cmd: float = 0.5, hold_tol: float = 2e-3, leg_bend=None,
+                 qp_backend=None):
+        # qp_backend: "osqp" (original, new problem every level) | "fast" (cached warm-started dense ADMM, control/fast_qp.py)
+        # default: env HUMANOID_QP, else osqp if installed, else fast
+        self.qp_backend = qp_backend or os.environ.get("HUMANOID_QP") or ("osqp" if osqp is not None else "fast")
+        self._fast = FastQP(eps=1e-6, max_iter=6000)
         self.p = params
         self.m, self.d = make_model(params, table=False)       # controller's private robot-only model
         m = self.m
@@ -268,7 +278,12 @@ class WholeBodyController:
         return dict(nx=nx, nc=nc, pts=pts, Aeq=Aeq, beq=beq, Ain=Ain, lin=lin, uin=uin, lb=lb, ub=ub, M=M, h=h)
 
     def _solve_qp(self, P, q, A, l, u, x0=None):
-        """OSQP with a robust retry ladder (tight+polish -> medium -> loose)."""
+        """OSQP with a robust retry ladder (tight+polish -> medium -> loose); or the warm-started FastQP backend."""
+        if self.qp_backend == "fast":
+            r = self._fast.solve(P, q, A, l, u, key=(P.shape[0], A.shape[0]))
+            if r.info.status_val in (1, 2) and not np.any(np.isnan(r.x)):
+                return r
+            return FastQP(eps=1e-4, max_iter=20000).solve(P, q, A, l, u, x0=x0)
         r = None
         for eps, pol, it in ((1e-6, True, 6000), (1e-5, False, 10000), (1e-4, False, 20000)):
             prob = osqp.OSQP()

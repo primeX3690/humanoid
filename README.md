@@ -1,3 +1,5 @@
+> **v3 update:** see `docs/V3_CHANGES.md` (what was added, what is verified vs untested), `docs/HARDWARE_REPORT.md` and `docs/HARDWARE_HANDOFF.md`.
+
 # Humanoid Locomotion v1 — LIPM + ZMP Preview Control
 
 Part of the same zero-LLM, CPU-only, NumPy-first portfolio as

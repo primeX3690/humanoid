@@ -66,13 +66,16 @@ walk (8 steps, repo actuators, estimated state), pick-up of the red block, push 
 * With the speed limit added, no jump with flight >= 0.2 s is feasible; the feasible 0.15 s cases have ~0 apex gain. **PH54-200 cannot do athletic motion**; it needs ~3-5x faster joints (QDD/low-ratio actuators).
 * Joint-speed check covers the stance phases only; point-mass model; not tracked by the WBC (flight-phase tracking was not built).
 
-### Push recovery (150 ms push at torso height, 25.0 kg model, 130 Nm-class actuators; `results/fullbody/push_recovery_stepping.json`)
+### Push recovery - data of record: `results/fullbody/push_recovery_stepping.json` (130 Nm-class actuators, 25 kg model)
+Earlier revisions of this file carried two contradicting push tables; the second one (claiming lateral stepping fails at every force) was stale.
+The JSON below is what the code actually produced and is the only source this document now follows.
 | Direction | Standing only (WBC ankle/hip strategy) | With capture-point stepping |
 |---|---|---|
-| Forward | 60 N ok, 90 N falls | 90 N ok (3 steps), 120 N ok (2 steps), 150 N and 180 N fall |
-| Backward | 60 N ok, 90 N falls | 90, 120, 150 N ok (150 N: 3 steps, 1.0 m CoM excursion), 180 N falls |
-| **Lateral** | **60 N already falls** | **falls at every tested force (90-180 N) — lateral stepping is NOT solved** |
-Standing-only comparison with a PD joint controller (final model, forward, `wbc_push_sweep_final_model.json`): 50 N both survive (WBC peak 26 mm, PD 57 mm); 60 N WBC recovers fully, PD ends 620 mm off; 70 N and 80 N both fall.
+| Forward | 60 N ok, 90 N falls | 90 N ok (3 steps), 120 N ok (2 steps), 150 / 180 N fall |
+| Backward | 60 N ok, 90 N falls | 90 / 120 N ok (2 steps), 150 N ok (3 steps, ~1.0 m excursion), 180 N falls |
+| Lateral | 60 N and 90 N fall | 60 N ok (1 step), 90 N ok (2 steps, cross-over), 120 / 150 N fall |
+Lateral stepping therefore works up to ~90 N, not beyond; leg-to-leg collision is not modelled in the swing (see `planning/collision_aware_swing.py`, added in v3).
+Standing-only PD vs WBC (final model, forward, `wbc_push_sweep_final_model.json`): 50 N both survive (WBC peak 26 mm, PD 57 mm); 60 N WBC recovers, PD ends 620 mm off; 70/80 N both fall.
 Stepping needed a fix worth knowing: with a strict-priority hierarchy a physically unreachable CoM task freezes the swing leg, so during the swing CoM, torso and swing foot are solved together (weights 1:1:25).
 
 ### Other verified results
@@ -88,7 +91,7 @@ Stepping needed a fix worth knowing: with a strict-priority hierarchy a physical
 
 ## Honest limits
 * Simulation only. Masses of arms, torso, head are my estimates, scaled so the total is 25.0 kg (your budget); geometry of legs/feet matches `LegParams`.
-* Stepping recovery works forward/backward only (flat ground, no turning, LIPM-based); lateral pushes are not recovered. Walking uses the open-loop LIPM plan (no terrain, no turning in the WBC runs).
+* Stepping recovery is LIPM-based on flat ground, no turning: forward/backward up to ~120-150 N, lateral up to ~90 N (cross-over step). Walking uses the open-loop LIPM plan (no terrain, no turning in the WBC runs).
 * Not done on purpose: tracking a jump plan with the WBC — the chosen actuators' joint speed (3.47 rad/s) rules jumping out, so it would prove nothing about the hardware.
 * The default model uses `ModelParams()` (130 Nm legs); `repo_actuator_params()` gives your 44.7 Nm actuators. Windows: EGL is now set only on Linux, no edits needed (not tested on Windows).
 * Walking needs ~3 min of CPU per 10 s of simulated gait (1 core, ~15-25 ms per 5-level QP).

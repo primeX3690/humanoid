@@ -1,0 +1,174 @@
+[
+ {
+  "actuator": "Dynamixel PH54-200-S500-R",
+  "hypothetical": false,
+  "mass_14_actuators_kg": 11.969999999999999,
+  "rows": [
+   {
+    "com_height_m": 0.85,
+    "worst_joint_nm": 52.16166207086141,
+    "peak_speed_rad_s": 2.0909257660079366,
+    "torque_margin_cont": -0.1430487790194409,
+    "torque_margin_at_speed": -0.3199727159729464,
+    "speed_margin": 0.6577460332695433,
+    "feasible": false
+   },
+   {
+    "com_height_m": 0.87,
+    "worst_joint_nm": 47.38841969198617,
+    "peak_speed_rad_s": 2.0962081799696444,
+    "torque_margin_cont": -0.05673157512869764,
+    "torque_margin_at_speed": -0.2543513607865219,
+    "speed_margin": 0.6535685375061047,
+    "feasible": false
+   },
+   {
+    "com_height_m": 0.89,
+    "worst_joint_nm": 42.41640423409786,
+    "peak_speed_rad_s": 2.3956367692153786,
+    "torque_margin_cont": 0.05383756136656204,
+    "torque_margin_at_speed": -0.34901785940487673,
+    "speed_margin": 0.44689042137051493,
+    "feasible": false
+   },
+   {
+    "com_height_m": 0.92,
+    "worst_joint_nm": 35.96049333218177,
+    "peak_speed_rad_s": 3.7021326076673318,
+    "torque_margin_cont": 0.24303077788972027,
+    "torque_margin_at_speed": -1.0,
+    "speed_margin": -0.06372238334143221,
+    "feasible": false
+   }
+  ]
+ },
+ {
+  "actuator": "PH54-200 if 73 Nm peak (distributor figure, UNVERIFIED)",
+  "hypothetical": false,
+  "mass_14_actuators_kg": 11.969999999999999,
+  "rows": [
+   {
+    "com_height_m": 0.85,
+    "worst_joint_nm": 52.16166207086141,
+    "peak_speed_rad_s": 2.0909257660079366,
+    "torque_margin_cont": -0.1430487790194409,
+    "torque_margin_at_speed": 0.1105590991940697,
+    "speed_margin": 0.6577460332695433,
+    "feasible": false
+   },
+   {
+    "com_height_m": 0.87,
+    "worst_joint_nm": 47.38841969198617,
+    "peak_speed_rad_s": 2.0962081799696444,
+    "torque_margin_cont": -0.05673157512869764,
+    "torque_margin_at_speed": 0.21772596560590363,
+    "speed_margin": 0.6535685375061047,
+    "feasible": false
+   },
+   {
+    "com_height_m": 0.89,
+    "worst_joint_nm": 42.41640423409786,
+    "peak_speed_rad_s": 2.3956367692153786,
+    "torque_margin_cont": 0.05383756136656204,
+    "torque_margin_at_speed": 0.06312519605020106,
+    "speed_margin": 0.44689042137051493,
+    "feasible": true
+   },
+   {
+    "com_height_m": 0.92,
+    "worst_joint_nm": 35.96049333218177,
+    "peak_speed_rad_s": 3.7021326076673318,
+    "torque_margin_cont": 0.24303077788972027,
+    "torque_margin_at_speed": -1.0,
+    "speed_margin": -0.06372238334143221,
+    "feasible": false
+   }
+  ]
+ },
+ {
+  "actuator": "HYPOTHETICAL quasi-direct-drive (60 Nm cont / 120 peak / 12 rad/s)",
+  "hypothetical": true,
+  "mass_14_actuators_kg": 19.599999999999998,
+  "rows": [
+   {
+    "com_height_m": 0.85,
+    "worst_joint_nm": 52.16166207086141,
+    "peak_speed_rad_s": 2.0909257660079366,
+    "torque_margin_cont": 0.15027009527591817,
+    "torque_margin_at_speed": 1.3005401905518363,
+    "speed_margin": 4.739084665311093,
+    "feasible": true
+   },
+   {
+    "com_height_m": 0.87,
+    "worst_joint_nm": 47.38841969198617,
+    "peak_speed_rad_s": 2.0962081799696444,
+    "torque_margin_cont": 0.26613211392121117,
+    "torque_margin_at_speed": 1.5322642278424223,
+    "speed_margin": 4.724622255874307,
+    "feasible": true
+   },
+   {
+    "com_height_m": 0.89,
+    "worst_joint_nm": 42.41640423409786,
+    "peak_speed_rad_s": 2.3956367692153786,
+    "torque_margin_cont": 0.4145470622369958,
+    "torque_margin_at_speed": 1.8290941244739916,
+    "speed_margin": 4.009106620086755,
+    "feasible": true
+   },
+   {
+    "com_height_m": 0.92,
+    "worst_joint_nm": 35.96049333218177,
+    "peak_speed_rad_s": 3.7021326076673318,
+    "torque_margin_cont": 0.6684976884425773,
+    "torque_margin_at_speed": 2.3369953768851546,
+    "speed_margin": 2.24137497807272,
+    "feasible": true
+   }
+  ]
+ },
+ {
+  "actuator": "HYPOTHETICAL 70 Nm / 5 rad/s geared",
+  "hypothetical": true,
+  "mass_14_actuators_kg": 25.2,
+  "rows": [
+   {
+    "com_height_m": 0.85,
+    "worst_joint_nm": 52.16166207086141,
+    "peak_speed_rad_s": 2.0909257660079366,
+    "torque_margin_cont": 0.34198177782190453,
+    "torque_margin_at_speed": 0.9171168254598636,
+    "speed_margin": 1.3912852772129556,
+    "feasible": true
+   },
+   {
+    "com_height_m": 0.87,
+    "worst_joint_nm": 47.38841969198617,
+    "peak_speed_rad_s": 2.0962081799696444,
+    "torque_margin_cont": 0.47715413290807973,
+    "torque_margin_at_speed": 1.1102201898686852,
+    "speed_margin": 1.385259273280961,
+    "feasible": true
+   },
+   {
+    "com_height_m": 0.89,
+    "worst_joint_nm": 42.41640423409786,
+    "peak_speed_rad_s": 2.3956367692153786,
+    "torque_margin_cont": 0.6503049059431618,
+    "torque_margin_at_speed": 1.3575784370616595,
+    "speed_margin": 1.0871277583694816,
+    "feasible": true
+   },
+   {
+    "com_height_m": 0.92,
+    "worst_joint_nm": 35.96049333218177,
+    "peak_speed_rad_s": 3.7021326076673318,
+    "torque_margin_cont": 0.9465806365163403,
+    "torque_margin_at_speed": 0.44365916267470196,
+    "speed_margin": 0.3505729075303001,
+    "feasible": true
+   }
+  ]
+ }
+]

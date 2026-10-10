@@ -1,8 +1,11 @@
+import pytest
 """Integration: humanoid-loco LIPM/ZMP plan -> whole-body QP -> MuJoCo full-body humanoid (needs the repo root on the path)."""
 import numpy as np, pytest
 pytest.importorskip("planning.footstep_planner")
 
 
+@pytest.mark.mujoco
+@pytest.mark.slow
 def test_two_step_walk_tracks_lipm_plan_and_lands_on_target():
     from simulation.walk_wbc import run
     r, S = run(actuators="strong", n_steps=2, zc=0.85, verbose=False, max_time=4.0)
