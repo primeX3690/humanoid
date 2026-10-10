@@ -169,11 +169,10 @@ verified numerically, not just asserted:
     the full table and a real infra bug (a background training job's
     final checkpoint never saved) found and fixed along the way.
 12d. Full nonlinear MPC coupling CoM height into horizontal ZMP
-    tracking: **partially solved**. The divergence-to-infinity bug is fixed
-    (stabilizing fallback, longer horizon, state saturation - see
-    docs/BUGS_FOUND.md). Lateral (y) tracking still oscillates (bounded,
-    order +-1 m) and remains an `xfail` in `tests/test_nonlinear_mpc.py`; the
-    linear gain-scheduled controller is still the one to use.
+    tracking: **solved in v3.1** by control/preview_nmpc.py (preview horizon +
+    height-coupled condensed QPs; lateral error 0.037 m). The legacy
+    control/nonlinear_mpc.py keeps its documented xfail (root cause: 0.2 s
+    horizon with a constant ZMP reference - see docs/V3_CHANGES.md).
 12e. ~~The physical hardware itself.~~ Cannot be "solved" in code -
     `actuators/hardware_requirements.py` + `docs/HARDWARE_REQUIREMENTS.md`
     instead derive concrete requirements from everything this project

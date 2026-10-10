@@ -212,7 +212,7 @@ def support_polygon_at(t_query: float, gait: GaitParams, footsteps: list[Footste
             min(ys) - FOOT_WIDTH / 2, max(ys) + FOOT_WIDTH / 2)
 
 
-def foot_target_trajectories(gait: GaitParams, footsteps: list[Footstep]
+def foot_target_trajectories(gait: GaitParams, footsteps: list[Footstep], swing_fn=None
                               ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """Returns (t, left_xyz, right_xyz), each foot's full 3D target
     position (including height) at every sampled time - the per-foot
@@ -271,7 +271,7 @@ def foot_target_trajectories(gait: GaitParams, footsteps: list[Footstep]
             s = (tk - step.start_time) / (step.end_time - step.start_time)
             start_pos = last_pos[side]
             end_pos = np.array([step.x, step.y, step.z])
-            swing_pos = swing_foot_position(s, start_pos, end_pos, swing_params)
+            swing_pos = swing_fn(s, start_pos, end_pos) if swing_fn is not None else swing_foot_position(s, start_pos, end_pos, swing_params)
             if side == "left":
                 left_xyz[k] = swing_pos
                 right_xyz[k] = last_pos["right"]

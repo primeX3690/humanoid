@@ -43,3 +43,21 @@ then send me any failures. The v2 numbers in docs/FULL_BODY.md were NOT re-run b
 1. 30 datasheet actuators = 20 kg of a 25 kg robot: not buildable as specified (see HARDWARE_REPORT.md). Decide: lighter arms/neck, higher mass target, or fewer DoF.
 2. Thermal/backlash/latency numbers are ASSUMED; calibrate on one real joint first (docs/HARDWARE_HANDOFF.md).
 3. Lateral/MPC xfail, hands are 1-DoF grippers, no stairs gait in WBC, no learned policy on the full body.
+
+---
+# v3.1 (second pass: the six open items)
+Same verification rule: pure NumPy modules are tested here (272 tests pass, 0 fail, 10 skipped for missing MuJoCo/torch/CasADi, 1 documented xfail); MuJoCo-side code is checked by `tools/static_check.py` (0 findings
+project-wide), by mock-robot tests (`tests/test_glue_mock.py`), and must be confirmed with ONE command on your machine: `python -m simulation.sim_smoke`.
+
+- **Glue verification:** `tools/static_check.py` (undefined names + wrong imports, proven on a deliberately broken file), `tests/test_glue_mock.py`
+  (PlannedPushRecoveryStepper end-to-end on a mock robot - found and fixed a real gap: uncapturable pushes fell back to the old straight-line swing),
+  `simulation/sim_smoke.py` (model builds, stand, realism, QP backends, v2-vs-planned push table, straight/turn/step/stairs walks, RL self-check, hand).
+- **C - nonlinear MPC fixed:** `control/preview_nmpc.py`. Root cause of the old +-1 m lateral oscillation: 0.2 s horizon with a CONSTANT ZMP reference
+  (no preview). New: 1.6 s preview, condensed QPs per axis with height-coupled coefficients, alternating height optimisation. Lateral error 0.037 m, ZMP in support 100 %.
+- **D - mass blocker:** `hardware/design_search.py`, `tools/design_search.py`, `model/design_v3.py`, `docs/DESIGN_DECISION.md` (answer: ~28 kg robot + stronger knee).
+- **B - stairs:** `terrain.StairTerrain`, `trajectory/stair_swing.py` (lift-first swing; legacy swing clips the nosing, new one clears it), `planning/stairs_reference.py`
+  (step-to gait, NMPC CoM with height), `walk_wbc --terrain stairs`, stair XML.
+- **B - dexterous hand:** `model/hand_model.py` (+ `build_xml(hand="dexterous")`, 11 DoF/hand added after the jaws, default model unchanged), `manipulation/hand/`
+  (finger kinematics, force closure, epsilon quality, force distribution, power-grasp planner).
+- **A - full-body RL:** `rl/fullbody_env.py` (30-DoF real model, actuator realism, domain randomization, pushes, biped reward-hacking guards, NumPy fake backend for tests),
+  `rl/train_fullbody.py` (curriculum stand -> push -> walk -> robust). Run `python -m rl.fullbody_env --selfcheck` BEFORE training: PD gains are ASSUMED.

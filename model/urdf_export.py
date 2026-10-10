@@ -13,12 +13,17 @@ import numpy as np
 import xml.etree.ElementTree as ET
 
 
-def build_default_mjcf(params=None, **kw) -> str:
+def ensure_importable():
+    """humanoid_model imports mujoco at module level but build_xml/ModelParams never call it: stub it if MuJoCo is absent."""
     if "mujoco" not in sys.modules:
         try:
             import mujoco  # noqa: F401
         except ImportError:
-            sys.modules["mujoco"] = types.ModuleType("mujoco")      # build_xml is plain string generation; it never calls MuJoCo
+            sys.modules["mujoco"] = types.ModuleType("mujoco")
+
+
+def build_default_mjcf(params=None, **kw) -> str:
+    ensure_importable()
     from model.humanoid_model import build_xml, ModelParams
     return build_xml(params or ModelParams(), table=False, **kw)
 

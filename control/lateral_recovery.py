@@ -119,10 +119,11 @@ def plan_recovery(com_xy, vel_xy, stance_xy, swing_xy, p: RecoveryParams | None 
     if best is None:
         return dict(feasible=False, reason="swing foot too slow for any placement")
     out = dict(best, feasible=best["margin"] >= p.margin_req, xi0=xi0, cop=cop, side=side)
-    if verify_path and out["feasible"]:
+    if verify_path:      # also for best-effort (margin < 0) plans: even a step that cannot fully capture should still be collision-free
         sp = plan_collision_free_swing(np.r_[sw, 0.0], np.r_[best["target"], 0.0], np.r_[st, 0.0], T=max(best["T"] - p.t_lift, 0.1), g=p.geom)
         out["swing"] = sp
-        if not sp.feasible: out["feasible"] = False; out["reason"] = "swing path not collision-free"
+        if not sp.feasible:
+            out["feasible"] = False; out["reason"] = "swing path not collision-free"
     return out
 
 
