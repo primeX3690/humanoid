@@ -54,8 +54,8 @@ def swing_side(plan, tk):
 
 
 def run(actuators="repo", n_steps=8, zc=0.85, verbose=True, max_time=None, estimated=False, recorder=None,
-        turn_rate=0.0, terrain=None, realism=None, qp_backend=None):
-    p = repo_actuator_params() if actuators == "repo" else ModelParams()
+        turn_rate=0.0, terrain=None, realism=None, qp_backend=None, params=None):
+    p = params if params is not None else (repo_actuator_params() if actuators == "repo" else ModelParams())
     # leg flexion that gives CoM height ~= zc (linear fit of the model: bend 0.3 -> 0.906 m, 0.5 -> 0.848 m)
     bend = float(np.clip(0.3 + (0.906 - zc) / (0.906 - 0.848) * 0.2, 0.1, 0.7))
     terrain_xml = ""

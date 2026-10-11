@@ -1,0 +1,2816 @@
+[
+ {
+  "closes": false,
+  "M": 25,
+  "actuator_kg": 19.176,
+  "structure_kg": 2.4240000000000017,
+  "structure_pct": 9.696000000000007,
+  "choice": {
+   "hip": "PH54-100",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-100",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": "XM430",
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 54.24812855369587,
+  "unverified": [
+   "QDD-hyp",
+   "XM540",
+   "XM430",
+   "XM430"
+  ],
+  "zc": 0.85,
+  "struct_frac": 0.2,
+  "dof": "full 30 DoF"
+ },
+ {
+  "closes": false,
+  "M": 25,
+  "actuator_kg": 18.684,
+  "structure_kg": 2.9159999999999986,
+  "structure_pct": 11.663999999999994,
+  "choice": {
+   "hip": "PH54-100",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-100",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 54.24812855369587,
+  "unverified": [
+   "QDD-hyp",
+   "XM540",
+   "XM430"
+  ],
+  "zc": 0.85,
+  "struct_frac": 0.2,
+  "dof": "no wrists (24)"
+ },
+ {
+  "closes": false,
+  "M": 25,
+  "actuator_kg": 18.52,
+  "structure_kg": 3.08,
+  "structure_pct": 12.32,
+  "choice": {
+   "hip": "PH54-100",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-100",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": null
+  },
+  "knee_peak_needed": 54.24812855369587,
+  "unverified": [
+   "QDD-hyp",
+   "XM540"
+  ],
+  "zc": 0.85,
+  "struct_frac": 0.2,
+  "dof": "no wrists, no neck (22)"
+ },
+ {
+  "closes": false,
+  "M": 25,
+  "actuator_kg": 19.176,
+  "structure_kg": 2.4240000000000017,
+  "structure_pct": 9.696000000000007,
+  "choice": {
+   "hip": "PH54-100",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-100",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": "XM430",
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 54.24812855369587,
+  "unverified": [
+   "QDD-hyp",
+   "XM540",
+   "XM430",
+   "XM430"
+  ],
+  "zc": 0.85,
+  "struct_frac": 0.25,
+  "dof": "full 30 DoF"
+ },
+ {
+  "closes": false,
+  "M": 25,
+  "actuator_kg": 18.684,
+  "structure_kg": 2.9159999999999986,
+  "structure_pct": 11.663999999999994,
+  "choice": {
+   "hip": "PH54-100",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-100",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 54.24812855369587,
+  "unverified": [
+   "QDD-hyp",
+   "XM540",
+   "XM430"
+  ],
+  "zc": 0.85,
+  "struct_frac": 0.25,
+  "dof": "no wrists (24)"
+ },
+ {
+  "closes": false,
+  "M": 25,
+  "actuator_kg": 18.52,
+  "structure_kg": 3.08,
+  "structure_pct": 12.32,
+  "choice": {
+   "hip": "PH54-100",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-100",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": null
+  },
+  "knee_peak_needed": 54.24812855369587,
+  "unverified": [
+   "QDD-hyp",
+   "XM540"
+  ],
+  "zc": 0.85,
+  "struct_frac": 0.25,
+  "dof": "no wrists, no neck (22)"
+ },
+ {
+  "closes": false,
+  "M": 25,
+  "actuator_kg": 18.086,
+  "structure_kg": 3.514000000000001,
+  "structure_pct": 14.056000000000004,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "PH54-200",
+   "ankle": "PH54-100",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": "XM430",
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 44.11306040346178,
+  "unverified": [
+   "XM540",
+   "XM430",
+   "XM430"
+  ],
+  "zc": 0.89,
+  "struct_frac": 0.2,
+  "dof": "full 30 DoF"
+ },
+ {
+  "closes": false,
+  "M": 25,
+  "actuator_kg": 17.594,
+  "structure_kg": 4.0059999999999985,
+  "structure_pct": 16.023999999999994,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "PH54-200",
+   "ankle": "PH54-100",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 44.11306040346178,
+  "unverified": [
+   "XM540",
+   "XM430"
+  ],
+  "zc": 0.89,
+  "struct_frac": 0.2,
+  "dof": "no wrists (24)"
+ },
+ {
+  "closes": false,
+  "M": 25,
+  "actuator_kg": 17.43,
+  "structure_kg": 4.17,
+  "structure_pct": 16.68,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "PH54-200",
+   "ankle": "PH54-100",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": null
+  },
+  "knee_peak_needed": 44.11306040346178,
+  "unverified": [
+   "XM540"
+  ],
+  "zc": 0.89,
+  "struct_frac": 0.2,
+  "dof": "no wrists, no neck (22)"
+ },
+ {
+  "closes": false,
+  "M": 25,
+  "actuator_kg": 18.086,
+  "structure_kg": 3.514000000000001,
+  "structure_pct": 14.056000000000004,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "PH54-200",
+   "ankle": "PH54-100",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": "XM430",
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 44.11306040346178,
+  "unverified": [
+   "XM540",
+   "XM430",
+   "XM430"
+  ],
+  "zc": 0.89,
+  "struct_frac": 0.25,
+  "dof": "full 30 DoF"
+ },
+ {
+  "closes": false,
+  "M": 25,
+  "actuator_kg": 17.594,
+  "structure_kg": 4.0059999999999985,
+  "structure_pct": 16.023999999999994,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "PH54-200",
+   "ankle": "PH54-100",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 44.11306040346178,
+  "unverified": [
+   "XM540",
+   "XM430"
+  ],
+  "zc": 0.89,
+  "struct_frac": 0.25,
+  "dof": "no wrists (24)"
+ },
+ {
+  "closes": false,
+  "M": 25,
+  "actuator_kg": 17.43,
+  "structure_kg": 4.17,
+  "structure_pct": 16.68,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "PH54-200",
+   "ankle": "PH54-100",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": null
+  },
+  "knee_peak_needed": 44.11306040346178,
+  "unverified": [
+   "XM540"
+  ],
+  "zc": 0.89,
+  "struct_frac": 0.25,
+  "dof": "no wrists, no neck (22)"
+ },
+ {
+  "closes": false,
+  "M": 25,
+  "actuator_kg": 26.005999999999997,
+  "structure_kg": -4.405999999999997,
+  "structure_pct": -17.623999999999988,
+  "choice": {
+   "hip": "QDD-hyp",
+   "knee": "QDD-hyp",
+   "ankle": "QDD-hyp",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": "XM430",
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 37.39891306546904,
+  "unverified": [
+   "QDD-hyp",
+   "QDD-hyp",
+   "QDD-hyp",
+   "XM430",
+   "XM430"
+  ],
+  "zc": 0.92,
+  "struct_frac": 0.2,
+  "dof": "full 30 DoF"
+ },
+ {
+  "closes": false,
+  "M": 25,
+  "actuator_kg": 25.514,
+  "structure_kg": -3.9139999999999993,
+  "structure_pct": -15.655999999999997,
+  "choice": {
+   "hip": "QDD-hyp",
+   "knee": "QDD-hyp",
+   "ankle": "QDD-hyp",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 37.39891306546904,
+  "unverified": [
+   "QDD-hyp",
+   "QDD-hyp",
+   "QDD-hyp",
+   "XM430"
+  ],
+  "zc": 0.92,
+  "struct_frac": 0.2,
+  "dof": "no wrists (24)"
+ },
+ {
+  "closes": false,
+  "M": 25,
+  "actuator_kg": 25.349999999999998,
+  "structure_kg": -3.749999999999998,
+  "structure_pct": -14.999999999999991,
+  "choice": {
+   "hip": "QDD-hyp",
+   "knee": "QDD-hyp",
+   "ankle": "QDD-hyp",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": null
+  },
+  "knee_peak_needed": 37.39891306546904,
+  "unverified": [
+   "QDD-hyp",
+   "QDD-hyp",
+   "QDD-hyp"
+  ],
+  "zc": 0.92,
+  "struct_frac": 0.2,
+  "dof": "no wrists, no neck (22)"
+ },
+ {
+  "closes": false,
+  "M": 25,
+  "actuator_kg": 26.005999999999997,
+  "structure_kg": -4.405999999999997,
+  "structure_pct": -17.623999999999988,
+  "choice": {
+   "hip": "QDD-hyp",
+   "knee": "QDD-hyp",
+   "ankle": "QDD-hyp",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": "XM430",
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 37.39891306546904,
+  "unverified": [
+   "QDD-hyp",
+   "QDD-hyp",
+   "QDD-hyp",
+   "XM430",
+   "XM430"
+  ],
+  "zc": 0.92,
+  "struct_frac": 0.25,
+  "dof": "full 30 DoF"
+ },
+ {
+  "closes": false,
+  "M": 25,
+  "actuator_kg": 25.514,
+  "structure_kg": -3.9139999999999993,
+  "structure_pct": -15.655999999999997,
+  "choice": {
+   "hip": "QDD-hyp",
+   "knee": "QDD-hyp",
+   "ankle": "QDD-hyp",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 37.39891306546904,
+  "unverified": [
+   "QDD-hyp",
+   "QDD-hyp",
+   "QDD-hyp",
+   "XM430"
+  ],
+  "zc": 0.92,
+  "struct_frac": 0.25,
+  "dof": "no wrists (24)"
+ },
+ {
+  "closes": false,
+  "M": 25,
+  "actuator_kg": 25.349999999999998,
+  "structure_kg": -3.749999999999998,
+  "structure_pct": -14.999999999999991,
+  "choice": {
+   "hip": "QDD-hyp",
+   "knee": "QDD-hyp",
+   "ankle": "QDD-hyp",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": null
+  },
+  "knee_peak_needed": 37.39891306546904,
+  "unverified": [
+   "QDD-hyp",
+   "QDD-hyp",
+   "QDD-hyp"
+  ],
+  "zc": 0.92,
+  "struct_frac": 0.25,
+  "dof": "no wrists, no neck (22)"
+ },
+ {
+  "closes": false,
+  "M": 28,
+  "actuator_kg": 19.176,
+  "structure_kg": 5.424000000000001,
+  "structure_pct": 19.371428571428574,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": "XM430",
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 60.75790398013937,
+  "unverified": [
+   "QDD-hyp",
+   "XM540",
+   "XM430",
+   "XM430"
+  ],
+  "zc": 0.85,
+  "struct_frac": 0.2,
+  "dof": "full 30 DoF"
+ },
+ {
+  "closes": true,
+  "M": 28,
+  "actuator_kg": 18.684,
+  "structure_kg": 5.915999999999999,
+  "structure_pct": 21.128571428571426,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 60.75790398013937,
+  "unverified": [
+   "QDD-hyp",
+   "XM540",
+   "XM430"
+  ],
+  "zc": 0.85,
+  "struct_frac": 0.2,
+  "dof": "no wrists (24)"
+ },
+ {
+  "closes": true,
+  "M": 28,
+  "actuator_kg": 18.52,
+  "structure_kg": 6.08,
+  "structure_pct": 21.714285714285715,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": null
+  },
+  "knee_peak_needed": 60.75790398013937,
+  "unverified": [
+   "QDD-hyp",
+   "XM540"
+  ],
+  "zc": 0.85,
+  "struct_frac": 0.2,
+  "dof": "no wrists, no neck (22)"
+ },
+ {
+  "closes": false,
+  "M": 28,
+  "actuator_kg": 19.176,
+  "structure_kg": 5.424000000000001,
+  "structure_pct": 19.371428571428574,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": "XM430",
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 60.75790398013937,
+  "unverified": [
+   "QDD-hyp",
+   "XM540",
+   "XM430",
+   "XM430"
+  ],
+  "zc": 0.85,
+  "struct_frac": 0.25,
+  "dof": "full 30 DoF"
+ },
+ {
+  "closes": false,
+  "M": 28,
+  "actuator_kg": 18.684,
+  "structure_kg": 5.915999999999999,
+  "structure_pct": 21.128571428571426,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 60.75790398013937,
+  "unverified": [
+   "QDD-hyp",
+   "XM540",
+   "XM430"
+  ],
+  "zc": 0.85,
+  "struct_frac": 0.25,
+  "dof": "no wrists (24)"
+ },
+ {
+  "closes": false,
+  "M": 28,
+  "actuator_kg": 18.52,
+  "structure_kg": 6.08,
+  "structure_pct": 21.714285714285715,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": null
+  },
+  "knee_peak_needed": 60.75790398013937,
+  "unverified": [
+   "QDD-hyp",
+   "XM540"
+  ],
+  "zc": 0.85,
+  "struct_frac": 0.25,
+  "dof": "no wrists, no neck (22)"
+ },
+ {
+  "closes": false,
+  "M": 28,
+  "actuator_kg": 19.176,
+  "structure_kg": 5.424000000000001,
+  "structure_pct": 19.371428571428574,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-100",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": "XM430",
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 49.40662765187719,
+  "unverified": [
+   "QDD-hyp",
+   "XM540",
+   "XM430",
+   "XM430"
+  ],
+  "zc": 0.89,
+  "struct_frac": 0.2,
+  "dof": "full 30 DoF"
+ },
+ {
+  "closes": true,
+  "M": 28,
+  "actuator_kg": 18.684,
+  "structure_kg": 5.915999999999999,
+  "structure_pct": 21.128571428571426,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-100",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 49.40662765187719,
+  "unverified": [
+   "QDD-hyp",
+   "XM540",
+   "XM430"
+  ],
+  "zc": 0.89,
+  "struct_frac": 0.2,
+  "dof": "no wrists (24)"
+ },
+ {
+  "closes": true,
+  "M": 28,
+  "actuator_kg": 18.52,
+  "structure_kg": 6.08,
+  "structure_pct": 21.714285714285715,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-100",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": null
+  },
+  "knee_peak_needed": 49.40662765187719,
+  "unverified": [
+   "QDD-hyp",
+   "XM540"
+  ],
+  "zc": 0.89,
+  "struct_frac": 0.2,
+  "dof": "no wrists, no neck (22)"
+ },
+ {
+  "closes": false,
+  "M": 28,
+  "actuator_kg": 19.176,
+  "structure_kg": 5.424000000000001,
+  "structure_pct": 19.371428571428574,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-100",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": "XM430",
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 49.40662765187719,
+  "unverified": [
+   "QDD-hyp",
+   "XM540",
+   "XM430",
+   "XM430"
+  ],
+  "zc": 0.89,
+  "struct_frac": 0.25,
+  "dof": "full 30 DoF"
+ },
+ {
+  "closes": false,
+  "M": 28,
+  "actuator_kg": 18.684,
+  "structure_kg": 5.915999999999999,
+  "structure_pct": 21.128571428571426,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-100",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 49.40662765187719,
+  "unverified": [
+   "QDD-hyp",
+   "XM540",
+   "XM430"
+  ],
+  "zc": 0.89,
+  "struct_frac": 0.25,
+  "dof": "no wrists (24)"
+ },
+ {
+  "closes": false,
+  "M": 28,
+  "actuator_kg": 18.52,
+  "structure_kg": 6.08,
+  "structure_pct": 21.714285714285715,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-100",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": null
+  },
+  "knee_peak_needed": 49.40662765187719,
+  "unverified": [
+   "QDD-hyp",
+   "XM540"
+  ],
+  "zc": 0.89,
+  "struct_frac": 0.25,
+  "dof": "no wrists, no neck (22)"
+ },
+ {
+  "closes": false,
+  "M": 28,
+  "actuator_kg": 26.005999999999997,
+  "structure_kg": -1.4059999999999966,
+  "structure_pct": -5.021428571428559,
+  "choice": {
+   "hip": "QDD-hyp",
+   "knee": "QDD-hyp",
+   "ankle": "QDD-hyp",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": "XM430",
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 41.886782633325325,
+  "unverified": [
+   "QDD-hyp",
+   "QDD-hyp",
+   "QDD-hyp",
+   "XM430",
+   "XM430"
+  ],
+  "zc": 0.92,
+  "struct_frac": 0.2,
+  "dof": "full 30 DoF"
+ },
+ {
+  "closes": false,
+  "M": 28,
+  "actuator_kg": 25.514,
+  "structure_kg": -0.9139999999999994,
+  "structure_pct": -3.264285714285712,
+  "choice": {
+   "hip": "QDD-hyp",
+   "knee": "QDD-hyp",
+   "ankle": "QDD-hyp",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 41.886782633325325,
+  "unverified": [
+   "QDD-hyp",
+   "QDD-hyp",
+   "QDD-hyp",
+   "XM430"
+  ],
+  "zc": 0.92,
+  "struct_frac": 0.2,
+  "dof": "no wrists (24)"
+ },
+ {
+  "closes": false,
+  "M": 28,
+  "actuator_kg": 25.349999999999998,
+  "structure_kg": -0.7499999999999979,
+  "structure_pct": -2.678571428571421,
+  "choice": {
+   "hip": "QDD-hyp",
+   "knee": "QDD-hyp",
+   "ankle": "QDD-hyp",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": null
+  },
+  "knee_peak_needed": 41.886782633325325,
+  "unverified": [
+   "QDD-hyp",
+   "QDD-hyp",
+   "QDD-hyp"
+  ],
+  "zc": 0.92,
+  "struct_frac": 0.2,
+  "dof": "no wrists, no neck (22)"
+ },
+ {
+  "closes": false,
+  "M": 28,
+  "actuator_kg": 26.005999999999997,
+  "structure_kg": -1.4059999999999966,
+  "structure_pct": -5.021428571428559,
+  "choice": {
+   "hip": "QDD-hyp",
+   "knee": "QDD-hyp",
+   "ankle": "QDD-hyp",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": "XM430",
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 41.886782633325325,
+  "unverified": [
+   "QDD-hyp",
+   "QDD-hyp",
+   "QDD-hyp",
+   "XM430",
+   "XM430"
+  ],
+  "zc": 0.92,
+  "struct_frac": 0.25,
+  "dof": "full 30 DoF"
+ },
+ {
+  "closes": false,
+  "M": 28,
+  "actuator_kg": 25.514,
+  "structure_kg": -0.9139999999999994,
+  "structure_pct": -3.264285714285712,
+  "choice": {
+   "hip": "QDD-hyp",
+   "knee": "QDD-hyp",
+   "ankle": "QDD-hyp",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 41.886782633325325,
+  "unverified": [
+   "QDD-hyp",
+   "QDD-hyp",
+   "QDD-hyp",
+   "XM430"
+  ],
+  "zc": 0.92,
+  "struct_frac": 0.25,
+  "dof": "no wrists (24)"
+ },
+ {
+  "closes": false,
+  "M": 28,
+  "actuator_kg": 25.349999999999998,
+  "structure_kg": -0.7499999999999979,
+  "structure_pct": -2.678571428571421,
+  "choice": {
+   "hip": "QDD-hyp",
+   "knee": "QDD-hyp",
+   "ankle": "QDD-hyp",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": null
+  },
+  "knee_peak_needed": 41.886782633325325,
+  "unverified": [
+   "QDD-hyp",
+   "QDD-hyp",
+   "QDD-hyp"
+  ],
+  "zc": 0.92,
+  "struct_frac": 0.25,
+  "dof": "no wrists, no neck (22)"
+ },
+ {
+  "closes": true,
+  "M": 30,
+  "actuator_kg": 19.176,
+  "structure_kg": 7.424000000000001,
+  "structure_pct": 24.74666666666667,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": "XM430",
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 65.09775426443504,
+  "unverified": [
+   "QDD-hyp",
+   "XM540",
+   "XM430",
+   "XM430"
+  ],
+  "zc": 0.85,
+  "struct_frac": 0.2,
+  "dof": "full 30 DoF"
+ },
+ {
+  "closes": true,
+  "M": 30,
+  "actuator_kg": 18.684,
+  "structure_kg": 7.915999999999999,
+  "structure_pct": 26.386666666666663,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 65.09775426443504,
+  "unverified": [
+   "QDD-hyp",
+   "XM540",
+   "XM430"
+  ],
+  "zc": 0.85,
+  "struct_frac": 0.2,
+  "dof": "no wrists (24)"
+ },
+ {
+  "closes": true,
+  "M": 30,
+  "actuator_kg": 18.52,
+  "structure_kg": 8.08,
+  "structure_pct": 26.933333333333334,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": null
+  },
+  "knee_peak_needed": 65.09775426443504,
+  "unverified": [
+   "QDD-hyp",
+   "XM540"
+  ],
+  "zc": 0.85,
+  "struct_frac": 0.2,
+  "dof": "no wrists, no neck (22)"
+ },
+ {
+  "closes": false,
+  "M": 30,
+  "actuator_kg": 19.176,
+  "structure_kg": 7.424000000000001,
+  "structure_pct": 24.74666666666667,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": "XM430",
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 65.09775426443504,
+  "unverified": [
+   "QDD-hyp",
+   "XM540",
+   "XM430",
+   "XM430"
+  ],
+  "zc": 0.85,
+  "struct_frac": 0.25,
+  "dof": "full 30 DoF"
+ },
+ {
+  "closes": true,
+  "M": 30,
+  "actuator_kg": 18.684,
+  "structure_kg": 7.915999999999999,
+  "structure_pct": 26.386666666666663,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 65.09775426443504,
+  "unverified": [
+   "QDD-hyp",
+   "XM540",
+   "XM430"
+  ],
+  "zc": 0.85,
+  "struct_frac": 0.25,
+  "dof": "no wrists (24)"
+ },
+ {
+  "closes": true,
+  "M": 30,
+  "actuator_kg": 18.52,
+  "structure_kg": 8.08,
+  "structure_pct": 26.933333333333334,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": null
+  },
+  "knee_peak_needed": 65.09775426443504,
+  "unverified": [
+   "QDD-hyp",
+   "XM540"
+  ],
+  "zc": 0.85,
+  "struct_frac": 0.25,
+  "dof": "no wrists, no neck (22)"
+ },
+ {
+  "closes": true,
+  "M": 30,
+  "actuator_kg": 19.176,
+  "structure_kg": 7.424000000000001,
+  "structure_pct": 24.74666666666667,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": "XM430",
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 52.93567248415413,
+  "unverified": [
+   "QDD-hyp",
+   "XM540",
+   "XM430",
+   "XM430"
+  ],
+  "zc": 0.89,
+  "struct_frac": 0.2,
+  "dof": "full 30 DoF"
+ },
+ {
+  "closes": true,
+  "M": 30,
+  "actuator_kg": 18.684,
+  "structure_kg": 7.915999999999999,
+  "structure_pct": 26.386666666666663,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 52.93567248415413,
+  "unverified": [
+   "QDD-hyp",
+   "XM540",
+   "XM430"
+  ],
+  "zc": 0.89,
+  "struct_frac": 0.2,
+  "dof": "no wrists (24)"
+ },
+ {
+  "closes": true,
+  "M": 30,
+  "actuator_kg": 18.52,
+  "structure_kg": 8.08,
+  "structure_pct": 26.933333333333334,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": null
+  },
+  "knee_peak_needed": 52.93567248415413,
+  "unverified": [
+   "QDD-hyp",
+   "XM540"
+  ],
+  "zc": 0.89,
+  "struct_frac": 0.2,
+  "dof": "no wrists, no neck (22)"
+ },
+ {
+  "closes": false,
+  "M": 30,
+  "actuator_kg": 19.176,
+  "structure_kg": 7.424000000000001,
+  "structure_pct": 24.74666666666667,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": "XM430",
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 52.93567248415413,
+  "unverified": [
+   "QDD-hyp",
+   "XM540",
+   "XM430",
+   "XM430"
+  ],
+  "zc": 0.89,
+  "struct_frac": 0.25,
+  "dof": "full 30 DoF"
+ },
+ {
+  "closes": true,
+  "M": 30,
+  "actuator_kg": 18.684,
+  "structure_kg": 7.915999999999999,
+  "structure_pct": 26.386666666666663,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 52.93567248415413,
+  "unverified": [
+   "QDD-hyp",
+   "XM540",
+   "XM430"
+  ],
+  "zc": 0.89,
+  "struct_frac": 0.25,
+  "dof": "no wrists (24)"
+ },
+ {
+  "closes": true,
+  "M": 30,
+  "actuator_kg": 18.52,
+  "structure_kg": 8.08,
+  "structure_pct": 26.933333333333334,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": null
+  },
+  "knee_peak_needed": 52.93567248415413,
+  "unverified": [
+   "QDD-hyp",
+   "XM540"
+  ],
+  "zc": 0.89,
+  "struct_frac": 0.25,
+  "dof": "no wrists, no neck (22)"
+ },
+ {
+  "closes": false,
+  "M": 30,
+  "actuator_kg": 26.005999999999997,
+  "structure_kg": 0.5940000000000034,
+  "structure_pct": 1.9800000000000113,
+  "choice": {
+   "hip": "QDD-hyp",
+   "knee": "QDD-hyp",
+   "ankle": "QDD-hyp",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": "XM430",
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 44.878695678562856,
+  "unverified": [
+   "QDD-hyp",
+   "QDD-hyp",
+   "QDD-hyp",
+   "XM430",
+   "XM430"
+  ],
+  "zc": 0.92,
+  "struct_frac": 0.2,
+  "dof": "full 30 DoF"
+ },
+ {
+  "closes": false,
+  "M": 30,
+  "actuator_kg": 25.514,
+  "structure_kg": 1.0860000000000007,
+  "structure_pct": 3.6200000000000028,
+  "choice": {
+   "hip": "QDD-hyp",
+   "knee": "QDD-hyp",
+   "ankle": "QDD-hyp",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 44.878695678562856,
+  "unverified": [
+   "QDD-hyp",
+   "QDD-hyp",
+   "QDD-hyp",
+   "XM430"
+  ],
+  "zc": 0.92,
+  "struct_frac": 0.2,
+  "dof": "no wrists (24)"
+ },
+ {
+  "closes": false,
+  "M": 30,
+  "actuator_kg": 25.349999999999998,
+  "structure_kg": 1.2500000000000022,
+  "structure_pct": 4.166666666666674,
+  "choice": {
+   "hip": "QDD-hyp",
+   "knee": "QDD-hyp",
+   "ankle": "QDD-hyp",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": null
+  },
+  "knee_peak_needed": 44.878695678562856,
+  "unverified": [
+   "QDD-hyp",
+   "QDD-hyp",
+   "QDD-hyp"
+  ],
+  "zc": 0.92,
+  "struct_frac": 0.2,
+  "dof": "no wrists, no neck (22)"
+ },
+ {
+  "closes": false,
+  "M": 30,
+  "actuator_kg": 26.005999999999997,
+  "structure_kg": 0.5940000000000034,
+  "structure_pct": 1.9800000000000113,
+  "choice": {
+   "hip": "QDD-hyp",
+   "knee": "QDD-hyp",
+   "ankle": "QDD-hyp",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": "XM430",
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 44.878695678562856,
+  "unverified": [
+   "QDD-hyp",
+   "QDD-hyp",
+   "QDD-hyp",
+   "XM430",
+   "XM430"
+  ],
+  "zc": 0.92,
+  "struct_frac": 0.25,
+  "dof": "full 30 DoF"
+ },
+ {
+  "closes": false,
+  "M": 30,
+  "actuator_kg": 25.514,
+  "structure_kg": 1.0860000000000007,
+  "structure_pct": 3.6200000000000028,
+  "choice": {
+   "hip": "QDD-hyp",
+   "knee": "QDD-hyp",
+   "ankle": "QDD-hyp",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 44.878695678562856,
+  "unverified": [
+   "QDD-hyp",
+   "QDD-hyp",
+   "QDD-hyp",
+   "XM430"
+  ],
+  "zc": 0.92,
+  "struct_frac": 0.25,
+  "dof": "no wrists (24)"
+ },
+ {
+  "closes": false,
+  "M": 30,
+  "actuator_kg": 25.349999999999998,
+  "structure_kg": 1.2500000000000022,
+  "structure_pct": 4.166666666666674,
+  "choice": {
+   "hip": "QDD-hyp",
+   "knee": "QDD-hyp",
+   "ankle": "QDD-hyp",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": null
+  },
+  "knee_peak_needed": 44.878695678562856,
+  "unverified": [
+   "QDD-hyp",
+   "QDD-hyp",
+   "QDD-hyp"
+  ],
+  "zc": 0.92,
+  "struct_frac": 0.25,
+  "dof": "no wrists, no neck (22)"
+ },
+ {
+  "closes": true,
+  "M": 32,
+  "actuator_kg": 19.176,
+  "structure_kg": 9.424000000000001,
+  "structure_pct": 29.450000000000003,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": "XM430",
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 69.43760454873072,
+  "unverified": [
+   "QDD-hyp",
+   "XM540",
+   "XM430",
+   "XM430"
+  ],
+  "zc": 0.85,
+  "struct_frac": 0.2,
+  "dof": "full 30 DoF"
+ },
+ {
+  "closes": true,
+  "M": 32,
+  "actuator_kg": 18.684,
+  "structure_kg": 9.915999999999999,
+  "structure_pct": 30.987499999999997,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 69.43760454873072,
+  "unverified": [
+   "QDD-hyp",
+   "XM540",
+   "XM430"
+  ],
+  "zc": 0.85,
+  "struct_frac": 0.2,
+  "dof": "no wrists (24)"
+ },
+ {
+  "closes": true,
+  "M": 32,
+  "actuator_kg": 18.52,
+  "structure_kg": 10.08,
+  "structure_pct": 31.5,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": null
+  },
+  "knee_peak_needed": 69.43760454873072,
+  "unverified": [
+   "QDD-hyp",
+   "XM540"
+  ],
+  "zc": 0.85,
+  "struct_frac": 0.2,
+  "dof": "no wrists, no neck (22)"
+ },
+ {
+  "closes": true,
+  "M": 32,
+  "actuator_kg": 19.176,
+  "structure_kg": 9.424000000000001,
+  "structure_pct": 29.450000000000003,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": "XM430",
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 69.43760454873072,
+  "unverified": [
+   "QDD-hyp",
+   "XM540",
+   "XM430",
+   "XM430"
+  ],
+  "zc": 0.85,
+  "struct_frac": 0.25,
+  "dof": "full 30 DoF"
+ },
+ {
+  "closes": true,
+  "M": 32,
+  "actuator_kg": 18.684,
+  "structure_kg": 9.915999999999999,
+  "structure_pct": 30.987499999999997,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 69.43760454873072,
+  "unverified": [
+   "QDD-hyp",
+   "XM540",
+   "XM430"
+  ],
+  "zc": 0.85,
+  "struct_frac": 0.25,
+  "dof": "no wrists (24)"
+ },
+ {
+  "closes": true,
+  "M": 32,
+  "actuator_kg": 18.52,
+  "structure_kg": 10.08,
+  "structure_pct": 31.5,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": null
+  },
+  "knee_peak_needed": 69.43760454873072,
+  "unverified": [
+   "QDD-hyp",
+   "XM540"
+  ],
+  "zc": 0.85,
+  "struct_frac": 0.25,
+  "dof": "no wrists, no neck (22)"
+ },
+ {
+  "closes": true,
+  "M": 32,
+  "actuator_kg": 19.176,
+  "structure_kg": 9.424000000000001,
+  "structure_pct": 29.450000000000003,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": "XM430",
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 56.46471731643107,
+  "unverified": [
+   "QDD-hyp",
+   "XM540",
+   "XM430",
+   "XM430"
+  ],
+  "zc": 0.89,
+  "struct_frac": 0.2,
+  "dof": "full 30 DoF"
+ },
+ {
+  "closes": true,
+  "M": 32,
+  "actuator_kg": 18.684,
+  "structure_kg": 9.915999999999999,
+  "structure_pct": 30.987499999999997,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 56.46471731643107,
+  "unverified": [
+   "QDD-hyp",
+   "XM540",
+   "XM430"
+  ],
+  "zc": 0.89,
+  "struct_frac": 0.2,
+  "dof": "no wrists (24)"
+ },
+ {
+  "closes": true,
+  "M": 32,
+  "actuator_kg": 18.52,
+  "structure_kg": 10.08,
+  "structure_pct": 31.5,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": null
+  },
+  "knee_peak_needed": 56.46471731643107,
+  "unverified": [
+   "QDD-hyp",
+   "XM540"
+  ],
+  "zc": 0.89,
+  "struct_frac": 0.2,
+  "dof": "no wrists, no neck (22)"
+ },
+ {
+  "closes": true,
+  "M": 32,
+  "actuator_kg": 19.176,
+  "structure_kg": 9.424000000000001,
+  "structure_pct": 29.450000000000003,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": "XM430",
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 56.46471731643107,
+  "unverified": [
+   "QDD-hyp",
+   "XM540",
+   "XM430",
+   "XM430"
+  ],
+  "zc": 0.89,
+  "struct_frac": 0.25,
+  "dof": "full 30 DoF"
+ },
+ {
+  "closes": true,
+  "M": 32,
+  "actuator_kg": 18.684,
+  "structure_kg": 9.915999999999999,
+  "structure_pct": 30.987499999999997,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 56.46471731643107,
+  "unverified": [
+   "QDD-hyp",
+   "XM540",
+   "XM430"
+  ],
+  "zc": 0.89,
+  "struct_frac": 0.25,
+  "dof": "no wrists (24)"
+ },
+ {
+  "closes": true,
+  "M": 32,
+  "actuator_kg": 18.52,
+  "structure_kg": 10.08,
+  "structure_pct": 31.5,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "XM540",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": null
+  },
+  "knee_peak_needed": 56.46471731643107,
+  "unverified": [
+   "QDD-hyp",
+   "XM540"
+  ],
+  "zc": 0.89,
+  "struct_frac": 0.25,
+  "dof": "no wrists, no neck (22)"
+ },
+ {
+  "closes": false,
+  "M": 32,
+  "actuator_kg": 26.005999999999997,
+  "structure_kg": 2.594000000000003,
+  "structure_pct": 8.10625000000001,
+  "choice": {
+   "hip": "QDD-hyp",
+   "knee": "QDD-hyp",
+   "ankle": "QDD-hyp",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": "XM430",
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 47.87060872380037,
+  "unverified": [
+   "QDD-hyp",
+   "QDD-hyp",
+   "QDD-hyp",
+   "XM430",
+   "XM430"
+  ],
+  "zc": 0.92,
+  "struct_frac": 0.2,
+  "dof": "full 30 DoF"
+ },
+ {
+  "closes": false,
+  "M": 32,
+  "actuator_kg": 25.514,
+  "structure_kg": 3.0860000000000003,
+  "structure_pct": 9.64375,
+  "choice": {
+   "hip": "QDD-hyp",
+   "knee": "QDD-hyp",
+   "ankle": "QDD-hyp",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 47.87060872380037,
+  "unverified": [
+   "QDD-hyp",
+   "QDD-hyp",
+   "QDD-hyp",
+   "XM430"
+  ],
+  "zc": 0.92,
+  "struct_frac": 0.2,
+  "dof": "no wrists (24)"
+ },
+ {
+  "closes": false,
+  "M": 32,
+  "actuator_kg": 25.349999999999998,
+  "structure_kg": 3.2500000000000018,
+  "structure_pct": 10.156250000000005,
+  "choice": {
+   "hip": "QDD-hyp",
+   "knee": "QDD-hyp",
+   "ankle": "QDD-hyp",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": null
+  },
+  "knee_peak_needed": 47.87060872380037,
+  "unverified": [
+   "QDD-hyp",
+   "QDD-hyp",
+   "QDD-hyp"
+  ],
+  "zc": 0.92,
+  "struct_frac": 0.2,
+  "dof": "no wrists, no neck (22)"
+ },
+ {
+  "closes": false,
+  "M": 32,
+  "actuator_kg": 26.005999999999997,
+  "structure_kg": 2.594000000000003,
+  "structure_pct": 8.10625000000001,
+  "choice": {
+   "hip": "QDD-hyp",
+   "knee": "QDD-hyp",
+   "ankle": "QDD-hyp",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": "XM430",
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 47.87060872380037,
+  "unverified": [
+   "QDD-hyp",
+   "QDD-hyp",
+   "QDD-hyp",
+   "XM430",
+   "XM430"
+  ],
+  "zc": 0.92,
+  "struct_frac": 0.25,
+  "dof": "full 30 DoF"
+ },
+ {
+  "closes": false,
+  "M": 32,
+  "actuator_kg": 25.514,
+  "structure_kg": 3.0860000000000003,
+  "structure_pct": 9.64375,
+  "choice": {
+   "hip": "QDD-hyp",
+   "knee": "QDD-hyp",
+   "ankle": "QDD-hyp",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 47.87060872380037,
+  "unverified": [
+   "QDD-hyp",
+   "QDD-hyp",
+   "QDD-hyp",
+   "XM430"
+  ],
+  "zc": 0.92,
+  "struct_frac": 0.25,
+  "dof": "no wrists (24)"
+ },
+ {
+  "closes": false,
+  "M": 32,
+  "actuator_kg": 25.349999999999998,
+  "structure_kg": 3.2500000000000018,
+  "structure_pct": 10.156250000000005,
+  "choice": {
+   "hip": "QDD-hyp",
+   "knee": "QDD-hyp",
+   "ankle": "QDD-hyp",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": null
+  },
+  "knee_peak_needed": 47.87060872380037,
+  "unverified": [
+   "QDD-hyp",
+   "QDD-hyp",
+   "QDD-hyp"
+  ],
+  "zc": 0.92,
+  "struct_frac": 0.25,
+  "dof": "no wrists, no neck (22)"
+ },
+ {
+  "closes": true,
+  "M": 35,
+  "actuator_kg": 20.556,
+  "structure_kg": 11.043999999999999,
+  "structure_pct": 31.55428571428571,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": "XM430",
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 75.94737997517423,
+  "unverified": [
+   "QDD-hyp",
+   "XM430",
+   "XM430"
+  ],
+  "zc": 0.85,
+  "struct_frac": 0.2,
+  "dof": "full 30 DoF"
+ },
+ {
+  "closes": true,
+  "M": 35,
+  "actuator_kg": 20.064,
+  "structure_kg": 11.536,
+  "structure_pct": 32.96,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 75.94737997517423,
+  "unverified": [
+   "QDD-hyp",
+   "XM430"
+  ],
+  "zc": 0.85,
+  "struct_frac": 0.2,
+  "dof": "no wrists (24)"
+ },
+ {
+  "closes": true,
+  "M": 35,
+  "actuator_kg": 19.9,
+  "structure_kg": 11.700000000000001,
+  "structure_pct": 33.42857142857143,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": null
+  },
+  "knee_peak_needed": 75.94737997517423,
+  "unverified": [
+   "QDD-hyp"
+  ],
+  "zc": 0.85,
+  "struct_frac": 0.2,
+  "dof": "no wrists, no neck (22)"
+ },
+ {
+  "closes": true,
+  "M": 35,
+  "actuator_kg": 20.556,
+  "structure_kg": 11.043999999999999,
+  "structure_pct": 31.55428571428571,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": "XM430",
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 75.94737997517423,
+  "unverified": [
+   "QDD-hyp",
+   "XM430",
+   "XM430"
+  ],
+  "zc": 0.85,
+  "struct_frac": 0.25,
+  "dof": "full 30 DoF"
+ },
+ {
+  "closes": true,
+  "M": 35,
+  "actuator_kg": 20.064,
+  "structure_kg": 11.536,
+  "structure_pct": 32.96,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 75.94737997517423,
+  "unverified": [
+   "QDD-hyp",
+   "XM430"
+  ],
+  "zc": 0.85,
+  "struct_frac": 0.25,
+  "dof": "no wrists (24)"
+ },
+ {
+  "closes": true,
+  "M": 35,
+  "actuator_kg": 19.9,
+  "structure_kg": 11.700000000000001,
+  "structure_pct": 33.42857142857143,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": null
+  },
+  "knee_peak_needed": 75.94737997517423,
+  "unverified": [
+   "QDD-hyp"
+  ],
+  "zc": 0.85,
+  "struct_frac": 0.25,
+  "dof": "no wrists, no neck (22)"
+ },
+ {
+  "closes": true,
+  "M": 35,
+  "actuator_kg": 20.556,
+  "structure_kg": 11.043999999999999,
+  "structure_pct": 31.55428571428571,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": "XM430",
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 61.758284564846484,
+  "unverified": [
+   "QDD-hyp",
+   "XM430",
+   "XM430"
+  ],
+  "zc": 0.89,
+  "struct_frac": 0.2,
+  "dof": "full 30 DoF"
+ },
+ {
+  "closes": true,
+  "M": 35,
+  "actuator_kg": 20.064,
+  "structure_kg": 11.536,
+  "structure_pct": 32.96,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 61.758284564846484,
+  "unverified": [
+   "QDD-hyp",
+   "XM430"
+  ],
+  "zc": 0.89,
+  "struct_frac": 0.2,
+  "dof": "no wrists (24)"
+ },
+ {
+  "closes": true,
+  "M": 35,
+  "actuator_kg": 19.9,
+  "structure_kg": 11.700000000000001,
+  "structure_pct": 33.42857142857143,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": null
+  },
+  "knee_peak_needed": 61.758284564846484,
+  "unverified": [
+   "QDD-hyp"
+  ],
+  "zc": 0.89,
+  "struct_frac": 0.2,
+  "dof": "no wrists, no neck (22)"
+ },
+ {
+  "closes": true,
+  "M": 35,
+  "actuator_kg": 20.556,
+  "structure_kg": 11.043999999999999,
+  "structure_pct": 31.55428571428571,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": "XM430",
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 61.758284564846484,
+  "unverified": [
+   "QDD-hyp",
+   "XM430",
+   "XM430"
+  ],
+  "zc": 0.89,
+  "struct_frac": 0.25,
+  "dof": "full 30 DoF"
+ },
+ {
+  "closes": true,
+  "M": 35,
+  "actuator_kg": 20.064,
+  "structure_kg": 11.536,
+  "structure_pct": 32.96,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 61.758284564846484,
+  "unverified": [
+   "QDD-hyp",
+   "XM430"
+  ],
+  "zc": 0.89,
+  "struct_frac": 0.25,
+  "dof": "no wrists (24)"
+ },
+ {
+  "closes": true,
+  "M": 35,
+  "actuator_kg": 19.9,
+  "structure_kg": 11.700000000000001,
+  "structure_pct": 33.42857142857143,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": null
+  },
+  "knee_peak_needed": 61.758284564846484,
+  "unverified": [
+   "QDD-hyp"
+  ],
+  "zc": 0.89,
+  "struct_frac": 0.25,
+  "dof": "no wrists, no neck (22)"
+ },
+ {
+  "closes": false,
+  "M": 35,
+  "actuator_kg": 26.005999999999997,
+  "structure_kg": 5.594000000000003,
+  "structure_pct": 15.982857142857151,
+  "choice": {
+   "hip": "QDD-hyp",
+   "knee": "QDD-hyp",
+   "ankle": "QDD-hyp",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": "XM430",
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 52.35847829165666,
+  "unverified": [
+   "QDD-hyp",
+   "QDD-hyp",
+   "QDD-hyp",
+   "XM430",
+   "XM430"
+  ],
+  "zc": 0.92,
+  "struct_frac": 0.2,
+  "dof": "full 30 DoF"
+ },
+ {
+  "closes": false,
+  "M": 35,
+  "actuator_kg": 25.514,
+  "structure_kg": 6.086,
+  "structure_pct": 17.388571428571428,
+  "choice": {
+   "hip": "QDD-hyp",
+   "knee": "QDD-hyp",
+   "ankle": "QDD-hyp",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 52.35847829165666,
+  "unverified": [
+   "QDD-hyp",
+   "QDD-hyp",
+   "QDD-hyp",
+   "XM430"
+  ],
+  "zc": 0.92,
+  "struct_frac": 0.2,
+  "dof": "no wrists (24)"
+ },
+ {
+  "closes": false,
+  "M": 35,
+  "actuator_kg": 25.349999999999998,
+  "structure_kg": 6.250000000000002,
+  "structure_pct": 17.857142857142865,
+  "choice": {
+   "hip": "QDD-hyp",
+   "knee": "QDD-hyp",
+   "ankle": "QDD-hyp",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": null
+  },
+  "knee_peak_needed": 52.35847829165666,
+  "unverified": [
+   "QDD-hyp",
+   "QDD-hyp",
+   "QDD-hyp"
+  ],
+  "zc": 0.92,
+  "struct_frac": 0.2,
+  "dof": "no wrists, no neck (22)"
+ },
+ {
+  "closes": false,
+  "M": 35,
+  "actuator_kg": 26.005999999999997,
+  "structure_kg": 5.594000000000003,
+  "structure_pct": 15.982857142857151,
+  "choice": {
+   "hip": "QDD-hyp",
+   "knee": "QDD-hyp",
+   "ankle": "QDD-hyp",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": "XM430",
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 52.35847829165666,
+  "unverified": [
+   "QDD-hyp",
+   "QDD-hyp",
+   "QDD-hyp",
+   "XM430",
+   "XM430"
+  ],
+  "zc": 0.92,
+  "struct_frac": 0.25,
+  "dof": "full 30 DoF"
+ },
+ {
+  "closes": false,
+  "M": 35,
+  "actuator_kg": 25.514,
+  "structure_kg": 6.086,
+  "structure_pct": 17.388571428571428,
+  "choice": {
+   "hip": "QDD-hyp",
+   "knee": "QDD-hyp",
+   "ankle": "QDD-hyp",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 52.35847829165666,
+  "unverified": [
+   "QDD-hyp",
+   "QDD-hyp",
+   "QDD-hyp",
+   "XM430"
+  ],
+  "zc": 0.92,
+  "struct_frac": 0.25,
+  "dof": "no wrists (24)"
+ },
+ {
+  "closes": false,
+  "M": 35,
+  "actuator_kg": 25.349999999999998,
+  "structure_kg": 6.250000000000002,
+  "structure_pct": 17.857142857142865,
+  "choice": {
+   "hip": "QDD-hyp",
+   "knee": "QDD-hyp",
+   "ankle": "QDD-hyp",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": null
+  },
+  "knee_peak_needed": 52.35847829165666,
+  "unverified": [
+   "QDD-hyp",
+   "QDD-hyp",
+   "QDD-hyp"
+  ],
+  "zc": 0.92,
+  "struct_frac": 0.25,
+  "dof": "no wrists, no neck (22)"
+ },
+ {
+  "closes": true,
+  "M": 40,
+  "actuator_kg": 20.556,
+  "structure_kg": 16.044,
+  "structure_pct": 40.11,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": "XM430",
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 86.79700568591339,
+  "unverified": [
+   "QDD-hyp",
+   "XM430",
+   "XM430"
+  ],
+  "zc": 0.85,
+  "struct_frac": 0.2,
+  "dof": "full 30 DoF"
+ },
+ {
+  "closes": true,
+  "M": 40,
+  "actuator_kg": 20.064,
+  "structure_kg": 16.536,
+  "structure_pct": 41.34,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 86.79700568591339,
+  "unverified": [
+   "QDD-hyp",
+   "XM430"
+  ],
+  "zc": 0.85,
+  "struct_frac": 0.2,
+  "dof": "no wrists (24)"
+ },
+ {
+  "closes": true,
+  "M": 40,
+  "actuator_kg": 19.9,
+  "structure_kg": 16.700000000000003,
+  "structure_pct": 41.75000000000001,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": null
+  },
+  "knee_peak_needed": 86.79700568591339,
+  "unverified": [
+   "QDD-hyp"
+  ],
+  "zc": 0.85,
+  "struct_frac": 0.2,
+  "dof": "no wrists, no neck (22)"
+ },
+ {
+  "closes": true,
+  "M": 40,
+  "actuator_kg": 20.556,
+  "structure_kg": 16.044,
+  "structure_pct": 40.11,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": "XM430",
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 86.79700568591339,
+  "unverified": [
+   "QDD-hyp",
+   "XM430",
+   "XM430"
+  ],
+  "zc": 0.85,
+  "struct_frac": 0.25,
+  "dof": "full 30 DoF"
+ },
+ {
+  "closes": true,
+  "M": 40,
+  "actuator_kg": 20.064,
+  "structure_kg": 16.536,
+  "structure_pct": 41.34,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 86.79700568591339,
+  "unverified": [
+   "QDD-hyp",
+   "XM430"
+  ],
+  "zc": 0.85,
+  "struct_frac": 0.25,
+  "dof": "no wrists (24)"
+ },
+ {
+  "closes": true,
+  "M": 40,
+  "actuator_kg": 19.9,
+  "structure_kg": 16.700000000000003,
+  "structure_pct": 41.75000000000001,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": null
+  },
+  "knee_peak_needed": 86.79700568591339,
+  "unverified": [
+   "QDD-hyp"
+  ],
+  "zc": 0.85,
+  "struct_frac": 0.25,
+  "dof": "no wrists, no neck (22)"
+ },
+ {
+  "closes": true,
+  "M": 40,
+  "actuator_kg": 20.556,
+  "structure_kg": 16.044,
+  "structure_pct": 40.11,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": "XM430",
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 70.58089664553884,
+  "unverified": [
+   "QDD-hyp",
+   "XM430",
+   "XM430"
+  ],
+  "zc": 0.89,
+  "struct_frac": 0.2,
+  "dof": "full 30 DoF"
+ },
+ {
+  "closes": true,
+  "M": 40,
+  "actuator_kg": 20.064,
+  "structure_kg": 16.536,
+  "structure_pct": 41.34,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 70.58089664553884,
+  "unverified": [
+   "QDD-hyp",
+   "XM430"
+  ],
+  "zc": 0.89,
+  "struct_frac": 0.2,
+  "dof": "no wrists (24)"
+ },
+ {
+  "closes": true,
+  "M": 40,
+  "actuator_kg": 19.9,
+  "structure_kg": 16.700000000000003,
+  "structure_pct": 41.75000000000001,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": null
+  },
+  "knee_peak_needed": 70.58089664553884,
+  "unverified": [
+   "QDD-hyp"
+  ],
+  "zc": 0.89,
+  "struct_frac": 0.2,
+  "dof": "no wrists, no neck (22)"
+ },
+ {
+  "closes": true,
+  "M": 40,
+  "actuator_kg": 20.556,
+  "structure_kg": 16.044,
+  "structure_pct": 40.11,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": "XM430",
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 70.58089664553884,
+  "unverified": [
+   "QDD-hyp",
+   "XM430",
+   "XM430"
+  ],
+  "zc": 0.89,
+  "struct_frac": 0.25,
+  "dof": "full 30 DoF"
+ },
+ {
+  "closes": true,
+  "M": 40,
+  "actuator_kg": 20.064,
+  "structure_kg": 16.536,
+  "structure_pct": 41.34,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 70.58089664553884,
+  "unverified": [
+   "QDD-hyp",
+   "XM430"
+  ],
+  "zc": 0.89,
+  "struct_frac": 0.25,
+  "dof": "no wrists (24)"
+ },
+ {
+  "closes": true,
+  "M": 40,
+  "actuator_kg": 19.9,
+  "structure_kg": 16.700000000000003,
+  "structure_pct": 41.75000000000001,
+  "choice": {
+   "hip": "PH54-200",
+   "knee": "QDD-hyp",
+   "ankle": "PH54-200",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": null
+  },
+  "knee_peak_needed": 70.58089664553884,
+  "unverified": [
+   "QDD-hyp"
+  ],
+  "zc": 0.89,
+  "struct_frac": 0.25,
+  "dof": "no wrists, no neck (22)"
+ },
+ {
+  "closes": true,
+  "M": 40,
+  "actuator_kg": 26.005999999999997,
+  "structure_kg": 10.594000000000003,
+  "structure_pct": 26.485000000000007,
+  "choice": {
+   "hip": "QDD-hyp",
+   "knee": "QDD-hyp",
+   "ankle": "QDD-hyp",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": "XM430",
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 59.83826090475047,
+  "unverified": [
+   "QDD-hyp",
+   "QDD-hyp",
+   "QDD-hyp",
+   "XM430",
+   "XM430"
+  ],
+  "zc": 0.92,
+  "struct_frac": 0.2,
+  "dof": "full 30 DoF"
+ },
+ {
+  "closes": true,
+  "M": 40,
+  "actuator_kg": 25.514,
+  "structure_kg": 11.086,
+  "structure_pct": 27.715000000000003,
+  "choice": {
+   "hip": "QDD-hyp",
+   "knee": "QDD-hyp",
+   "ankle": "QDD-hyp",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 59.83826090475047,
+  "unverified": [
+   "QDD-hyp",
+   "QDD-hyp",
+   "QDD-hyp",
+   "XM430"
+  ],
+  "zc": 0.92,
+  "struct_frac": 0.2,
+  "dof": "no wrists (24)"
+ },
+ {
+  "closes": true,
+  "M": 40,
+  "actuator_kg": 25.349999999999998,
+  "structure_kg": 11.250000000000002,
+  "structure_pct": 28.125000000000007,
+  "choice": {
+   "hip": "QDD-hyp",
+   "knee": "QDD-hyp",
+   "ankle": "QDD-hyp",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": null
+  },
+  "knee_peak_needed": 59.83826090475047,
+  "unverified": [
+   "QDD-hyp",
+   "QDD-hyp",
+   "QDD-hyp"
+  ],
+  "zc": 0.92,
+  "struct_frac": 0.2,
+  "dof": "no wrists, no neck (22)"
+ },
+ {
+  "closes": true,
+  "M": 40,
+  "actuator_kg": 26.005999999999997,
+  "structure_kg": 10.594000000000003,
+  "structure_pct": 26.485000000000007,
+  "choice": {
+   "hip": "QDD-hyp",
+   "knee": "QDD-hyp",
+   "ankle": "QDD-hyp",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": "XM430",
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 59.83826090475047,
+  "unverified": [
+   "QDD-hyp",
+   "QDD-hyp",
+   "QDD-hyp",
+   "XM430",
+   "XM430"
+  ],
+  "zc": 0.92,
+  "struct_frac": 0.25,
+  "dof": "full 30 DoF"
+ },
+ {
+  "closes": true,
+  "M": 40,
+  "actuator_kg": 25.514,
+  "structure_kg": 11.086,
+  "structure_pct": 27.715000000000003,
+  "choice": {
+   "hip": "QDD-hyp",
+   "knee": "QDD-hyp",
+   "ankle": "QDD-hyp",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": "XM430"
+  },
+  "knee_peak_needed": 59.83826090475047,
+  "unverified": [
+   "QDD-hyp",
+   "QDD-hyp",
+   "QDD-hyp",
+   "XM430"
+  ],
+  "zc": 0.92,
+  "struct_frac": 0.25,
+  "dof": "no wrists (24)"
+ },
+ {
+  "closes": true,
+  "M": 40,
+  "actuator_kg": 25.349999999999998,
+  "structure_kg": 11.250000000000002,
+  "structure_pct": 28.125000000000007,
+  "choice": {
+   "hip": "QDD-hyp",
+   "knee": "QDD-hyp",
+   "ankle": "QDD-hyp",
+   "waist": "PH54-100",
+   "shoulder": "PH54-100",
+   "elbow": "PH54-100",
+   "wrist": null,
+   "neck": null
+  },
+  "knee_peak_needed": 59.83826090475047,
+  "unverified": [
+   "QDD-hyp",
+   "QDD-hyp",
+   "QDD-hyp"
+  ],
+  "zc": 0.92,
+  "struct_frac": 0.25,
+  "dof": "no wrists, no neck (22)"
+ }
+]

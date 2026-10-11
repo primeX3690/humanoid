@@ -1,27 +1,42 @@
-# Design decision: the 25 kg / 30-actuator robot does not close - what to build instead
+# Design decision (final, v3.6): robot mass, CoM height, payload, DoF, knee spec
 
-Generated with `python tools/design_search.py --consistent [--unverified]` (hardware/design_search.py). Torque demand comes from YOUR measured gait
-(results/fullbody/motor_requirements.json), arm demand from static holding torque (arm own weight + payload) with the repo's arm kinematics.
+Inputs: your gait demand (results/fullbody/motor_requirements.json, measured at 25 kg), arm static torques from the repo's arm model, and the allowed mass range
+**25-40 kg**. Reproduce everything: `python tools/design_matrix.py` (-> results/design_matrix.json), `python tools/design_search.py --consistent --unverified`.
+HONESTY: torque demand at other masses is scaled by M/25 (first-order GUESS). `python tools/measure_design_torque.py` replaces it with a MuJoCo measurement; redo the
+decision with `--req results/design_requirements.json` before ordering parts.
 
-## Finding 1 - with datasheet-verified actuators (PH54-200, PH54-100, MX-106) NO consistent design exists
-Mass and torque chase each other: a heavier robot needs a stronger knee, which weighs more. The 20 kg of actuators plus 20 % structure needs ~29 kg
-of robot, whose knee then needs ~51 Nm (> PH54-200's 44.7 Nm). It never closes at CoM 0.85, 0.89 or 0.92 m.
-
-## Finding 2 - it closes at ~28 kg with ONE change: a stronger knee actuator
-| group (count) | choice | note |
+## DECIDED (computed, not guessed)
+| item | decision | why |
 |---|---|---|
-| knee (2) | QDD-class, >= ~50 Nm peak, >= ~25 Nm cont., >= ~2.6 rad/s | **HYPOTHETICAL entry - this is a specification, not a part number** |
-| hip (6) | PH54-200 | |
-| ankle (4) | PH54-100 | demand 22-23 Nm |
-| shoulder (6), elbow (2) | PH54-100 | the ARM'S OWN WEIGHT outstretched needs ~13-15 Nm at the shoulder even with zero payload |
-| waist (2) | XM540-class (UNVERIFIED numbers) | demand ~5-12 Nm |
-| wrist (6), neck (2) | XM430-class (UNVERIFIED numbers) | |
-Result: robot ~28.2 kg = 19.2 kg actuators + 5.7 kg structure (20 %) + 1.5 kg battery (30 min) + 1.5 kg electronics + 0.4 kg grippers.
-Payload 0-1 kg changes nothing; 2 kg pushes the wrist to a stronger class (29 kg).
+| **Robot mass** | **32 kg** | 25 kg does not close. The mass/torque loop closes from 30 kg (20 % structure) or 32 kg (25 % structure). 32 kg leaves ~9.4 kg (29 %) for structure after 19.2 kg actuators, 1.5 kg battery (30 min), 1.5 kg electronics, 0.4 kg grippers |
+| **CoM height** | **0.89 m** | knee demand 42 Nm at 25 kg (36 Nm at 0.92 m but leg speed 3.7 rad/s exceeds every PH54; 0.92 m only closes at 40 kg). 0.85 m needs 52 Nm (+23 %) |
+| **Arm payload** | **1 kg per hand (2 kg bimanual)** | the arm's OWN weight outstretched needs ~13-15 Nm at the shoulder; payload 0-1 kg changes nothing. Achieved with PH54-100 shoulders/elbows: ~1.2-1.3 kg per arm at continuous torque. 2 kg per hand needs a stronger wrist class (+0.5 kg) |
+| **DoF** | **keep all 30 (+ dexterous hands later)** | dropping wrists saves only <1.5 kg, dropping wrists+neck <2 kg: lowers the closing mass from 32 to 30 kg - not worth losing manipulation |
+| **Knee** | **needs a stronger actuator than PH54-200** | spec below |
 
-## What to do
-1. Set the target mass to **~28-30 kg**, CoM height **0.89 m** (knee 42 Nm at 25 kg; scales with mass).
-2. Get a knee actuator meeting the spec above (or two PH54-200 in a parallel/linkage arrangement - costs mass; run the tool with your numbers).
-3. In simulation: `from model.design_v3 import design_v3_params; p, d = design_v3_params(28.0)` and re-run the push/walk checks - torque demands were
-   scaled by M/25 (first-order); the real values must be re-measured with the heavier model (`python -m simulation.sim_smoke`).
-4. Replace every `verified=False` catalogue entry by the real datasheet numbers before trusting the assignment.
+## Actuator requirements at 32 kg, CoM 0.89 m, 1 kg payload (margin 1.04 on torque, speed x1.1, legs duty 50 %)
+| group (count) | peak torque >= | continuous >= | speed >= (rad/s) | chosen in search |
+|---|---|---|---|---|
+| **knee (2)** | **57 Nm** (ask for **>= 65** to cover the M/25 guess) | **27 Nm** (ask >= 30) | 2.6 | QDD-class (hypothetical) - PH54-200's 44.7 Nm is NOT enough |
+| hip (6) | 35 Nm | 17 Nm | 2.6 | PH54-200 |
+| ankle (4) | 28 Nm | 13 Nm | 2.6 | PH54-200 (PH54-100 would be marginal) |
+| waist (2) | 6.2 Nm | 3.0 Nm | 0.6 | XM540-class (UNVERIFIED numbers) |
+| shoulder (6) | 16 Nm hold | 16 Nm | - | PH54-100 |
+| elbow (2) | 7 Nm hold | 7 Nm | - | PH54-100 (a lighter 10 Nm-class would do) |
+| wrist (6) | 1.2 Nm | 1.2 Nm | - | XM430-class (UNVERIFIED) |
+| neck (2) | 1 Nm | 1 Nm | - | XM430-class (UNVERIFIED) |
+Robustness: the design still closes if the true torque demand is 15 % above the M/25 guess (knee peak 65 Nm); at +30 % it does not (needs the heavier-duty catalogue entry / a larger robot).
+
+## TO VERIFY by you (I have no internet and will not present memory as datasheet fact)
+1. **Knee actuator**: find a joint module with >= 65 Nm peak, >= 30 Nm continuous, >= 2.9 rad/s no-load-equivalent, mass <= ~2.2 kg (the search assumed 1.4 kg; heavier eats structure budget:
+   every +0.8 kg per knee costs 1.6 kg). Starting points to CHECK (I did not verify any model's numbers): quasi-direct-drive / planetary joint modules in the 60-120 Nm-peak class
+   from vendors such as CubeMars (AK series), MyActuator (RMD-X series), T-Motor, Unitree. If nothing fits, a PH54-200 pair per knee in a linkage doubles torque but adds 1.7 kg per knee.
+2. **XM540 / XM430 / PH54-100**: stall + continuous torque, no-load speed, MASS from the Robotis e-manual (my catalogue numbers are from memory). PH54-100 mass was assumed = PH54-200 (0.855 kg).
+   Edit the entries in `hardware/design_search.py` (verified=True) and rerun `tools/design_matrix.py`.
+3. **Battery**: pack Wh/kg of the pack you will buy INCLUDING BMS/housing (search uses 180 Wh/kg; typical Li-ion packs 150-200). 30 min at the ~300-400 W walking average = ~170-210 Wh.
+4. **Structure fraction**: after the first CAD pass compute (links + brackets + covers) / total. The 25 % used here is a planning value, not a measurement.
+
+## What would change this decision
+- measured demand (measure_design_torque) > 15 % above the M/25 guess -> raise mass toward 35 kg or pick a stronger knee/hip
+- a knee actuator heavier than 2.2 kg -> mass 34-35 kg
+- payload requirement > 2 kg per hand -> stronger wrist class, re-run matrix

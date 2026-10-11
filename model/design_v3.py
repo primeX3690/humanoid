@@ -2,7 +2,7 @@
 
 `design_v3_params()` returns a ModelParams whose link masses are scaled to the self-consistent robot mass and whose joint torque limits are
 the chosen actuators' peaks. The knee uses the HYPOTHETICAL QDD-class entry (hardware/design_search.py) - treat it as a *specification*
-(>= ~50 Nm peak, >= ~25 Nm continuous, >= ~3.5 rad/s at 28 kg), not as a part number."""
+(>= ~65 Nm peak incl. margin, >= ~30 Nm continuous, >= ~2.9 rad/s at 32 kg - see docs/DESIGN_DECISION.md), not as a part number."""
 from __future__ import annotations
 import json, os
 
@@ -18,7 +18,7 @@ def _fixed_mass():
     return 2 * _BASE_MASS - validate_urdf(mjcf_to_urdf(build_default_mjcf(p2)))["total_mass"]
 
 
-def design_v3_params(robot_mass_kg: float = 28.0, zc: float = 0.89, payload_kg: float = 1.0, req_json="results/fullbody/motor_requirements.json", **overrides):
+def design_v3_params(robot_mass_kg: float = 32.0, zc: float = 0.89, payload_kg: float = 1.0, req_json="results/fullbody/motor_requirements.json", **overrides):
     from model.urdf_export import ensure_importable; ensure_importable()
     from model.humanoid_model import ModelParams
     from hardware.design_search import search, to_model_kwargs

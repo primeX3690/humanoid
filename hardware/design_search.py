@@ -19,8 +19,9 @@ GROUPS = {"hip": 6, "knee": 2, "ankle": 4, "waist": 2, "shoulder": 6, "elbow": 2
 
 XM540 = ActuatorSpec("Dynamixel XM540-W270 (UNVERIFIED numbers)", 3.2, 10.6, 30 * RPM, 0.165)
 XM430 = ActuatorSpec("Dynamixel XM430-W350 (UNVERIFIED numbers)", 1.3, 4.1, 46 * RPM, 0.082)
+XL_HYP = ActuatorSpec("HYPOTHETICAL high-torque QDD (90 Nm cont / 200 peak / 10 rad/s)", 90.0, 200.0, 10.0, 2.2, tau_electrical_s=0.002, backlash_rad=0.0009, hypothetical=True)
 CATALOG = {"PH54-200": (PH54_200, True), "PH54-100": (PH54_100, True), "MX-106": (MX106, True),
-           "XM540": (XM540, False), "XM430": (XM430, False), "QDD-hyp": (QDD_REFERENCE, False)}
+           "XM540": (XM540, False), "XM430": (XM430, False), "QDD-hyp": (QDD_REFERENCE, False), "QDD-XL-hyp": (XL_HYP, False)}
 
 
 @dataclass
@@ -58,18 +59,20 @@ def feasible(spec: ActuatorSpec, d: Demand, margin=1.15, duty=0.5):
     return True
 
 
-def search(req_rows, com_height=0.89, payload_kg=1.0, use_unverified=False, margin=1.15):
+def search(req_rows, com_height=0.89, payload_kg=1.0, use_unverified=False, margin=1.15, groups=None):
+    groups = groups or GROUPS
     cat = {k: v[0] for k, v in CATALOG.items() if v[1] or use_unverified}
     dem, row = leg_demands(req_rows, com_height); ad, worst = arm_demands(payload_kg); dem.update(ad)
     choice, why = {}, {}
-    for g in GROUPS:
+    for g in groups:
+        if groups[g] == 0: choice[g] = None; continue
         ok = [(s.mass_kg, k) for k, s in cat.items() if feasible(s, dem[g], margin)]
         if not ok: return dict(feasible=False, reason=f"no catalogue actuator satisfies group '{g}' (peak {dem[g].peak_nm:.1f} Nm, hold {dem[g].hold_nm:.1f} Nm)", demands={k: vars(v) for k, v in dem.items()})
         choice[g] = min(ok)[1]
-    mass = sum(GROUPS[g] * cat[choice[g]].mass_kg for g in GROUPS)
-    tau = {g: cat[choice[g]].tau_peak_nm for g in GROUPS}
+    mass = sum(groups[g] * cat[choice[g]].mass_kg for g in groups if choice[g])
+    tau = {g: (cat[choice[g]].tau_peak_nm if choice[g] else 0.0) for g in groups}
     return dict(feasible=True, com_height_m=com_height, payload_kg=payload_kg, choice=choice, actuator_mass_kg=mass,
-                tau_limits_nm=tau, demands={k: vars(v) for k, v in dem.items()}, arm_hold_nm=worst.tolist(), unverified_used=[choice[g] for g in GROUPS if not CATALOG[choice[g]][1]])
+                tau_limits_nm=tau, demands={k: vars(v) for k, v in dem.items()}, arm_hold_nm=worst.tolist(), unverified_used=[choice[g] for g in groups if choice[g] and not CATALOG[choice[g]][1]])
 
 
 def to_model_kwargs(design: dict) -> dict:
@@ -77,6 +80,18 @@ def to_model_kwargs(design: dict) -> dict:
     t = design["tau_limits_nm"]
     return dict(tau_hip=t["hip"], tau_knee=t["knee"], tau_ankle=t["ankle"], tau_waist=t["waist"], tau_shoulder=t["shoulder"],
                 tau_elbow=t["elbow"], tau_wrist=t["wrist"], tau_neck=t["neck"])
+
+
+def evaluate_design(req_rows, M, com_height=0.89, payload_kg=1.0, use_unverified=True, margin=1.04, structure_frac=0.20, electronics_kg=1.5, gripper_kg=0.4,
+                    battery_kg=1.5, ref_mass=25.0, groups=None):
+    """Does a robot of total mass M close? (demand scaled by M/ref_mass - first-order guess, replace with tools/measure_design_torque.py data)."""
+    rows = [dict(r, **{k: r[k] * M / ref_mass for k in ("knee_Nm", "hip_pitch_Nm", "hip_roll_Nm", "hip_yaw_Nm", "ankle_pitch_Nm", "ankle_roll_Nm", "waist_Nm")}) for r in req_rows]
+    d = search(rows, com_height, payload_kg, use_unverified, margin, groups)
+    if not d["feasible"]: return dict(closes=False, reason=d["reason"], M=M)
+    grip = gripper_kg if (groups or GROUPS).get("wrist", 6) else gripper_kg
+    left = M - d["actuator_mass_kg"] - electronics_kg - grip - battery_kg
+    return dict(closes=left >= structure_frac * M, M=M, actuator_kg=d["actuator_mass_kg"], structure_kg=left, structure_pct=100 * left / M, choice=d["choice"],
+                knee_peak_needed=margin * [r for r in rows if abs(r["com_height_m"] - com_height) < 1e-6][0]["knee_Nm"], unverified=d["unverified_used"])
 
 
 def self_consistent_mass(req_rows, com_height=0.89, payload_kg=1.0, use_unverified=False, margin=1.04, structure_frac=0.20,

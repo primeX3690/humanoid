@@ -30,3 +30,14 @@ def test_design_preset_scales_total_mass_to_target():
     p, d = design_v3_params(28.0)
     v = validate_urdf(mjcf_to_urdf(build_default_mjcf(p)))
     assert v["total_mass"] == pytest.approx(28.0, abs=1e-3) and p.tau_knee >= 50.0   # URDF masses are written with 6 significant digits
+
+
+def test_evaluate_design_matrix_boundaries_for_the_32kg_decision():
+    from hardware.design_search import evaluate_design
+    assert not evaluate_design(REQ, 25, 0.89, 1.0, True, 1.04, 0.25)["closes"]                  # the original 25 kg robot does not close
+    e = evaluate_design(REQ, 32, 0.89, 1.0, True, 1.04, 0.25)
+    assert e["closes"] and e["structure_pct"] >= 25 and 55 < e["knee_peak_needed"] < 58 and e["choice"]["knee"] == "QDD-hyp"
+    assert not evaluate_design(REQ, 30, 0.89, 1.0, True, 1.04, 0.25)["closes"] and evaluate_design(REQ, 30, 0.89, 1.0, True, 1.04, 0.20)["closes"]
+    from hardware.design_search import GROUPS
+    nowrist = evaluate_design(REQ, 32, 0.89, 1.0, True, 1.04, 0.25, groups=dict(GROUPS, wrist=0))
+    assert nowrist["actuator_kg"] < e["actuator_kg"] and e["actuator_kg"] - nowrist["actuator_kg"] < 1.5     # dropping wrists saves < 1.5 kg: not worth the DoF

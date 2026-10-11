@@ -50,3 +50,17 @@ def test_ramp_xml_top_surface_matches_profile():
         assert top_surface_z(gs["terrain_ramp"], x) == pytest.approx(t.height_at(x, 0.0), abs=1e-6)
     assert top_surface_z(gs["terrain_plateau"], 3.0) == pytest.approx(0.1)
     assert terrain_geoms(FlatTerrain()) == []
+
+
+def test_step_terrain_swing_no_longer_clips_the_step_edge_regression_for_walk_step_fall():
+    """Real MuJoCo (sim_smoke): walk_step fell after 7 s. The legacy swing put the sole 13 mm INTO the 4 cm step edge."""
+    from trajectory.stair_swing import toe_heel_clearance
+    from trajectory.swing_foot import swing_foot_position, SwingFootParams
+    from planning.footstep_planner import foot_target_trajectories
+    T = StepTerrain(0.9, 0.04)
+    for h in (0.04, 0.08):
+        T = StepTerrain(0.9, h); ref = build_walk_reference(6, 0.85, 0.3, terrain=T)
+        for side in "LR": assert toe_heel_clearance(ref["foot"][side], T) >= -0.003, (h, side)
+    T = StepTerrain(0.9, 0.04)
+    _, Ll, Rl = foot_target_trajectories(ref["g"], ref["steps"][:0] or build_walk_reference(6, 0.85, 0.3, terrain=T)["steps"])       # legacy swing on the same footsteps
+    assert min(toe_heel_clearance(Ll, T), toe_heel_clearance(Rl, T)) < -0.008                    # documents the measured clip

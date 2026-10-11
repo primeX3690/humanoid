@@ -97,3 +97,18 @@ Status from the user's real run: dexterous hand XML compiles in MuJoCo (sim_smok
 Still open and DATA-DEPENDENT (cannot be fixed blind): planned-stepper push table, fast-QP slowness, turn/step/stairs walks, RL gains/training, torque demand of the 28 kg design.
 New: `tools/collect_results.py` (runs everything, writes results/send_to_claude.zip), `tools/tune_rl_gains.py` (gain sweep), `tools/measure_design_torque.py`
 (replaces the M/25 scaling guess with a MuJoCo measurement; `design_search.py --req`), `walk_wbc.run(params=...)`.
+
+---
+# v3.5 - fixes from the first collect_results run (real MuJoCo, Windows / Python 3.14)
+CONFIRMED in MuJoCo: model builds (default / dexterous / 28 kg), stand, stand with actuator realism, straight walk, TURNING walk, STAIRS walk (2 x 8 cm, touchdown err 1.7 mm),
+dexterous hand closes without NaN, RL zero-action stand now holds 5 s (tilt 0.015 rad) - the PD-gain fix worked.
+FAILED -> fixed here: `walk_step` fell after 7 s. numpy check on the same reference: legacy swing put the sole 13 mm INTO the 4 cm step edge (CoM-height reference was smooth,
+so that was not the cause). Terrain walks now use the stair-safe lift-first swing (`planning/wbc_walk_reference.py`); regression test added. Re-run `sim_smoke --only walk_step` to confirm.
+MEASURED: fast QP backend is ~9x slower than OSQP on a 1 s stand (62 s vs 6.8 s) - not usable; waiting for `wbc_qps.npz` to find why.
+INSTALL: `verify_install` flagged `simulation/walk_wbc.py` as STALE (overwrite skipped) -> `measure_design_torque` crashed with "unexpected keyword 'params'". Tip: do not keep the
+project inside OneDrive (sync locks files during unzip and slows thousands of small test files); use e.g. C:\robot\humanoid.
+
+---
+# v3.6 - design decision (mass range 25-40 kg given by the user)
+`docs/DESIGN_DECISION.md`: robot mass **32 kg**, CoM **0.89 m**, payload 1 kg per hand, keep 30 DoF, knee actuator >= 65 Nm peak / 30 Nm continuous. New: `evaluate_design`, `groups=` in
+design_search, `tools/design_matrix.py`, hypothetical `QDD-XL-hyp`, `design_v3_params` default 32 kg, `measure_design_torque` default 32 kg. Datasheet numbers remain TO VERIFY (listed in the doc).

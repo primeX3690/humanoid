@@ -1,7 +1,7 @@
 """
 Measures the REAL torque demand of the heavier design (model/design_v3.py) in MuJoCo, replacing the M/25 scaling guess used by hardware/design_search.py.
 
-    python tools/measure_design_torque.py                       # 28 kg, CoM 0.85/0.89/0.92 m, 6-step walk each (~15-20 min)
+    python tools/measure_design_torque.py                       # 32 kg, CoM 0.85/0.89/0.92 m, 6-step walk each (~15-20 min)
     python tools/measure_design_torque.py --mass 30 --zc 0.89 --steps 6
 Torque limits are lifted (300 Nm) so nothing is clipped: the numbers are DEMAND. Writes results/design_requirements.json in the SAME schema as
 results/fullbody/motor_requirements.json, so:   python tools/design_search.py --consistent --unverified --req results/design_requirements.json
@@ -32,7 +32,7 @@ def peaks_to_row(zc, names, tau, qd):
 
 
 def main():
-    ap = argparse.ArgumentParser(); ap.add_argument("--mass", type=float, default=28.0); ap.add_argument("--zc", default="0.85,0.89,0.92"); ap.add_argument("--steps", type=int, default=6); a = ap.parse_args()
+    ap = argparse.ArgumentParser(); ap.add_argument("--mass", type=float, default=32.0); ap.add_argument("--zc", default="0.85,0.89,0.92"); ap.add_argument("--steps", type=int, default=6); a = ap.parse_args()
     from model.design_v3 import design_v3_params
     from model.humanoid_model import make_model, joint_dadr, ACTUATED
     from simulation.walk_wbc import run
