@@ -41,3 +41,14 @@ def test_evaluate_design_matrix_boundaries_for_the_32kg_decision():
     from hardware.design_search import GROUPS
     nowrist = evaluate_design(REQ, 32, 0.89, 1.0, True, 1.04, 0.25, groups=dict(GROUPS, wrist=0))
     assert nowrist["actuator_kg"] < e["actuator_kg"] and e["actuator_kg"] - nowrist["actuator_kg"] < 1.5     # dropping wrists saves < 1.5 kg: not worth the DoF
+
+
+def test_measured_32kg_demand_confirms_the_mass_scaling_assumption_and_the_32kg_decision():
+    from hardware.design_search import evaluate_design
+    meas = json.load(open("results/design_requirements_measured32.json"))
+    base = {r["com_height_m"]: r for r in REQ}
+    for r in meas:                                            # M/25 scaling was within 10 % for every joint group that matters
+        for k in ("knee_Nm", "hip_pitch_Nm", "ankle_pitch_Nm", "waist_Nm"):
+            assert r[k] == pytest.approx(base[r["com_height_m"]][k] * 32 / 25, rel=0.1), k
+    e = evaluate_design(meas, 32, 0.89, 1.0, True, 1.04, 0.25, ref_mass=32.0)
+    assert e["closes"] and e["choice"]["knee"] == "QDD-hyp" and 56 < e["knee_peak_needed"] < 58 and e["structure_pct"] >= 25

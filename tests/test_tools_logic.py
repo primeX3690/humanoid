@@ -35,3 +35,9 @@ def test_peaks_to_row_groups_joints_by_name():
         if n == "L_sh_pitch": tau[i] = 99.0                       # arm joints must NOT leak into leg/waist groups
     r = peaks_to_row(0.89, ACTUATED_30, tau, qd)
     assert r["knee_Nm"] == 51.0 and r["hip_roll_Nm"] == 14.0 and r["waist_Nm"] == 9.0 and r["leg_speed_rad_s"] == 2.7 and r["hip_pitch_Nm"] == 0.0
+
+
+def test_rl_evaluation_summary():
+    from rl.evaluate_fullbody import summarize
+    s = summarize([dict(fell=True, steps=100, vel_err=0.2, tilt=0.1), dict(fell=False, steps=500, vel_err=0.1, tilt=0.05)])
+    assert s["fall_rate"] == 0.5 and s["mean_survival_s"] == pytest.approx(6.0) and s["mean_vel_err_m_s"] == pytest.approx(0.15)

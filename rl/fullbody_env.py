@@ -231,6 +231,19 @@ def selfcheck(seconds=5.0):                           # pragma: no cover - needs
     return dict(seconds_requested=seconds, seconds_stood=steps / 50.0, fell=bool(term), pelvis_z=float(st["z"]), tilt=float(st["tilt"]))
 
 
+def benchmark(n=400):                                 # pragma: no cover - needs MuJoCo
+    """Policy steps per second of ONE env with random actions + an estimate of the wall time for a training budget."""
+    import time
+    env = FullBodyEnv(randomize=True, push_force=40.0, max_steps=10**6); env.reset(seed=0); rng = np.random.default_rng(0); t0 = time.time(); resets = 0
+    for _ in range(n):
+        _, _, term, trunc, _ = env.step(rng.uniform(-1, 1, N_J) * 0.3)
+        if term or trunc: env.reset(); resets += 1
+    sps = n / (time.time() - t0)
+    return dict(policy_steps_per_s_per_env=sps, hours_for_20M_steps_8_envs=20e6 / (sps * 8) / 3600, hours_for_20M_steps_16_envs=20e6 / (sps * 16) / 3600,
+                note="assumes near-linear scaling with CPU cores (SubprocVecEnv); reset cost included")
+
+
 if __name__ == "__main__":                            # pragma: no cover
     import sys, json
     if "--selfcheck" in sys.argv: print(json.dumps(selfcheck(), indent=1))
+    if "--benchmark" in sys.argv: print(json.dumps(benchmark(), indent=1))

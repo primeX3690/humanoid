@@ -35,10 +35,9 @@ def build_walk_reference(n_steps=8, zc=0.85, step_length=0.3, turn_rate=0.0, ter
     t, com, zmp, zmp_ref = lipm_walk_for(g, fs, zc)
     swing_fn = None
     if terrain is not None:
-        # Measured on real MuJoCo (sim_smoke walk_step fell after 7 s): the legacy swing blends height and forward motion together, so the sole
-        # clipped the step edge by 13 mm. Terrain walks use the lift-first, stair-safe swing (trajectory/stair_swing.py) - it is what made walk_stairs pass.
-        from trajectory.stair_swing import stair_swing_position, StairSwingParams
-        _sp = StairSwingParams(clearance_m=0.04); swing_fn = lambda s_, a_, b_: stair_swing_position(s_, a_, b_, _sp)
+        # terrain-aware swing: v2's min-jerk horizontal motion (same foot speed) + height raised only where the terrain needs it (trajectory/terrain_swing.py)
+        from trajectory.terrain_swing import make_terrain_swing
+        swing_fn = make_terrain_swing(terrain, clearance=0.03)
     tf, L, R = foot_target_trajectories(g, fs, swing_fn=swing_fn)
     n = min(len(t), len(tf)); t = t[:n]; com = com[:n]
     vel = np.gradient(com, t, axis=0); acc = np.gradient(vel, t, axis=0)

@@ -26,7 +26,9 @@ def _Rz(a):
 
 
 def build_plan(n_steps=8, zc=0.85, step_length=0.3, turn_rate=0.0, terrain=None):
-    from terrain.terrain_profile import StairTerrain
+    from terrain.terrain_profile import StairTerrain, StepTerrain
+    if isinstance(terrain, StepTerrain):          # measured: normal-cadence walking over a step fell (sim_smoke walk_step); a step IS a 1-stair staircase and the stairs pipeline passed
+        terrain = StairTerrain(first_x=terrain.step_x, tread_m=0.28, riser_m=terrain.step_height_m, n=1)
     if isinstance(terrain, StairTerrain):             # v3: stair climbing (planning/stairs_reference.py: step-to gait, stair-safe swing, preview-NMPC CoM)
         from planning.stairs_reference import build_stairs_reference
         return build_stairs_reference(terrain, zc=zc)

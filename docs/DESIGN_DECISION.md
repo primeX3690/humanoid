@@ -2,8 +2,9 @@
 
 Inputs: your gait demand (results/fullbody/motor_requirements.json, measured at 25 kg), arm static torques from the repo's arm model, and the allowed mass range
 **25-40 kg**. Reproduce everything: `python tools/design_matrix.py` (-> results/design_matrix.json), `python tools/design_search.py --consistent --unverified`.
-HONESTY: torque demand at other masses is scaled by M/25 (first-order GUESS). `python tools/measure_design_torque.py` replaces it with a MuJoCo measurement; redo the
-decision with `--req results/design_requirements.json` before ordering parts.
+**v3.7: the demand is now MEASURED in MuJoCo at 32 kg** (results/design_requirements_measured32.json, walking, torque limits lifted). The earlier M/25 scaling guess was within 1-3 % for knee/hip-pitch/ankle/waist
+and within 8 % for hip-roll: knee 67.4 / 54.8 / 46.7 Nm at CoM 0.85 / 0.89 / 0.92 m (guess 66.8 / 54.3 / 46.0). The decision below did not change. NOT measured: pushes, stairs, turning - they add torque on top
+of walking, which is why the knee ask keeps a margin (>= 65 Nm vs 57 Nm walking-only).
 
 ## DECIDED (computed, not guessed)
 | item | decision | why |
@@ -25,7 +26,7 @@ decision with `--req results/design_requirements.json` before ordering parts.
 | elbow (2) | 7 Nm hold | 7 Nm | - | PH54-100 (a lighter 10 Nm-class would do) |
 | wrist (6) | 1.2 Nm | 1.2 Nm | - | XM430-class (UNVERIFIED) |
 | neck (2) | 1 Nm | 1 Nm | - | XM430-class (UNVERIFIED) |
-Robustness: the design still closes if the true torque demand is 15 % above the M/25 guess (knee peak 65 Nm); at +30 % it does not (needs the heavier-duty catalogue entry / a larger robot).
+Robustness: closes with up to +15 % demand over walking-only (knee peak 65 Nm); at +30 % it does not (needs the heavier-duty catalogue entry / a larger robot). Measured peak torques also show hip-roll 35 Nm and a waist demand that jumps to 15 Nm at CoM 0.92 m (another reason to stay at 0.89 m).
 
 ## TO VERIFY by you (I have no internet and will not present memory as datasheet fact)
 1. **Knee actuator**: find a joint module with >= 65 Nm peak, >= 30 Nm continuous, >= 2.9 rad/s no-load-equivalent, mass <= ~2.2 kg (the search assumed 1.4 kg; heavier eats structure budget:

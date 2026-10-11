@@ -2,7 +2,7 @@
 Push-recovery diagnostic / ablation: runs the SAME pushes with several stepper variants and prints one comparison table plus, for every
 step, what the planner INTENDED (step time, target, DCM margin, cop) versus what HAPPENED (landing position, landing time).
 
-    python tools/diag_push.py                      # default cases: lateral 90 N, backward 120 N  (~30 min)
+    python tools/diag_push.py                      # default: lateral 90, backward 120, lateral 120, forward 90 x 5 variants (~50 min)
     python tools/diag_push.py --cases lateral:60,lateral:90,forward:90,backward:120
     python tools/diag_push.py --variants v2,planned,planned_nocop
 Writes results/diag_push.json. Send me that file (or the printed tables).
@@ -17,21 +17,20 @@ DIRS = {"forward": (1.0, 0.0), "backward": (-1.0, 0.0), "lateral": (0.0, 1.0)}
 def variants():
     from control.lateral_recovery import RecoveryParams
     from control.push_recovery import PushRecoveryStepper
-    from control.push_recovery_v3 import PlannedPushRecoveryStepper
+    from control.push_recovery_v3 import PlannedPushRecoveryStepper, HybridPushRecoveryStepper
     P = RecoveryParams
     mk = lambda **kw: (lambda S: PlannedPushRecoveryStepper(S, params=P(**kw)))
     return {
         "v2": lambda S: PushRecoveryStepper(S),
-        "planned": mk(),
-        "planned_nocop": mk(use_cop_shift=False),                       # the controller does NOT shift the CoP the way the plan assumes
-        "planned_T25": mk(T_min=0.20, T_max=0.30),                       # v2 uses a fixed 0.25 s swing; long swings may be the problem
-        "planned_T25_nocop": mk(T_min=0.20, T_max=0.30, use_cop_shift=False),
-        "planned_nocross": mk(allow_crossover=False),                    # is the cross-over step itself the problem?
+        "hybrid": lambda S: HybridPushRecoveryStepper(S),                # v2 targets/timing + collision-free swing only for cross-over
+        "planned": mk(),                                                 # v3.7 defaults: T 0.25-0.40 s, no lift delay, no same-foot repeats
+        "planned_nocop": mk(use_cop_shift=False),
+        "planned_old": mk(T_min=0.18, T_max=0.70, t_lift=0.08, v_swing_max=2.2),     # the v3.2 parameters that failed (for comparison)
     }
 
 
 def main():
-    ap = argparse.ArgumentParser(); ap.add_argument("--cases", default="lateral:90,backward:120"); ap.add_argument("--variants", default=",".join(variants()))
+    ap = argparse.ArgumentParser(); ap.add_argument("--cases", default="lateral:90,backward:120,lateral:120,forward:90"); ap.add_argument("--variants", default=",".join(variants()))
     ap.add_argument("--T", type=float, default=3.5); a = ap.parse_args()
     from simulation.push_recovery_exp import run
     V = variants(); rows = []

@@ -57,6 +57,8 @@ class WholeBodyController:
         # default: env HUMANOID_QP, else osqp if installed, else fast
         self.qp_backend = qp_backend or os.environ.get("HUMANOID_QP") or ("osqp" if osqp is not None else "fast")
         self._fast = FastQP(eps=1e-6, max_iter=6000)
+        if self.qp_backend == "fast":
+            import warnings; warnings.warn("qp_backend='fast' is ~9x SLOWER than OSQP on the real WBC (measured: 62 s vs 6.8 s for a 1 s stand). Use OSQP.", RuntimeWarning)
         self.p = params
         self.m, self.d = make_model(params, table=False)       # controller's private robot-only model
         m = self.m

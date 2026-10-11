@@ -15,7 +15,7 @@
    "wrist": "XM430",
    "neck": "XM430"
   },
-  "knee_peak_needed": 54.24812855369587,
+  "knee_peak_needed": 54.785190210800906,
   "unverified": [
    "QDD-hyp",
    "XM540",
@@ -42,7 +42,7 @@
    "wrist": null,
    "neck": "XM430"
   },
-  "knee_peak_needed": 54.24812855369587,
+  "knee_peak_needed": 54.785190210800906,
   "unverified": [
    "QDD-hyp",
    "XM540",
@@ -68,7 +68,7 @@
    "wrist": null,
    "neck": null
   },
-  "knee_peak_needed": 54.24812855369587,
+  "knee_peak_needed": 54.785190210800906,
   "unverified": [
    "QDD-hyp",
    "XM540"
@@ -93,7 +93,7 @@
    "wrist": "XM430",
    "neck": "XM430"
   },
-  "knee_peak_needed": 54.24812855369587,
+  "knee_peak_needed": 54.785190210800906,
   "unverified": [
    "QDD-hyp",
    "XM540",
@@ -120,7 +120,7 @@
    "wrist": null,
    "neck": "XM430"
   },
-  "knee_peak_needed": 54.24812855369587,
+  "knee_peak_needed": 54.785190210800906,
   "unverified": [
    "QDD-hyp",
    "XM540",
@@ -146,7 +146,7 @@
    "wrist": null,
    "neck": null
   },
-  "knee_peak_needed": 54.24812855369587,
+  "knee_peak_needed": 54.785190210800906,
   "unverified": [
    "QDD-hyp",
    "XM540"
@@ -171,7 +171,7 @@
    "wrist": "XM430",
    "neck": "XM430"
   },
-  "knee_peak_needed": 44.11306040346178,
+  "knee_peak_needed": 44.50868797920575,
   "unverified": [
    "XM540",
    "XM430",
@@ -197,7 +197,7 @@
    "wrist": null,
    "neck": "XM430"
   },
-  "knee_peak_needed": 44.11306040346178,
+  "knee_peak_needed": 44.50868797920575,
   "unverified": [
    "XM540",
    "XM430"
@@ -222,7 +222,7 @@
    "wrist": null,
    "neck": null
   },
-  "knee_peak_needed": 44.11306040346178,
+  "knee_peak_needed": 44.50868797920575,
   "unverified": [
    "XM540"
   ],
@@ -246,7 +246,7 @@
    "wrist": "XM430",
    "neck": "XM430"
   },
-  "knee_peak_needed": 44.11306040346178,
+  "knee_peak_needed": 44.50868797920575,
   "unverified": [
    "XM540",
    "XM430",
@@ -272,7 +272,7 @@
    "wrist": null,
    "neck": "XM430"
   },
-  "knee_peak_needed": 44.11306040346178,
+  "knee_peak_needed": 44.50868797920575,
   "unverified": [
    "XM540",
    "XM430"
@@ -297,7 +297,7 @@
    "wrist": null,
    "neck": null
   },
-  "knee_peak_needed": 44.11306040346178,
+  "knee_peak_needed": 44.50868797920575,
   "unverified": [
    "XM540"
   ],
@@ -321,7 +321,7 @@
    "wrist": "XM430",
    "neck": "XM430"
   },
-  "knee_peak_needed": 37.39891306546904,
+  "knee_peak_needed": 37.942766789229424,
   "unverified": [
    "QDD-hyp",
    "QDD-hyp",
@@ -349,7 +349,7 @@
    "wrist": null,
    "neck": "XM430"
   },
-  "knee_peak_needed": 37.39891306546904,
+  "knee_peak_needed": 37.942766789229424,
   "unverified": [
    "QDD-hyp",
    "QDD-hyp",
@@ -376,7 +376,7 @@
    "wrist": null,
    "neck": null
   },
-  "knee_peak_needed": 37.39891306546904,
+  "knee_peak_needed": 37.942766789229424,
   "unverified": [
    "QDD-hyp",
    "QDD-hyp",
@@ -402,7 +402,7 @@
    "wrist": "XM430",
    "neck": "XM430"
   },
-  "knee_peak_needed": 37.39891306546904,
+  "knee_peak_needed": 37.942766789229424,
   "unverified": [
    "QDD-hyp",
    "QDD-hyp",
@@ -430,7 +430,7 @@
    "wrist": null,
    "neck": "XM430"
   },
-  "knee_peak_needed": 37.39891306546904,
+  "knee_peak_needed": 37.942766789229424,
   "unverified": [
    "QDD-hyp",
    "QDD-hyp",
@@ -457,7 +457,7 @@
    "wrist": null,
    "neck": null
   },
-  "knee_peak_needed": 37.39891306546904,
+  "knee_peak_needed": 37.942766789229424,
   "unverified": [
    "QDD-hyp",
    "QDD-hyp",
@@ -483,7 +483,7 @@
    "wrist": "XM430",
    "neck": "XM430"
   },
-  "knee_peak_needed": 60.75790398013937,
+  "knee_peak_needed": 61.35941303609701,
   "unverified": [
    "QDD-hyp",
    "XM540",
@@ -510,7 +510,7 @@
    "wrist": null,
    "neck": "XM430"
   },
-  "knee_peak_needed": 60.75790398013937,
+  "knee_peak_needed": 61.35941303609701,
   "unverified": [
    "QDD-hyp",
    "XM540",
@@ -536,7 +536,7 @@
    "wrist": null,
    "neck": null
   },
-  "knee_peak_needed": 60.75790398013937,
+  "knee_peak_needed": 61.35941303609701,
   "unverified": [
    "QDD-hyp",
    "XM540"
@@ -561,7 +561,7 @@
    "wrist": "XM430",
    "neck": "XM430"
   },
-  "knee_peak_needed": 60.75790398013937,
+  "knee_peak_needed": 61.35941303609701,
   "unverified": [
    "QDD-hyp",
    "XM540",
@@ -588,7 +588,7 @@
    "wrist": null,
    "neck": "XM430"
   },
-  "knee_peak_needed": 60.75790398013937,
+  "knee_peak_needed": 61.35941303609701,
   "unverified": [
    "QDD-hyp",
    "XM540",
@@ -614,7 +614,7 @@
    "wrist": null,
    "neck": null
   },
-  "knee_peak_needed": 60.75790398013937,
+  "knee_peak_needed": 61.35941303609701,
   "unverified": [
    "QDD-hyp",
    "XM540"
@@ -639,7 +639,7 @@
    "wrist": "XM430",
    "neck": "XM430"
   },
-  "knee_peak_needed": 49.40662765187719,
+  "knee_peak_needed": 49.84973053671044,
   "unverified": [
    "QDD-hyp",
    "XM540",
@@ -666,7 +666,7 @@
    "wrist": null,
    "neck": "XM430"
   },
-  "knee_peak_needed": 49.40662765187719,
+  "knee_peak_needed": 49.84973053671044,
   "unverified": [
    "QDD-hyp",
    "XM540",
@@ -692,7 +692,7 @@
    "wrist": null,
    "neck": null
   },
-  "knee_peak_needed": 49.40662765187719,
+  "knee_peak_needed": 49.84973053671044,
   "unverified": [
    "QDD-hyp",
    "XM540"
@@ -717,7 +717,7 @@
    "wrist": "XM430",
    "neck": "XM430"
   },
-  "knee_peak_needed": 49.40662765187719,
+  "knee_peak_needed": 49.84973053671044,
   "unverified": [
    "QDD-hyp",
    "XM540",
@@ -744,7 +744,7 @@
    "wrist": null,
    "neck": "XM430"
   },
-  "knee_peak_needed": 49.40662765187719,
+  "knee_peak_needed": 49.84973053671044,
   "unverified": [
    "QDD-hyp",
    "XM540",
@@ -770,7 +770,7 @@
    "wrist": null,
    "neck": null
   },
-  "knee_peak_needed": 49.40662765187719,
+  "knee_peak_needed": 49.84973053671044,
   "unverified": [
    "QDD-hyp",
    "XM540"
@@ -795,7 +795,7 @@
    "wrist": "XM430",
    "neck": "XM430"
   },
-  "knee_peak_needed": 41.886782633325325,
+  "knee_peak_needed": 42.49589880393696,
   "unverified": [
    "QDD-hyp",
    "QDD-hyp",
@@ -823,7 +823,7 @@
    "wrist": null,
    "neck": "XM430"
   },
-  "knee_peak_needed": 41.886782633325325,
+  "knee_peak_needed": 42.49589880393696,
   "unverified": [
    "QDD-hyp",
    "QDD-hyp",
@@ -850,7 +850,7 @@
    "wrist": null,
    "neck": null
   },
-  "knee_peak_needed": 41.886782633325325,
+  "knee_peak_needed": 42.49589880393696,
   "unverified": [
    "QDD-hyp",
    "QDD-hyp",
@@ -876,7 +876,7 @@
    "wrist": "XM430",
    "neck": "XM430"
   },
-  "knee_peak_needed": 41.886782633325325,
+  "knee_peak_needed": 42.49589880393696,
   "unverified": [
    "QDD-hyp",
    "QDD-hyp",
@@ -904,7 +904,7 @@
    "wrist": null,
    "neck": "XM430"
   },
-  "knee_peak_needed": 41.886782633325325,
+  "knee_peak_needed": 42.49589880393696,
   "unverified": [
    "QDD-hyp",
    "QDD-hyp",
@@ -931,7 +931,7 @@
    "wrist": null,
    "neck": null
   },
-  "knee_peak_needed": 41.886782633325325,
+  "knee_peak_needed": 42.49589880393696,
   "unverified": [
    "QDD-hyp",
    "QDD-hyp",
@@ -957,7 +957,7 @@
    "wrist": "XM430",
    "neck": "XM430"
   },
-  "knee_peak_needed": 65.09775426443504,
+  "knee_peak_needed": 65.74222825296108,
   "unverified": [
    "QDD-hyp",
    "XM540",
@@ -984,7 +984,7 @@
    "wrist": null,
    "neck": "XM430"
   },
-  "knee_peak_needed": 65.09775426443504,
+  "knee_peak_needed": 65.74222825296108,
   "unverified": [
    "QDD-hyp",
    "XM540",
@@ -1010,7 +1010,7 @@
    "wrist": null,
    "neck": null
   },
-  "knee_peak_needed": 65.09775426443504,
+  "knee_peak_needed": 65.74222825296108,
   "unverified": [
    "QDD-hyp",
    "XM540"
@@ -1035,7 +1035,7 @@
    "wrist": "XM430",
    "neck": "XM430"
   },
-  "knee_peak_needed": 65.09775426443504,
+  "knee_peak_needed": 65.74222825296108,
   "unverified": [
    "QDD-hyp",
    "XM540",
@@ -1062,7 +1062,7 @@
    "wrist": null,
    "neck": "XM430"
   },
-  "knee_peak_needed": 65.09775426443504,
+  "knee_peak_needed": 65.74222825296108,
   "unverified": [
    "QDD-hyp",
    "XM540",
@@ -1088,7 +1088,7 @@
    "wrist": null,
    "neck": null
   },
-  "knee_peak_needed": 65.09775426443504,
+  "knee_peak_needed": 65.74222825296108,
   "unverified": [
    "QDD-hyp",
    "XM540"
@@ -1113,7 +1113,7 @@
    "wrist": "XM430",
    "neck": "XM430"
   },
-  "knee_peak_needed": 52.93567248415413,
+  "knee_peak_needed": 53.410425575046894,
   "unverified": [
    "QDD-hyp",
    "XM540",
@@ -1140,7 +1140,7 @@
    "wrist": null,
    "neck": "XM430"
   },
-  "knee_peak_needed": 52.93567248415413,
+  "knee_peak_needed": 53.410425575046894,
   "unverified": [
    "QDD-hyp",
    "XM540",
@@ -1166,7 +1166,7 @@
    "wrist": null,
    "neck": null
   },
-  "knee_peak_needed": 52.93567248415413,
+  "knee_peak_needed": 53.410425575046894,
   "unverified": [
    "QDD-hyp",
    "XM540"
@@ -1191,7 +1191,7 @@
    "wrist": "XM430",
    "neck": "XM430"
   },
-  "knee_peak_needed": 52.93567248415413,
+  "knee_peak_needed": 53.410425575046894,
   "unverified": [
    "QDD-hyp",
    "XM540",
@@ -1218,7 +1218,7 @@
    "wrist": null,
    "neck": "XM430"
   },
-  "knee_peak_needed": 52.93567248415413,
+  "knee_peak_needed": 53.410425575046894,
   "unverified": [
    "QDD-hyp",
    "XM540",
@@ -1244,7 +1244,7 @@
    "wrist": null,
    "neck": null
   },
-  "knee_peak_needed": 52.93567248415413,
+  "knee_peak_needed": 53.410425575046894,
   "unverified": [
    "QDD-hyp",
    "XM540"
@@ -1269,7 +1269,7 @@
    "wrist": "XM430",
    "neck": "XM430"
   },
-  "knee_peak_needed": 44.878695678562856,
+  "knee_peak_needed": 45.53132014707531,
   "unverified": [
    "QDD-hyp",
    "QDD-hyp",
@@ -1297,7 +1297,7 @@
    "wrist": null,
    "neck": "XM430"
   },
-  "knee_peak_needed": 44.878695678562856,
+  "knee_peak_needed": 45.53132014707531,
   "unverified": [
    "QDD-hyp",
    "QDD-hyp",
@@ -1324,7 +1324,7 @@
    "wrist": null,
    "neck": null
   },
-  "knee_peak_needed": 44.878695678562856,
+  "knee_peak_needed": 45.53132014707531,
   "unverified": [
    "QDD-hyp",
    "QDD-hyp",
@@ -1350,7 +1350,7 @@
    "wrist": "XM430",
    "neck": "XM430"
   },
-  "knee_peak_needed": 44.878695678562856,
+  "knee_peak_needed": 45.53132014707531,
   "unverified": [
    "QDD-hyp",
    "QDD-hyp",
@@ -1378,7 +1378,7 @@
    "wrist": null,
    "neck": "XM430"
   },
-  "knee_peak_needed": 44.878695678562856,
+  "knee_peak_needed": 45.53132014707531,
   "unverified": [
    "QDD-hyp",
    "QDD-hyp",
@@ -1405,7 +1405,7 @@
    "wrist": null,
    "neck": null
   },
-  "knee_peak_needed": 44.878695678562856,
+  "knee_peak_needed": 45.53132014707531,
   "unverified": [
    "QDD-hyp",
    "QDD-hyp",
@@ -1431,7 +1431,7 @@
    "wrist": "XM430",
    "neck": "XM430"
   },
-  "knee_peak_needed": 69.43760454873072,
+  "knee_peak_needed": 70.12504346982516,
   "unverified": [
    "QDD-hyp",
    "XM540",
@@ -1458,7 +1458,7 @@
    "wrist": null,
    "neck": "XM430"
   },
-  "knee_peak_needed": 69.43760454873072,
+  "knee_peak_needed": 70.12504346982516,
   "unverified": [
    "QDD-hyp",
    "XM540",
@@ -1484,7 +1484,7 @@
    "wrist": null,
    "neck": null
   },
-  "knee_peak_needed": 69.43760454873072,
+  "knee_peak_needed": 70.12504346982516,
   "unverified": [
    "QDD-hyp",
    "XM540"
@@ -1509,7 +1509,7 @@
    "wrist": "XM430",
    "neck": "XM430"
   },
-  "knee_peak_needed": 69.43760454873072,
+  "knee_peak_needed": 70.12504346982516,
   "unverified": [
    "QDD-hyp",
    "XM540",
@@ -1536,7 +1536,7 @@
    "wrist": null,
    "neck": "XM430"
   },
-  "knee_peak_needed": 69.43760454873072,
+  "knee_peak_needed": 70.12504346982516,
   "unverified": [
    "QDD-hyp",
    "XM540",
@@ -1562,7 +1562,7 @@
    "wrist": null,
    "neck": null
   },
-  "knee_peak_needed": 69.43760454873072,
+  "knee_peak_needed": 70.12504346982516,
   "unverified": [
    "QDD-hyp",
    "XM540"
@@ -1587,7 +1587,7 @@
    "wrist": "XM430",
    "neck": "XM430"
   },
-  "knee_peak_needed": 56.46471731643107,
+  "knee_peak_needed": 56.971120613383356,
   "unverified": [
    "QDD-hyp",
    "XM540",
@@ -1614,7 +1614,7 @@
    "wrist": null,
    "neck": "XM430"
   },
-  "knee_peak_needed": 56.46471731643107,
+  "knee_peak_needed": 56.971120613383356,
   "unverified": [
    "QDD-hyp",
    "XM540",
@@ -1640,7 +1640,7 @@
    "wrist": null,
    "neck": null
   },
-  "knee_peak_needed": 56.46471731643107,
+  "knee_peak_needed": 56.971120613383356,
   "unverified": [
    "QDD-hyp",
    "XM540"
@@ -1665,7 +1665,7 @@
    "wrist": "XM430",
    "neck": "XM430"
   },
-  "knee_peak_needed": 56.46471731643107,
+  "knee_peak_needed": 56.971120613383356,
   "unverified": [
    "QDD-hyp",
    "XM540",
@@ -1692,7 +1692,7 @@
    "wrist": null,
    "neck": "XM430"
   },
-  "knee_peak_needed": 56.46471731643107,
+  "knee_peak_needed": 56.971120613383356,
   "unverified": [
    "QDD-hyp",
    "XM540",
@@ -1718,7 +1718,7 @@
    "wrist": null,
    "neck": null
   },
-  "knee_peak_needed": 56.46471731643107,
+  "knee_peak_needed": 56.971120613383356,
   "unverified": [
    "QDD-hyp",
    "XM540"
@@ -1743,7 +1743,7 @@
    "wrist": "XM430",
    "neck": "XM430"
   },
-  "knee_peak_needed": 47.87060872380037,
+  "knee_peak_needed": 48.566741490213666,
   "unverified": [
    "QDD-hyp",
    "QDD-hyp",
@@ -1771,7 +1771,7 @@
    "wrist": null,
    "neck": "XM430"
   },
-  "knee_peak_needed": 47.87060872380037,
+  "knee_peak_needed": 48.566741490213666,
   "unverified": [
    "QDD-hyp",
    "QDD-hyp",
@@ -1798,7 +1798,7 @@
    "wrist": null,
    "neck": null
   },
-  "knee_peak_needed": 47.87060872380037,
+  "knee_peak_needed": 48.566741490213666,
   "unverified": [
    "QDD-hyp",
    "QDD-hyp",
@@ -1824,7 +1824,7 @@
    "wrist": "XM430",
    "neck": "XM430"
   },
-  "knee_peak_needed": 47.87060872380037,
+  "knee_peak_needed": 48.566741490213666,
   "unverified": [
    "QDD-hyp",
    "QDD-hyp",
@@ -1852,7 +1852,7 @@
    "wrist": null,
    "neck": "XM430"
   },
-  "knee_peak_needed": 47.87060872380037,
+  "knee_peak_needed": 48.566741490213666,
   "unverified": [
    "QDD-hyp",
    "QDD-hyp",
@@ -1879,7 +1879,7 @@
    "wrist": null,
    "neck": null
   },
-  "knee_peak_needed": 47.87060872380037,
+  "knee_peak_needed": 48.566741490213666,
   "unverified": [
    "QDD-hyp",
    "QDD-hyp",
@@ -1905,7 +1905,7 @@
    "wrist": "XM430",
    "neck": "XM430"
   },
-  "knee_peak_needed": 75.94737997517423,
+  "knee_peak_needed": 76.69926629512128,
   "unverified": [
    "QDD-hyp",
    "XM430",
@@ -1931,7 +1931,7 @@
    "wrist": null,
    "neck": "XM430"
   },
-  "knee_peak_needed": 75.94737997517423,
+  "knee_peak_needed": 76.69926629512128,
   "unverified": [
    "QDD-hyp",
    "XM430"
@@ -1956,7 +1956,7 @@
    "wrist": null,
    "neck": null
   },
-  "knee_peak_needed": 75.94737997517423,
+  "knee_peak_needed": 76.69926629512128,
   "unverified": [
    "QDD-hyp"
   ],
@@ -1980,7 +1980,7 @@
    "wrist": "XM430",
    "neck": "XM430"
   },
-  "knee_peak_needed": 75.94737997517423,
+  "knee_peak_needed": 76.69926629512128,
   "unverified": [
    "QDD-hyp",
    "XM430",
@@ -2006,7 +2006,7 @@
    "wrist": null,
    "neck": "XM430"
   },
-  "knee_peak_needed": 75.94737997517423,
+  "knee_peak_needed": 76.69926629512128,
   "unverified": [
    "QDD-hyp",
    "XM430"
@@ -2031,7 +2031,7 @@
    "wrist": null,
    "neck": null
   },
-  "knee_peak_needed": 75.94737997517423,
+  "knee_peak_needed": 76.69926629512128,
   "unverified": [
    "QDD-hyp"
   ],
@@ -2055,7 +2055,7 @@
    "wrist": "XM430",
    "neck": "XM430"
   },
-  "knee_peak_needed": 61.758284564846484,
+  "knee_peak_needed": 62.31216317088805,
   "unverified": [
    "QDD-hyp",
    "XM430",
@@ -2081,7 +2081,7 @@
    "wrist": null,
    "neck": "XM430"
   },
-  "knee_peak_needed": 61.758284564846484,
+  "knee_peak_needed": 62.31216317088805,
   "unverified": [
    "QDD-hyp",
    "XM430"
@@ -2106,7 +2106,7 @@
    "wrist": null,
    "neck": null
   },
-  "knee_peak_needed": 61.758284564846484,
+  "knee_peak_needed": 62.31216317088805,
   "unverified": [
    "QDD-hyp"
   ],
@@ -2130,7 +2130,7 @@
    "wrist": "XM430",
    "neck": "XM430"
   },
-  "knee_peak_needed": 61.758284564846484,
+  "knee_peak_needed": 62.31216317088805,
   "unverified": [
    "QDD-hyp",
    "XM430",
@@ -2156,7 +2156,7 @@
    "wrist": null,
    "neck": "XM430"
   },
-  "knee_peak_needed": 61.758284564846484,
+  "knee_peak_needed": 62.31216317088805,
   "unverified": [
    "QDD-hyp",
    "XM430"
@@ -2181,7 +2181,7 @@
    "wrist": null,
    "neck": null
   },
-  "knee_peak_needed": 61.758284564846484,
+  "knee_peak_needed": 62.31216317088805,
   "unverified": [
    "QDD-hyp"
   ],
@@ -2205,7 +2205,7 @@
    "wrist": "XM430",
    "neck": "XM430"
   },
-  "knee_peak_needed": 52.35847829165666,
+  "knee_peak_needed": 53.1198735049212,
   "unverified": [
    "QDD-hyp",
    "QDD-hyp",
@@ -2233,7 +2233,7 @@
    "wrist": null,
    "neck": "XM430"
   },
-  "knee_peak_needed": 52.35847829165666,
+  "knee_peak_needed": 53.1198735049212,
   "unverified": [
    "QDD-hyp",
    "QDD-hyp",
@@ -2260,7 +2260,7 @@
    "wrist": null,
    "neck": null
   },
-  "knee_peak_needed": 52.35847829165666,
+  "knee_peak_needed": 53.1198735049212,
   "unverified": [
    "QDD-hyp",
    "QDD-hyp",
@@ -2286,7 +2286,7 @@
    "wrist": "XM430",
    "neck": "XM430"
   },
-  "knee_peak_needed": 52.35847829165666,
+  "knee_peak_needed": 53.1198735049212,
   "unverified": [
    "QDD-hyp",
    "QDD-hyp",
@@ -2314,7 +2314,7 @@
    "wrist": null,
    "neck": "XM430"
   },
-  "knee_peak_needed": 52.35847829165666,
+  "knee_peak_needed": 53.1198735049212,
   "unverified": [
    "QDD-hyp",
    "QDD-hyp",
@@ -2341,7 +2341,7 @@
    "wrist": null,
    "neck": null
   },
-  "knee_peak_needed": 52.35847829165666,
+  "knee_peak_needed": 53.1198735049212,
   "unverified": [
    "QDD-hyp",
    "QDD-hyp",
@@ -2367,7 +2367,7 @@
    "wrist": "XM430",
    "neck": "XM430"
   },
-  "knee_peak_needed": 86.79700568591339,
+  "knee_peak_needed": 87.65630433728145,
   "unverified": [
    "QDD-hyp",
    "XM430",
@@ -2393,7 +2393,7 @@
    "wrist": null,
    "neck": "XM430"
   },
-  "knee_peak_needed": 86.79700568591339,
+  "knee_peak_needed": 87.65630433728145,
   "unverified": [
    "QDD-hyp",
    "XM430"
@@ -2418,7 +2418,7 @@
    "wrist": null,
    "neck": null
   },
-  "knee_peak_needed": 86.79700568591339,
+  "knee_peak_needed": 87.65630433728145,
   "unverified": [
    "QDD-hyp"
   ],
@@ -2442,7 +2442,7 @@
    "wrist": "XM430",
    "neck": "XM430"
   },
-  "knee_peak_needed": 86.79700568591339,
+  "knee_peak_needed": 87.65630433728145,
   "unverified": [
    "QDD-hyp",
    "XM430",
@@ -2468,7 +2468,7 @@
    "wrist": null,
    "neck": "XM430"
   },
-  "knee_peak_needed": 86.79700568591339,
+  "knee_peak_needed": 87.65630433728145,
   "unverified": [
    "QDD-hyp",
    "XM430"
@@ -2493,7 +2493,7 @@
    "wrist": null,
    "neck": null
   },
-  "knee_peak_needed": 86.79700568591339,
+  "knee_peak_needed": 87.65630433728145,
   "unverified": [
    "QDD-hyp"
   ],
@@ -2504,11 +2504,11 @@
  {
   "closes": true,
   "M": 40,
-  "actuator_kg": 20.556,
-  "structure_kg": 16.044,
-  "structure_pct": 40.11,
+  "actuator_kg": 23.825999999999997,
+  "structure_kg": 12.774000000000003,
+  "structure_pct": 31.93500000000001,
   "choice": {
-   "hip": "PH54-200",
+   "hip": "QDD-hyp",
    "knee": "QDD-hyp",
    "ankle": "PH54-200",
    "waist": "PH54-100",
@@ -2517,8 +2517,9 @@
    "wrist": "XM430",
    "neck": "XM430"
   },
-  "knee_peak_needed": 70.58089664553884,
+  "knee_peak_needed": 71.2139007667292,
   "unverified": [
+   "QDD-hyp",
    "QDD-hyp",
    "XM430",
    "XM430"
@@ -2530,11 +2531,11 @@
  {
   "closes": true,
   "M": 40,
-  "actuator_kg": 20.064,
-  "structure_kg": 16.536,
-  "structure_pct": 41.34,
+  "actuator_kg": 23.334,
+  "structure_kg": 13.266,
+  "structure_pct": 33.165,
   "choice": {
-   "hip": "PH54-200",
+   "hip": "QDD-hyp",
    "knee": "QDD-hyp",
    "ankle": "PH54-200",
    "waist": "PH54-100",
@@ -2543,8 +2544,9 @@
    "wrist": null,
    "neck": "XM430"
   },
-  "knee_peak_needed": 70.58089664553884,
+  "knee_peak_needed": 71.2139007667292,
   "unverified": [
+   "QDD-hyp",
    "QDD-hyp",
    "XM430"
   ],
@@ -2555,11 +2557,11 @@
  {
   "closes": true,
   "M": 40,
-  "actuator_kg": 19.9,
-  "structure_kg": 16.700000000000003,
-  "structure_pct": 41.75000000000001,
+  "actuator_kg": 23.169999999999998,
+  "structure_kg": 13.430000000000001,
+  "structure_pct": 33.575,
   "choice": {
-   "hip": "PH54-200",
+   "hip": "QDD-hyp",
    "knee": "QDD-hyp",
    "ankle": "PH54-200",
    "waist": "PH54-100",
@@ -2568,8 +2570,9 @@
    "wrist": null,
    "neck": null
   },
-  "knee_peak_needed": 70.58089664553884,
+  "knee_peak_needed": 71.2139007667292,
   "unverified": [
+   "QDD-hyp",
    "QDD-hyp"
   ],
   "zc": 0.89,
@@ -2579,11 +2582,11 @@
  {
   "closes": true,
   "M": 40,
-  "actuator_kg": 20.556,
-  "structure_kg": 16.044,
-  "structure_pct": 40.11,
+  "actuator_kg": 23.825999999999997,
+  "structure_kg": 12.774000000000003,
+  "structure_pct": 31.93500000000001,
   "choice": {
-   "hip": "PH54-200",
+   "hip": "QDD-hyp",
    "knee": "QDD-hyp",
    "ankle": "PH54-200",
    "waist": "PH54-100",
@@ -2592,8 +2595,9 @@
    "wrist": "XM430",
    "neck": "XM430"
   },
-  "knee_peak_needed": 70.58089664553884,
+  "knee_peak_needed": 71.2139007667292,
   "unverified": [
+   "QDD-hyp",
    "QDD-hyp",
    "XM430",
    "XM430"
@@ -2605,11 +2609,11 @@
  {
   "closes": true,
   "M": 40,
-  "actuator_kg": 20.064,
-  "structure_kg": 16.536,
-  "structure_pct": 41.34,
+  "actuator_kg": 23.334,
+  "structure_kg": 13.266,
+  "structure_pct": 33.165,
   "choice": {
-   "hip": "PH54-200",
+   "hip": "QDD-hyp",
    "knee": "QDD-hyp",
    "ankle": "PH54-200",
    "waist": "PH54-100",
@@ -2618,8 +2622,9 @@
    "wrist": null,
    "neck": "XM430"
   },
-  "knee_peak_needed": 70.58089664553884,
+  "knee_peak_needed": 71.2139007667292,
   "unverified": [
+   "QDD-hyp",
    "QDD-hyp",
    "XM430"
   ],
@@ -2630,11 +2635,11 @@
  {
   "closes": true,
   "M": 40,
-  "actuator_kg": 19.9,
-  "structure_kg": 16.700000000000003,
-  "structure_pct": 41.75000000000001,
+  "actuator_kg": 23.169999999999998,
+  "structure_kg": 13.430000000000001,
+  "structure_pct": 33.575,
   "choice": {
-   "hip": "PH54-200",
+   "hip": "QDD-hyp",
    "knee": "QDD-hyp",
    "ankle": "PH54-200",
    "waist": "PH54-100",
@@ -2643,8 +2648,9 @@
    "wrist": null,
    "neck": null
   },
-  "knee_peak_needed": 70.58089664553884,
+  "knee_peak_needed": 71.2139007667292,
   "unverified": [
+   "QDD-hyp",
    "QDD-hyp"
   ],
   "zc": 0.89,
@@ -2667,7 +2673,7 @@
    "wrist": "XM430",
    "neck": "XM430"
   },
-  "knee_peak_needed": 59.83826090475047,
+  "knee_peak_needed": 60.70842686276709,
   "unverified": [
    "QDD-hyp",
    "QDD-hyp",
@@ -2695,7 +2701,7 @@
    "wrist": null,
    "neck": "XM430"
   },
-  "knee_peak_needed": 59.83826090475047,
+  "knee_peak_needed": 60.70842686276709,
   "unverified": [
    "QDD-hyp",
    "QDD-hyp",
@@ -2722,7 +2728,7 @@
    "wrist": null,
    "neck": null
   },
-  "knee_peak_needed": 59.83826090475047,
+  "knee_peak_needed": 60.70842686276709,
   "unverified": [
    "QDD-hyp",
    "QDD-hyp",
@@ -2748,7 +2754,7 @@
    "wrist": "XM430",
    "neck": "XM430"
   },
-  "knee_peak_needed": 59.83826090475047,
+  "knee_peak_needed": 60.70842686276709,
   "unverified": [
    "QDD-hyp",
    "QDD-hyp",
@@ -2776,7 +2782,7 @@
    "wrist": null,
    "neck": "XM430"
   },
-  "knee_peak_needed": 59.83826090475047,
+  "knee_peak_needed": 60.70842686276709,
   "unverified": [
    "QDD-hyp",
    "QDD-hyp",
@@ -2803,7 +2809,7 @@
    "wrist": null,
    "neck": null
   },
-  "knee_peak_needed": 59.83826090475047,
+  "knee_peak_needed": 60.70842686276709,
   "unverified": [
    "QDD-hyp",
    "QDD-hyp",

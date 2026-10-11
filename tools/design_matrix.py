@@ -7,13 +7,16 @@ DOF = {"full 30 DoF": dict(GROUPS), "no wrists (24)": dict(GROUPS, wrist=0), "no
 
 
 def main():
-    req = json.load(open("results/fullbody/motor_requirements.json")); out = []
+    measured = "results/design_requirements_measured32.json"          # MuJoCo-measured demand at 32 kg (tools/measure_design_torque.py)
+    use_measured = os.path.exists(measured)
+    req = json.load(open(measured if use_measured else "results/fullbody/motor_requirements.json")); ref = 32.0 if use_measured else 25.0; out = []
+    print("demand source:", "MEASURED at 32 kg" if use_measured else "25 kg baseline scaled by M/25 (guess)")
     print(f"{'M kg':>5} {'zc':>5} {'struct%':>7} {'payload':>7} {'DoF':<24} {'closes':<7} {'act kg':>7} {'struct kg':>9} {'knee Nm':>8}  knee actuator")
     for M in (25, 28, 30, 32, 35, 40):
         for zc in (0.85, 0.89, 0.92):
             for sf in (0.20, 0.25):
                 for name, g in DOF.items():
-                    e = evaluate_design(req, M, zc, 1.0, True, 1.04, sf, groups=g); e.update(zc=zc, struct_frac=sf, dof=name); out.append(e)
+                    e = evaluate_design(req, M, zc, 1.0, True, 1.04, sf, ref_mass=ref, groups=g); e.update(zc=zc, struct_frac=sf, dof=name); out.append(e)
     json.dump(out, open("results/design_matrix.json", "w"), indent=1, default=str)
     for e in out:
         if e["zc"] == 0.89 and e["struct_frac"] == 0.25 and e["dof"].startswith("full"):

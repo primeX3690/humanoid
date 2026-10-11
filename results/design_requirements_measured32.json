@@ -1,0 +1,41 @@
+[
+ {
+  "com_height_m": 0.85,
+  "hip_pitch_Nm": 19.993973408493655,
+  "hip_roll_Nm": 29.428742841472534,
+  "hip_yaw_Nm": 3.2640969097028654,
+  "knee_Nm": 67.42792641329342,
+  "ankle_pitch_Nm": 29.116254246025346,
+  "ankle_roll_Nm": 12.091253142451707,
+  "waist_Nm": 6.225902000549425,
+  "leg_speed_rad_s": 2.0905773128170857,
+  "fell": false,
+  "mass_kg": 32.0
+ },
+ {
+  "com_height_m": 0.89,
+  "hip_pitch_Nm": 19.76926591963999,
+  "hip_roll_Nm": 34.79588844763005,
+  "hip_yaw_Nm": 8.366782880694311,
+  "knee_Nm": 54.779923666714765,
+  "ankle_pitch_Nm": 26.913441282570425,
+  "ankle_roll_Nm": 12.236685354915611,
+  "waist_Nm": 6.039188366438784,
+  "leg_speed_rad_s": 2.425422082383517,
+  "fell": false,
+  "mass_kg": 32.0
+ },
+ {
+  "com_height_m": 0.92,
+  "hip_pitch_Nm": 41.36802841188801,
+  "hip_roll_Nm": 32.86519200706232,
+  "hip_yaw_Nm": 8.801667541444235,
+  "knee_Nm": 46.69878989443622,
+  "ankle_pitch_Nm": 31.903816152113237,
+  "ankle_roll_Nm": 12.28996844144449,
+  "waist_Nm": 15.376329164109988,
+  "leg_speed_rad_s": 3.6763873851961737,
+  "fell": false,
+  "mass_kg": 32.0
+ }
+]

@@ -19,9 +19,9 @@ from planning.collision_aware_swing import SwingGeometry, ankle_gap, foot_gap, p
 @dataclass
 class RecoveryParams:
     com_height: float = 0.85
-    T_min: float = 0.18
-    T_max: float = 0.70
-    n_T: int = 27
+    T_min: float = 0.25                # MEASURED (diag_push): 0.18-0.20 s plans (minus the lift delay = 0.10-0.12 s swing) made the swing foot miss its target by 0.3 m
+    T_max: float = 0.40                # v2 uses a fixed 0.25 s swing that works; long swings let the DCM diverge (x e^{omega T})
+    n_T: int = 16
     cop_inset_x: float = 0.02
     cop_inset_y: float = 0.01
     use_cop_shift: bool = True
@@ -30,8 +30,8 @@ class RecoveryParams:
     y_out_max: float = 0.55           # natural-side lateral reach beyond stance ankle
     y_cross_max: float = 0.30         # cross-over reach
     r_max: float = 0.65
-    v_swing_max: float = 2.2          # m/s average swing-foot speed available
-    t_lift: float = 0.08              # time to unload / lift before the swing starts
+    v_swing_max: float = 2.0          # m/s average swing-foot speed available (v2 achieves ~2 m/s average over 0.25 s)
+    t_lift: float = 0.0               # v2 starts the swing immediately; a lift delay just burns time the DCM does not have
     grid: float = 0.02
     margin_req: float = 0.0
     geom: SwingGeometry = field(default_factory=SwingGeometry)
@@ -161,14 +161,14 @@ def max_capturable_speed(direction, stance_xy, swing_xy, p: RecoveryParams, com_
     return lo_v
 
 
-def choose_recovery_step(com_xy, vel_xy, pL_xy, pR_xy, params: RecoveryParams):
+def choose_recovery_step(com_xy, vel_xy, pL_xy, pR_xy, params: RecoveryParams, prev_swing=None, repeat_penalty=0.05):
     """Try each foot as the stance foot; return the plan with the largest capturability margin (feasible ones first)."""
     best = None
     for stance_name, st, sw in (("L", pL_xy, pR_xy), ("R", pR_xy, pL_xy)):
         r = plan_recovery(com_xy, vel_xy, st, sw, params)
         if "margin" not in r:
             continue
-        key = (bool(r["feasible"]), r["margin"])
+        key = (bool(r["feasible"]), r["margin"] - (repeat_penalty if prev_swing is not None and ("R" if stance_name == "L" else "L") == prev_swing else 0.0))      # logs showed the SAME foot swinging 3x in a row
         if best is None or key > best[0]:
             best = (key, stance_name, r)
     if best is None:

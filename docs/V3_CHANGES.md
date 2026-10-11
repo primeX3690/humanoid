@@ -112,3 +112,18 @@ project inside OneDrive (sync locks files during unzip and slows thousands of sm
 # v3.6 - design decision (mass range 25-40 kg given by the user)
 `docs/DESIGN_DECISION.md`: robot mass **32 kg**, CoM **0.89 m**, payload 1 kg per hand, keep 30 DoF, knee actuator >= 65 Nm peak / 30 Nm continuous. New: `evaluate_design`, `groups=` in
 design_search, `tools/design_matrix.py`, hypothetical `QDD-XL-hyp`, `design_v3_params` default 32 kg, `measure_design_torque` default 32 kg. Datasheet numbers remain TO VERIFY (listed in the doc).
+
+
+---
+# v3.7 - results of the full collect_results run (Windows / Python 3.14), and what changed because of them
+**CONFIRMED in MuJoCo:** stand, stand + actuator realism, straight / turning / stairs walks, dexterous hand, RL zero-action stand (all gain scales 0.7-2.0x stand 5 s AND survive 40 N pushes),
+28/32 kg model builds, 32 kg walks at CoM 0.85/0.89/0.92 m without falling.
+**MEASURED, decision unchanged:** torque demand at 32 kg matches the M/25 scaling within 1-8 % (knee 54.8 Nm at 0.89 m) -> 32 kg / 0.89 m / QDD-class knee stands.
+**walk_step still fell (5.6 s) after v3.5 - root cause found from the plan timeline:** every step is a 0.6 m swing in 0.4 s. The stair swing squeezed the forward motion into 56 % of the swing: peak foot speed
+2.8 -> ~5 m/s, the robot fell EARLIER. Fix: (1) `trajectory/terrain_swing.py` = v2's min-jerk horizontal motion (same speed) + height raised only where the terrain needs it; (2) `walk_wbc` runs a
+StepTerrain through the STAIRS pipeline (a step is a 1-stair staircase; that pipeline passed). Re-run `sim_smoke --only walk_step`.
+**diag_push (planned stepper), from the logs:** (a) plans of T=0.18-0.20 s minus an 0.08 s lift delay = 0.10-0.12 s swings: the foot missed its target by up to 0.3 m; (b) the SAME foot was chosen to swing
+3 times in a row (v2 uses the trailing-foot rule); (c) v2 beat every planner variant in lateral 90 N and backward 120 N. Fixes: planner defaults T 0.25-0.40 s, no lift delay, same-foot penalty; NEW
+`HybridPushRecoveryStepper` = v2 targets/timing (identical behaviour) + collision-free swing only for cross-over. Use v2 or hybrid; `planned` stays experimental. Re-run `python tools/diag_push.py`.
+**fast QP:** 9x slower than OSQP (62 s vs 6.8 s per 1 s stand) - now emits a RuntimeWarning. The `wbc_qps.npz` file was not received, so it is NOT fixed; OSQP stays the default.
+**RL:** gains need no change (see above). New: `python -m rl.fullbody_env --benchmark` (steps/s -> training hours), `rl/evaluate_fullbody.py` (fall rate, survival, velocity error).

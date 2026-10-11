@@ -11,7 +11,7 @@ import argparse, glob, os, subprocess, sys, time, zipfile
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PY = sys.executable
 UNIT = ["tests/test_stand_gains.py", "tests/test_glue_mock.py", "tests/test_stairs.py", "tests/test_hand.py", "tests/test_fullbody_env.py", "tests/test_design_search.py",
-        "tests/test_preview_nmpc.py", "tests/test_tools_logic.py"]
+        "tests/test_preview_nmpc.py", "tests/test_tools_logic.py", "tests/test_terrain_swing.py", "tests/test_wbc_walk_reference.py"]
 STEPS = [  # name, argv, timeout seconds
     ("install", [PY, "tools/verify_install.py"], 120),
     ("static", [PY, "tools/static_check.py"], 300),
@@ -20,7 +20,7 @@ STEPS = [  # name, argv, timeout seconds
     ("rl_gains", [PY, "tools/tune_rl_gains.py"], 3600),
     ("smoke", [PY, "-m", "simulation.sim_smoke", "--only", "model,stand,stand_realism,qp_backends,walk_straight,walk_turn,walk_step,walk_stairs,rl_selfcheck,hand"], 7200),
     ("qp_dump", [PY, "tools/dump_wbc_qps.py"], 3600),
-    ("diag_push", [PY, "tools/diag_push.py"], 7200),
+    ("diag_push", [PY, "tools/diag_push.py"], 10800),
     ("measure_torque", [PY, "tools/measure_design_torque.py"], 7200),
 ]
 

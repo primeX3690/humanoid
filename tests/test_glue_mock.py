@@ -96,7 +96,7 @@ def test_lateral_outward_push_starts_a_planned_crossover_step_and_swing_task_fol
 
 @with_stub
 def test_uncapturable_push_still_uses_a_collision_free_best_effort_swing():
-    S = FakeS(com=(0, -0.12, 0.85), vel=(0.0, -0.45, 0.0)); st = make_stepper(S); st.update(1.0)
+    S = FakeS(com=(0, -0.12, 0.85), vel=(0.0, -0.70, 0.0)); st = make_stepper(S); st.update(1.0)       # beyond the capturable speed (margin -0.13 m)
     assert st.state == "STEP" and st.swing_traj is not None and st.last_plan["feasible"] is False and st.last_plan["crossover"]
     assert st.swing_traj.min_ankle_gap >= -1e-6
 
@@ -122,3 +122,29 @@ def test_realism_hook_arithmetic_matches_wbcsim_expectations():
     assert L.q_meas is None
     L.tick(np.array([0.1, 0.2, 0.3])); assert L.q_meas.shape == (3,) and L.qd_meas.shape == (3,)
     assert L.apply(np.array([1.0, 2.0, 3.0]), np.zeros(3)).shape == (3,)
+
+
+@with_stub
+def test_hybrid_is_identical_to_v2_for_a_forward_push_and_uses_the_planned_swing_only_for_crossover():
+    from control.push_recovery_v3 import HybridPushRecoveryStepper
+    from control.push_recovery import PushRecoveryStepper
+    S1 = FakeS(com=(0, 0, 0.85), vel=(0.5, 0, 0)); S1.xpos = np.vstack([S1.xpos, np.zeros((110, 3))]); S1.d.site_xpos = S1.xpos; S1.xpos[100] = S1.feet["L"]; S1.xpos[101] = S1.feet["R"]
+    h = HybridPushRecoveryStepper(S1, StepperConfig()); h.update(1.0)
+    S2 = FakeS(com=(0, 0, 0.85), vel=(0.5, 0, 0)); S2.xpos = np.vstack([S2.xpos, np.zeros((110, 3))]); S2.d.site_xpos = S2.xpos; S2.xpos[100] = S2.feet["L"]; S2.xpos[101] = S2.feet["R"]
+    v = PushRecoveryStepper(S2, StepperConfig()); v.update(1.0)
+    assert h.state == v.state == "STEP" and h.side == v.side and np.allclose(h.target, v.target) and h.swing_traj is None and h.t_swing_cur == v.t_swing_cur
+    # lateral outward push -> v2 chooses a cross-over target; the hybrid swaps in a collision-free front/back pass
+    S3 = FakeS(com=(0, -0.12, 0.85), vel=(0.0, -0.30, 0.0)); S3.xpos = np.vstack([S3.xpos, np.zeros((110, 3))]); S3.d.site_xpos = S3.xpos; S3.xpos[100] = S3.feet["L"]; S3.xpos[101] = S3.feet["R"]
+    hc = HybridPushRecoveryStepper(S3, StepperConfig()); hc.update(1.0)
+    assert hc.state == "STEP" and hc.plan_log[-1]["hybrid"] and hc.plan_log[-1]["collision_free"]
+    if hc.swing_traj is not None: assert hc.swing_traj.min_ankle_gap >= -1e-6 and hc.swing_traj.kind in ("front", "back")
+
+
+@with_stub
+def test_planner_defaults_now_match_v2_timing_and_do_not_repeat_the_same_swing_foot():
+    from control.lateral_recovery import RecoveryParams, choose_recovery_step
+    P = RecoveryParams(); assert P.T_min == 0.25 and P.t_lift == 0.0 and P.T_max <= 0.4
+    PL, PR = np.array([0.0, 0.12]), np.array([0.0, -0.12])
+    a = choose_recovery_step(np.array([0.0, 0.0]), np.array([-0.5, 0.0]), PL, PR, P)
+    b = choose_recovery_step(np.array([0.0, 0.0]), np.array([-0.5, 0.0]), PL, PR, P, prev_swing=a["side"], repeat_penalty=1.0)
+    assert b["side"] != a["side"] or b["margin"] >= a["margin"] - 1e-9
