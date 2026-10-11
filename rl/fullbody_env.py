@@ -28,9 +28,13 @@ except ImportError:                                   # pragma: no cover - lets 
 
 N_J = 30
 # class -> (action scale rad, kp Nm/rad, kd Nm s/rad)   ASSUMED starting gains; run `python -m rl.fullbody_env --selfcheck` and tune
-CLASS_GAINS = {"hip_yaw": (0.25, 200, 10), "hip_roll": (0.25, 250, 12), "hip_pitch": (0.6, 300, 14), "knee": (0.8, 350, 16),
-               "ankle_pitch": (0.5, 120, 6), "ankle_roll": (0.25, 100, 5), "waist": (0.15, 150, 8), "sh": (0.2, 50, 3), "elbow": (0.2, 40, 2.5),
-               "wr": (0.1, 8, 0.5), "neck": (0.1, 10, 0.6)}
+CLASS_GAINS = {"hip_yaw": (0.25, 200, 12), "hip_roll": (0.25, 400, 20), "hip_pitch": (0.6, 500, 25), "knee": (0.8, 600, 30),
+               "ankle_pitch": (0.5, 500, 35), "ankle_roll": (0.25, 400, 25), "waist": (0.15, 300, 15), "sh": (0.2, 60, 4), "elbow": (0.2, 50, 3),
+               "wr": (0.1, 10, 0.7), "neck": (0.1, 15, 1.0)}
+# WHY these numbers (v3.3): a zero-action stand fell after 3.3 s with the old ankle kp=120. Standing on a planted foot needs
+#   Kp_ankle > m*g*h_com ~ 25 kg * 9.81 * 0.85 ~ 214 Nm/rad (gravity's destabilising stiffness); the whole chain's Kp + Hessian(V) must be positive definite
+#   (tests/test_stand_gains.py checks this with a 3-link model: old gains -> min eig -137, these -> +221). Damping kd is applied IMPLICITLY as MuJoCo joint
+#   damping (explicit kd*qd at 1 kHz can go unstable on low-inertia joints: armature is only 0.02 kg m^2).
 
 
 def joint_class(name):
@@ -123,6 +127,10 @@ class MuJoCoBackend:                                 # pragma: no cover - needs 
 
     def set_motor_scale(self, s): self.motor_scale = np.asarray(s)
 
+    def set_damping(self, kd):
+        """PD damping as MuJoCo joint damping (implicit integration). Added to the baseline so domain randomisation does not wipe it."""
+        self.base.damp[self.dadr] = self.base.damp[self.dadr] + np.asarray(kd, float); self.m.dof_damping[:] = self.base.damp
+
     def state(self):
         d = self.d; R = d.xmat[self.pelvis].reshape(3, 3); g = R.T @ np.array([0, 0, -1.0])
         fz = {s: np.mean([d.site_xpos[i][2] for i in self.sites[s]]) for s in "LR"}
@@ -142,6 +150,8 @@ class FullBodyEnv(_Env):
             backend = MuJoCoBackend(realistic=realistic)
         self.b = backend; self.names = list(names or backend.names); assert len(self.names) == N_J
         self.scale, self.kp, self.kd = gains_for(self.names)
+        self.implicit_kd = hasattr(backend, "set_damping")
+        if self.implicit_kd: backend.set_damping(self.kd)
         self.q_nom = backend.q_nom.copy(); self.sub = max(int(round(1.0 / (policy_hz * backend.dt))), 1)
         self.cmd_rng = (cmd_vx, cmd_vy, cmd_yaw); self.push_force, self.push_interval = push_force, push_interval
         self.gait_period, self.max_steps, self.randomize = gait_period, max_steps, randomize
@@ -184,7 +194,7 @@ class FullBodyEnv(_Env):
         tau_acc = 0.0; s = None
         for _ in range(self.sub):
             st = self.b.state() if s is None else s
-            tau = self.kp * (q_t - st["q"]) - self.kd * st["qd"]
+            tau = self.kp * (q_t - st["q"]) - (0.0 if self.implicit_kd else 1.0) * self.kd * st["qd"]
             s = self.b.step_physics(tau, 1, push); tau_acc += float(np.sum((tau / np.maximum(self.b.tau_limit, 1e-6)) ** 2))
         self.t += self.sub * self.b.dt; self.steps += 1
         r, parts = self._reward(s, a, tau_acc / self.sub)
@@ -211,12 +221,14 @@ class FullBodyEnv(_Env):
 
 
 def selfcheck(seconds=5.0):                           # pragma: no cover - needs MuJoCo
-    """Zero-action PD standing test on the real model: if this fails, tune CLASS_GAINS before training anything."""
-    env = FullBodyEnv(randomize=False, push_force=0.0, max_steps=int(seconds * 50)); obs, _ = env.reset(seed=0); steps = 0
-    while True:
+    """Zero-action PD standing test on the real model. `fell` is judged EXACTLY like the env's termination (pelvis < 0.5 m or tilt > 0.9 rad).
+    If this fails, tune CLASS_GAINS before training anything."""
+    env = FullBodyEnv(randomize=False, push_force=0.0, max_steps=int(seconds * 50) + 1); obs, _ = env.reset(seed=0); steps = 0; term = False; trunc = False
+    for _ in range(int(seconds * 50)):
         obs, r, term, trunc, info = env.step(np.zeros(N_J)); steps += 1
-        if term or trunc: break
-    return dict(seconds_stood=steps / 50.0, fell=bool(term), pelvis_z=float(env.b.state()["z"]), tilt=float(env.b.state()["tilt"]))
+        if term: break
+    st = env.b.state()
+    return dict(seconds_requested=seconds, seconds_stood=steps / 50.0, fell=bool(term), pelvis_z=float(st["z"]), tilt=float(st["tilt"]))
 
 
 if __name__ == "__main__":                            # pragma: no cover

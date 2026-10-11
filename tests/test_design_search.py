@@ -29,4 +29,4 @@ def test_design_preset_scales_total_mass_to_target():
     from model.design_v3 import design_v3_params
     p, d = design_v3_params(28.0)
     v = validate_urdf(mjcf_to_urdf(build_default_mjcf(p)))
-    assert v["total_mass"] == pytest.approx(28.0, abs=1e-6) and p.tau_knee >= 50.0
+    assert v["total_mass"] == pytest.approx(28.0, abs=1e-3) and p.tau_knee >= 50.0   # URDF masses are written with 6 significant digits

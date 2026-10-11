@@ -3,7 +3,7 @@ where the name does not exist in that module, (3) syntax errors. Exit 1 on findi
 import ast, builtins, os, sys, symtable
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SKIP = {".venv", "__pycache__", ".git", "runs", "export"}
+SKIP = {".venv", "venv", "env", "ENV", "site-packages", "node_modules", "build", "dist", ".tox", "__pycache__", ".git", "runs", "export"}
 
 
 def py_files(paths):
@@ -57,7 +57,7 @@ def exports(modpath):
         fp = next((c for c in cand if os.path.exists(c)), None)
         if fp is None: _cache[modpath] = None
         else:
-            try: tree = ast.parse(open(fp).read()); ex = module_names(tree)
+            try: tree = ast.parse(open(fp, encoding="utf-8", errors="replace").read()); ex = module_names(tree)
             except SyntaxError: ex = None
             if ex is not None and os.path.isdir(f): ex |= {x[:-3] for x in os.listdir(f) if x.endswith(".py")} | {x for x in os.listdir(f) if os.path.isdir(os.path.join(f, x))}
             _cache[modpath] = ex
@@ -78,7 +78,7 @@ def bad_imports(tree):
 def main(paths):
     n_bad = 0
     for f in sorted(py_files(paths or [ROOT])):
-        src = open(f).read()
+        src = open(f, encoding="utf-8", errors="replace").read()
         try: tree = ast.parse(src)
         except SyntaxError as e: print(f"{f}:{e.lineno}: SYNTAX ERROR {e.msg}"); n_bad += 1; continue
         for ln, nm in undefined(f, src): print(f"{os.path.relpath(f, ROOT)}:{ln}: undefined name '{nm}'"); n_bad += 1

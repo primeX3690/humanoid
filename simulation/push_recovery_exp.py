@@ -8,10 +8,12 @@ from model.humanoid_model import repo_actuator_params, ModelParams
 from control.push_recovery import PushRecoveryStepper, StepperConfig
 
 
-def run(F, direction=(1.0, 0.0), dur=0.15, stepping=True, actuators="strong", T=5.0, t_push=0.8, verbose=False, recorder=None, planned=False):
+def run(F, direction=(1.0, 0.0), dur=0.15, stepping=True, actuators="strong", T=5.0, t_push=0.8, verbose=False, recorder=None, planned=False, stepper=None):
     params = repo_actuator_params() if actuators == "repo" else ModelParams()
     S = WBCSim(table=False, params=params)
-    if planned:                                   # v3: DCM-optimised step time/target, cross-over, collision-free swing
+    if stepper is not None:                       # any factory S -> stepper (used by tools/diag_push.py to compare variants)
+        st = stepper(S)
+    elif planned:                                 # v3: DCM-optimised step time/target, cross-over, collision-free swing
         from control.push_recovery_v3 import PlannedPushRecoveryStepper
         st = PlannedPushRecoveryStepper(S)
     else:
@@ -44,7 +46,7 @@ def run(F, direction=(1.0, 0.0), dur=0.15, stepping=True, actuators="strong", T=
     com = S.wbc.com(); v = S.wbc.com_vel()
     return dict(F=F, dir=list(direction), stepping=stepping, actuators=actuators, fell=bool(fell), steps=st.n_steps,
                 peak_com_dev_mm=1000 * peak, final_com_vel=float(np.linalg.norm(v[:2])),
-                final_support_margin_mm=1000 * S.foot_polygon_margin(com[:2]) if not fell else None, step_log=st.steps_log)
+                final_support_margin_mm=1000 * S.foot_polygon_margin(com[:2]) if not fell else None, step_log=st.steps_log, plan_log=getattr(st, "plan_log", []))
 
 
 if __name__ == "__main__":

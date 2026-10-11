@@ -1,0 +1,74 @@
+[
+ {
+  "check": "push",
+  "status": "PASS",
+  "data": [
+   {
+    "case": "lateral 60 N",
+    "v2": {
+     "fell": false,
+     "steps": 1,
+     "peak_mm": 125.98769119628872
+    },
+    "planned": {
+     "fell": false,
+     "steps": 2,
+     "peak_mm": 417.23452581071183
+    }
+   },
+   {
+    "case": "lateral 90 N",
+    "v2": {
+     "fell": false,
+     "steps": 2,
+     "peak_mm": 322.1090851583859
+    },
+    "planned": {
+     "fell": true,
+     "steps": 3,
+     "peak_mm": 835.9088714318049
+    }
+   },
+   {
+    "case": "lateral 120 N",
+    "v2": {
+     "fell": true,
+     "steps": 4,
+     "peak_mm": 1544.2784507844708
+    },
+    "planned": {
+     "fell": true,
+     "steps": 2,
+     "peak_mm": 507.01640101245016
+    }
+   },
+   {
+    "case": "forward 90 N",
+    "v2": {
+     "fell": true,
+     "steps": 4,
+     "peak_mm": 353.8101235463951
+    },
+    "planned": {
+     "fell": true,
+     "steps": 4,
+     "peak_mm": 1595.6526788114963
+    }
+   },
+   {
+    "case": "backward 120 N",
+    "v2": {
+     "fell": false,
+     "steps": 2,
+     "peak_mm": 447.18602107016034
+    },
+    "planned": {
+     "fell": true,
+     "steps": 3,
+     "peak_mm": 595.0964334207931
+    }
+   }
+  ],
+  "wall_s": 759.1
+ }
+]

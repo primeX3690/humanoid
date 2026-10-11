@@ -1,0 +1,11 @@
+sweep  scale  stand           tilt     z   push(40 N)
+all      0.7  ok 5.0s         0.02  0.95   ok 5.0s
+all      1.0  ok 5.0s         0.01  0.95   ok 5.0s
+all      1.5  ok 5.0s         0.01  0.95   ok 5.0s
+all      2.0  ok 5.0s         0.01  0.95   ok 5.0s
+ankle    0.8  ok 5.0s         0.01  0.95   ok 5.0s
+ankle    1.0  ok 5.0s         0.01  0.95   ok 5.0s
+ankle    1.5  ok 5.0s         0.02  0.95   ok 5.0s
+ankle    2.0  ok 5.0s         0.02  0.95   ok 5.0s
+
+BEST: {'sweep': 'all', 'scale': 2.0, 'stand_fell': False, 'stand_s': 5.0, 'pelvis_z': 0.9481449523750831, 'tilt': 0.006248840341693308, 'push_fell': False, 'push_s': 5.0}

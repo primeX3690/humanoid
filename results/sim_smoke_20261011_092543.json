@@ -1,0 +1,122 @@
+[
+ {
+  "check": "model",
+  "status": "PASS",
+  "data": {
+   "default": {
+    "nu": 32,
+    "nbody": 34,
+    "mass_kg": 25.000000000000004
+   },
+   "dexterous": {
+    "nu": 54,
+    "nbody": 56,
+    "mass_kg": 25.201999999999998
+   },
+   "design_v3": {
+    "nu": 32,
+    "nbody": 34,
+    "mass_kg": 28.000000000000004
+   }
+  },
+  "wall_s": 0.4
+ },
+ {
+  "check": "stand",
+  "status": "PASS",
+  "data": {
+   "pelvis_z": 0.9495583441289778
+  },
+  "wall_s": 17.3
+ },
+ {
+  "check": "stand_realism",
+  "status": "PASS",
+  "data": {
+   "pelvis_z": 0.9488310585504071,
+   "max_temp_c": 25.024766652063615,
+   "electrical_w": 1.7695780438013546
+  },
+  "wall_s": 10.1
+ },
+ {
+  "check": "qp_backends",
+  "status": "PASS",
+  "data": {
+   "osqp": {
+    "ok": true,
+    "wall_s": 6.82018256187439,
+    "pelvis_z": 0.94955839308697
+   },
+   "fast": {
+    "ok": true,
+    "wall_s": 61.98079752922058,
+    "pelvis_z": 0.9495583896039619
+   }
+  },
+  "wall_s": 68.8
+ },
+ {
+  "check": "walk_straight",
+  "status": "PASS",
+  "data": {
+   "distance_m": 0.9626953941449901,
+   "plan_m": 0.9621735695544629,
+   "com_rms_mm": 0.29288660864518745,
+   "touchdown_mm": 0.1888271783312453,
+   "wall_s": 185.07419538497925
+  },
+  "wall_s": 185.2
+ },
+ {
+  "check": "walk_turn",
+  "status": "PASS",
+  "data": {
+   "distance_m": 1.525416864544656,
+   "plan_m": 1.5238233179828153,
+   "com_rms_mm": 0.3379934277676327,
+   "touchdown_mm": 0.2070897005452993,
+   "wall_s": 674.6478855609894
+  },
+  "wall_s": 674.7
+ },
+ {
+  "check": "walk_step",
+  "status": "FAIL",
+  "error": "AssertionError: step: fell after 7.0 s",
+  "trace": "Traceback (most recent call last):\n  File \"C:\\Users\\ACER\\OneDrive\\Desktop\\robot\\humanoid\\simulation\\sim_smoke.py\", line 152, in main\n    try: row.update(status=\"PASS\", data=fn())\n                                        ~~^^\n  File \"C:\\Users\\ACER\\OneDrive\\Desktop\\robot\\humanoid\\simulation\\sim_smoke.py\", line 115, in c_walk_step\n    return _walk(\"step\", n_steps=6, terrain=StepTerrain(0.9, 0.04))\n  File \"C:\\Users\\ACER\\OneDrive\\Desktop\\robot\\humanoid\\simulation\\sim_smoke.py\", line 96, in _walk\n    assert not r[\"fell\"], f\"{name}: fell after {r['sim_time_s']:.1f} s\"\n           ^^^^^^^^^^^^^\nAssertionError: step: fell after 7.0 s\n",
+  "wall_s": 276.8
+ },
+ {
+  "check": "walk_stairs",
+  "status": "PASS",
+  "data": {
+   "distance_m": 0.9660195391496719,
+   "plan_m": 0.9695909434833477,
+   "com_rms_mm": 0.3709252745366688,
+   "touchdown_mm": 1.6900877952594504,
+   "wall_s": 511.07102704048157
+  },
+  "wall_s": 523.9
+ },
+ {
+  "check": "rl_selfcheck",
+  "status": "PASS",
+  "data": {
+   "seconds_requested": 5.0,
+   "seconds_stood": 5.0,
+   "fell": false,
+   "pelvis_z": 0.9466808464818721,
+   "tilt": 0.014605818522652551
+  },
+  "wall_s": 1.5
+ },
+ {
+  "check": "hand",
+  "status": "PASS",
+  "data": {
+   "max_abs_qvel": 0.9186704055406991
+  },
+  "wall_s": 0.1
+ }
+]

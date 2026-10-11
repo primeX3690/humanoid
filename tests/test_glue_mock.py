@@ -7,10 +7,24 @@ import pytest
 try:
     import mujoco  # noqa: F401
 except ImportError:
-    m = types.ModuleType("mujoco"); m.mj_name2id = lambda model, kind, name: model.ids[name]
-    m.mjtObj = types.SimpleNamespace(mjOBJ_SITE=1, mjOBJ_JOINT=2, mjOBJ_BODY=3); sys.modules["mujoco"] = m
+    _m = types.ModuleType("mujoco"); _m.mj_name2id = lambda model, kind, name: model.ids[name]
+    _m.mjtObj = types.SimpleNamespace(mjOBJ_SITE=1, mjOBJ_JOINT=2, mjOBJ_BODY=3); sys.modules["mujoco"] = _m
 
 import control.push_recovery as pr
+# The stepper looks sites up with mujoco.mj_name2id(model, type, name). With REAL MuJoCo installed that rejects our fake model, so each test swaps in
+# this stub for control.push_recovery.mujoco only while it runs (other test files keep the real module).
+STUB = types.SimpleNamespace(mj_name2id=lambda model, kind, name: model.ids[name], mjtObj=types.SimpleNamespace(mjOBJ_SITE=1, mjOBJ_JOINT=2, mjOBJ_BODY=3))
+
+
+def with_stub(fn):
+    import functools
+    @functools.wraps(fn)
+    def wrapper(*a, **k):
+        real = pr.mujoco; pr.mujoco = STUB
+        try: return fn(*a, **k)
+        finally: pr.mujoco = real
+    return wrapper
+
 from control.push_recovery_v3 import PlannedPushRecoveryStepper
 from control.push_recovery import StepperConfig
 
@@ -60,6 +74,7 @@ def make_stepper(S):
     return PlannedPushRecoveryStepper(S, StepperConfig())
 
 
+@with_stub
 def test_lateral_outward_push_starts_a_planned_crossover_step_and_swing_task_follows_the_plan():
     S = FakeS(com=(0, -0.12, 0.85), vel=(0.0, -0.30, 0.0))            # falling outward past the right foot (capturable with a cross-over)
     st = make_stepper(S)
@@ -74,22 +89,26 @@ def test_lateral_outward_push_starts_a_planned_crossover_step_and_swing_task_fol
     assert side == "L" and np.allclose(pos, st.swing_traj.pos[idx], atol=2e-3) and kw["weight"] == 25.0
     # before the lift delay finishes the foot is held at its start position
     S.wbc.calls.clear(); st.tasks(S.wbc, 1.0 + 0.5 * st.t_lift_cur); assert np.allclose(S.wbc.calls[-1][1], st.swing_traj.pos[0], atol=1e-6)
+    pl = st.plan_log[-1]; assert pl["swing"] == "L" and pl["stance"] == "R" and pl["crossover"] and pl["T"] == pytest.approx(st.t_swing_cur) and len(pl["xi"]) == 2
     # touchdown returns to STAND and logs the step
     st.update(1.0 + st.t_swing_cur + 1e-3); assert st.state == "STAND" and len(st.steps_log) == 1
 
 
+@with_stub
 def test_uncapturable_push_still_uses_a_collision_free_best_effort_swing():
     S = FakeS(com=(0, -0.12, 0.85), vel=(0.0, -0.45, 0.0)); st = make_stepper(S); st.update(1.0)
     assert st.state == "STEP" and st.swing_traj is not None and st.last_plan["feasible"] is False and st.last_plan["crossover"]
     assert st.swing_traj.min_ankle_gap >= -1e-6
 
 
+@with_stub
 def test_forward_push_steps_forward_and_no_push_stays_standing():
     S = FakeS(com=(0, 0, 0.85), vel=(0.5, 0, 0)); st = make_stepper(S); st.update(1.0)
     assert st.state == "STEP" and st.target[0] > 0.1
     S2 = FakeS(); st2 = make_stepper(S2); st2.update(1.0); assert st2.state == "STAND" and st2.swing_traj is None
 
 
+@with_stub
 def test_hopeless_push_still_returns_a_step_not_an_exception():
     S = FakeS(com=(0, 0, 0.85), vel=(3.0, 3.0, 0)); st = make_stepper(S); st.update(1.0)
     assert st.state in ("STEP", "STAND")

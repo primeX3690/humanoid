@@ -20,6 +20,7 @@ class PlannedPushRecoveryStepper(PushRecoveryStepper):
         super().__init__(S, cfg)
         self.rp = params or RecoveryParams(com_height=float(self.home[2]))
         self.rp.com_height = float(self.home[2])
+        self.plan_log = []                                 # one entry per started step: what the planner intended (compare with steps_log = what happened)
 
     def _start_step(self, t, xi):
         S, w = self.S, self.w
@@ -28,6 +29,7 @@ class PlannedPushRecoveryStepper(PushRecoveryStepper):
         ch = choose_recovery_step(com, v, pL, pR, self.rp)
         if ch is None or "swing" not in ch:               # no collision-free plan: fall back to the v2 heuristic
             self.swing_traj = None; self.t_swing_cur = self.cfg.t_swing; self.t_lift_cur = 0.0
+            self.plan_log.append(dict(t=float(t), fallback=True, com=[float(x) for x in com], vel=[float(x) for x in v]))
             return super()._start_step(t, xi)
         self.side, self.stance, self.target = ch["side"], ch["stance"], ch["swing"].goal[:2].copy()
         self.p0 = S.d.site_xpos[w.sole[self.side]].copy()
@@ -36,3 +38,6 @@ class PlannedPushRecoveryStepper(PushRecoveryStepper):
         self.t_start = t; self.state = "STEP"
         self.contacts = (self.stance,); self.swing = self.side; self.n_steps += 1
         self.last_plan = dict(margin=ch["margin"], T=ch["T"], crossover=ch["crossover"], feasible=ch["feasible"])
+        self.plan_log.append(dict(t=float(t), swing=self.side, stance=self.stance, T=float(ch["T"]), target=[float(x) for x in self.target], margin=float(ch["margin"]),
+                                  crossover=bool(ch["crossover"]), feasible=bool(ch["feasible"]), com=[float(x) for x in com], vel=[float(x) for x in v],
+                                  xi=[float(x) for x in ch["xi0"]], xi_T=[float(x) for x in ch["xi_T"]], cop=[float(x) for x in ch["cop"]]))

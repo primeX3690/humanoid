@@ -1,0 +1,3 @@
+solves seen 1842, kept 60, total OSQP time 110.8 s, problem sizes (n_vars, n_cons): [(92, 172), (92, 178)]
+OSQP iterations: median 662, max 4875
+saved results/wbc_qps.npz  <- send this file

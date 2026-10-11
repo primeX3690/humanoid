@@ -61,3 +61,39 @@ project-wide), by mock-robot tests (`tests/test_glue_mock.py`), and must be conf
   (finger kinematics, force closure, epsilon quality, force distribution, power-grasp planner).
 - **A - full-body RL:** `rl/fullbody_env.py` (30-DoF real model, actuator realism, domain randomization, pushes, biped reward-hacking guards, NumPy fake backend for tests),
   `rl/train_fullbody.py` (curriculum stand -> push -> walk -> robust). Run `python -m rl.fullbody_env --selfcheck` BEFORE training: PD gains are ASSUMED.
+
+---
+# MEASURED on real MuJoCo (sim_smoke --only push, user's machine) - the planned stepper does NOT yet beat v2
+| case | v2 (re-run) | v2 (stored JSON) | planned |
+|---|---|---|---|
+| lateral 60 N | ok, 1 step, 126 mm | ok, 1 step, 127 mm | ok, 2 steps, **417 mm** |
+| lateral 90 N | ok, 2 steps, 322 mm | ok, 2 steps, 339 mm | **FELL**, 3 steps, 836 mm |
+| lateral 120 N | FELL | FELL | FELL (2 steps) |
+| forward 90 N | FELL, 4 steps | ok, 3 steps (borderline: 295 mm) | FELL, 1596 mm |
+| backward 120 N | ok, 2 steps, 447 mm | ok, 2 steps, 444 mm | **FELL**, 3 steps |
+v2 reproduces its stored results in 4/5 cases (forward 90 N is a borderline case that flipped); the v3 edits to the v2 path are behaviour-neutral (diffed).
+The planner's "40 random pushes agree" test only proved consistency with its OWN LIPM model, not with the WBC robot. Hypotheses (UNTESTED): long swing times
+(planner allows up to 0.7 s; v2 uses 0.25 s), CoP-shift assumed by the plan but not realised by the controller (the STEP-state CoM target is still the v2 midpoint rule),
+cross-over geometry, swing-foot speed. `python tools/diag_push.py` runs the ablation (planned / no CoP shift / T<=0.3 s / no cross-over) and logs intended vs actual per step.
+Until that is read, treat `PlannedPushRecoveryStepper` as EXPERIMENTAL; keep using `PushRecoveryStepper` (v2).
+
+
+---
+# v3.3 - corrections after the first real run on Windows / Python 3.14 (pytest 286 pass, 6 fail; sim_smoke)
+- **RL zero-action stand fell at 3.34 s** (`rl.fullbody_env --selfcheck`). Cause is physics, not a bug: standing on a planted foot needs ankle stiffness
+  > m*g*h ~ 214 Nm/rad; my assumed gain was 120 (3-link model: min eigenvalue of Kp+Hess(V) = -137 -> topples). New gains: +221. kd is now implicit MuJoCo joint
+  damping. `tests/test_stand_gains.py` guards this. NOT yet confirmed in MuJoCo - rerun `python -m rl.fullbody_env --selfcheck`.
+- sim_smoke's `rl_selfcheck` PASSED falsely (it stopped at 3.0 s, before the fall). Now 5 s and judged exactly like the env termination.
+- **Fast QP backend is ~4.5x SLOWER than OSQP on the real WBC** (walk_fast_qp 1044 s vs walk_straight 230 s). It was only benchmarked on random QPs. Default stays OSQP;
+  do NOT use `--qp fast` until `tools/dump_wbc_qps.py` data lets me fix it. Skipped from `sim_smoke --quick`.
+- test fixes: glue mock tests failed with real MuJoCo (strict `mj_name2id`) -> per-test stub; URDF mass tolerance 1e-3 (6 significant digits).
+- `test_stairs` showed an OLD `terrain/terrain_xml.py`: an update overwrite was skipped while unzipping. New `tools/verify_install.py` + `MANIFEST.json` list stale files.
+- `static_check` no longer scans `venv/`, reads files as UTF-8; sim_smoke writes one timestamped JSON per run (the earlier JSON was overwritten by the next run).
+
+
+---
+# v3.4 - automation of the remaining sim-side loops
+Status from the user's real run: dexterous hand XML compiles in MuJoCo (sim_smoke `model` + `hand` PASS), straight WBC walk and walk with the actuator realism layer PASS.
+Still open and DATA-DEPENDENT (cannot be fixed blind): planned-stepper push table, fast-QP slowness, turn/step/stairs walks, RL gains/training, torque demand of the 28 kg design.
+New: `tools/collect_results.py` (runs everything, writes results/send_to_claude.zip), `tools/tune_rl_gains.py` (gain sweep), `tools/measure_design_torque.py`
+(replaces the M/25 scaling guess with a MuJoCo measurement; `design_search.py --req`), `walk_wbc.run(params=...)`.

@@ -5,8 +5,8 @@ from hardware.design_search import search, to_model_kwargs, GROUPS, CATALOG
 from hardware.mass_budget import mass_budget
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(); ap.add_argument("--zc", type=float, default=0.89); ap.add_argument("--payload", type=float, default=1.0)
-    ap.add_argument("--unverified", action="store_true"); ap.add_argument("--consistent", action="store_true", help="solve mass<->torque self-consistently"); ap.add_argument("--margin", type=float, default=1.04); ap.add_argument("--model-mass", type=float, default=25.0); a = ap.parse_args()
-    req = json.load(open("results/fullbody/motor_requirements.json"))
+    ap.add_argument("--unverified", action="store_true"); ap.add_argument("--consistent", action="store_true", help="solve mass<->torque self-consistently"); ap.add_argument("--margin", type=float, default=1.04); ap.add_argument("--req", default="results/fullbody/motor_requirements.json", help="requirements JSON (tools/measure_design_torque.py writes one for the heavier design)"); ap.add_argument("--model-mass", type=float, default=25.0); a = ap.parse_args()
+    req = json.load(open(a.req))
     if a.consistent:
         from hardware.design_search import self_consistent_mass
         best, trace = self_consistent_mass(req, a.zc, a.payload, a.unverified, a.margin)

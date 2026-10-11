@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "C:\Users\ACER\OneDrive\Desktop\robot\humanoid\tools\measure_design_torque.py", line 57, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\ACER\OneDrive\Desktop\robot\humanoid\tools\measure_design_torque.py", line 44, in main
+    r, S = run("repo", n_steps=a.steps, zc=zc, verbose=False, recorder=rec, params=p)
+           ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: run() got an unexpected keyword argument 'params'

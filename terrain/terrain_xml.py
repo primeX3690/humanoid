@@ -6,7 +6,7 @@ Step -> one box; ramp -> one tilted box + a top plateau. Pure Python (testable w
 """
 from __future__ import annotations
 import numpy as np
-from terrain.terrain_profile import StepTerrain, RampTerrain, FlatTerrain, TerrainProfile
+from terrain.terrain_profile import StepTerrain, RampTerrain, FlatTerrain, StairTerrain, TerrainProfile
 
 THICK = 0.2
 
@@ -30,6 +30,11 @@ def terrain_geoms(terrain: TerrainProfile, x_max=8.0, half_y=1.5):
         L = x_max - terrain.ramp_end_x
         g.append(dict(name="terrain_plateau", pos=(terrain.ramp_end_x + L / 2, 0.0, rise - THICK / 2),
                       half=(L / 2, half_y, THICK / 2), euler_deg=(0, 0, 0)))
+    elif isinstance(terrain, StairTerrain):
+        for k in range(terrain.n):                                   # each stair = a box from its riser to x_max, so there are no gaps
+            x0 = terrain.first_x + k * terrain.tread_m; top = (k + 1) * terrain.riser_m
+            L = (x_max - x0) if k == terrain.n - 1 else terrain.tread_m
+            g.append(dict(name=f"terrain_stair{k}", pos=(x0 + L / 2, 0.0, top - THICK / 2), half=(L / 2, half_y, THICK / 2), euler_deg=(0, 0, 0)))
     else:
         raise ValueError(f"no MuJoCo geometry for {type(terrain).__name__}")
     return g

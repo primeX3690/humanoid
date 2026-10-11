@@ -5,7 +5,7 @@ One-command verification of everything v3 added on the MuJoCo side. Run on a mac
     python -m simulation.sim_smoke --quick    # skips the push comparison and the long walks
     python -m simulation.sim_smoke --only model,stand,walk_straight
 
-Each check runs in its own try/except, so one failure never hides the others. Writes results/sim_smoke.json and prints a table.
+Each check runs in its own try/except, so one failure never hides the others. Writes results/sim_smoke_<timestamp>.json (one file per run - runs no longer overwrite each other) and prints a table + the data.
 Send me that JSON (and any traceback) and I will fix what is red.
 """
 from __future__ import annotations
@@ -101,7 +101,7 @@ def _walk(name, **kw):
 def c_walk(): return _walk("straight", n_steps=4)
 
 
-@check("walk_fast_qp")
+@check("walk_fast_qp", quick_skip=True)   # measured 1044 s vs 230 s for OSQP on a 4-step walk: the fast backend is currently SLOWER, skipped from --quick
 def c_walk_fast(): return _walk("fast qp", n_steps=4, qp_backend="fast")
 
 
@@ -124,7 +124,7 @@ def c_walk_stairs():
 @check("rl_selfcheck")
 def c_rl():
     from rl.fullbody_env import selfcheck
-    r = selfcheck(3.0); assert not r["fell"], f"zero-action PD stance falls after {r['seconds_stood']:.1f} s: tune CLASS_GAINS in rl/fullbody_env.py"
+    r = selfcheck(5.0); assert not r["fell"], f"zero-action PD stance falls after {r['seconds_stood']:.1f} s (z={r['pelvis_z']:.2f}, tilt={r['tilt']:.2f}): tune CLASS_GAINS in rl/fullbody_env.py"
     return r
 
 
@@ -153,8 +153,8 @@ def main(argv):
         except Exception as e: row.update(status="FAIL", error=f"{type(e).__name__}: {e}", trace=traceback.format_exc(limit=6))
         row["wall_s"] = round(time.time() - t0, 1); rows.append(row)
         print(f"[{row['status']}] {row['check']:<14} {row['wall_s']:>7.1f}s  " + (row.get("error", "") if row["status"] == "FAIL" else ""), flush=True)
-    os.makedirs("results", exist_ok=True); json.dump(rows, open("results/sim_smoke.json", "w"), indent=1, default=lambda o: o.tolist() if hasattr(o, "tolist") else str(o))
-    n_fail = sum(r["status"] == "FAIL" for r in rows); print(f"\n{len(rows) - n_fail}/{len(rows)} passed -> results/sim_smoke.json"); return 1 if n_fail else 0
+    os.makedirs("results", exist_ok=True); out = f"results/sim_smoke_{time.strftime('%Y%m%d_%H%M%S')}.json"; json.dump(rows, open(out, "w"), indent=1, default=lambda o: o.tolist() if hasattr(o, "tolist") else str(o))
+    n_fail = sum(r["status"] == "FAIL" for r in rows); print(f"\n{len(rows) - n_fail}/{len(rows)} passed -> {out}"); print(json.dumps({r["check"]: r.get("data", r.get("error")) for r in rows}, indent=1, default=str)); return 1 if n_fail else 0
 
 
 if __name__ == "__main__":

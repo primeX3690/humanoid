@@ -1,0 +1,94 @@
+{
+ "rows": [
+  {
+   "sweep": "all",
+   "scale": 0.7,
+   "stand_fell": false,
+   "stand_s": 5.0,
+   "pelvis_z": 0.9452307194687114,
+   "tilt": 0.024667892352925692,
+   "push_fell": false,
+   "push_s": 5.0
+  },
+  {
+   "sweep": "all",
+   "scale": 1.0,
+   "stand_fell": false,
+   "stand_s": 5.0,
+   "pelvis_z": 0.9466808464818721,
+   "tilt": 0.014605818522652551,
+   "push_fell": false,
+   "push_s": 5.0
+  },
+  {
+   "sweep": "all",
+   "scale": 1.5,
+   "stand_fell": false,
+   "stand_s": 5.0,
+   "pelvis_z": 0.9476774311045626,
+   "tilt": 0.008735081218192818,
+   "push_fell": false,
+   "push_s": 5.0
+  },
+  {
+   "sweep": "all",
+   "scale": 2.0,
+   "stand_fell": false,
+   "stand_s": 5.0,
+   "pelvis_z": 0.9481449523750831,
+   "tilt": 0.006248840341693308,
+   "push_fell": false,
+   "push_s": 5.0
+  },
+  {
+   "sweep": "ankle",
+   "scale": 0.8,
+   "stand_fell": false,
+   "stand_s": 5.0,
+   "pelvis_z": 0.9467221587246388,
+   "tilt": 0.012372432289756187,
+   "push_fell": false,
+   "push_s": 5.0
+  },
+  {
+   "sweep": "ankle",
+   "scale": 1.0,
+   "stand_fell": false,
+   "stand_s": 5.0,
+   "pelvis_z": 0.9466808464818721,
+   "tilt": 0.014605818522652551,
+   "push_fell": false,
+   "push_s": 5.0
+  },
+  {
+   "sweep": "ankle",
+   "scale": 1.5,
+   "stand_fell": false,
+   "stand_s": 5.0,
+   "pelvis_z": 0.9466417633332882,
+   "tilt": 0.01685615958222664,
+   "push_fell": false,
+   "push_s": 5.0
+  },
+  {
+   "sweep": "ankle",
+   "scale": 2.0,
+   "stand_fell": false,
+   "stand_s": 5.0,
+   "pelvis_z": 0.9466152897058272,
+   "tilt": 0.017989289782471874,
+   "push_fell": false,
+   "push_s": 5.0
+  }
+ ],
+ "best": {
+  "sweep": "all",
+  "scale": 2.0,
+  "stand_fell": false,
+  "stand_s": 5.0,
+  "pelvis_z": 0.9481449523750831,
+  "tilt": 0.006248840341693308,
+  "push_fell": false,
+  "push_s": 5.0
+ }
+}
